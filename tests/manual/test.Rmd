@@ -1,0 +1,75 @@
+---
+output: js4shiny::html_document_js
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+js4shiny::register_knitr_output_hooks()
+```
+
+I am but a simple text paragraph.
+Toggle the opacity of this paragraph with a button and some Javascript.
+
+<button id="toggle-paragraph">Toggle the above paragraph</button>
+
+---
+
+<!-- <div class="pre-name">myScript.js</div> -->
+
+```{js, name="myScript.js"}
+const btn = document.getElementById('toggle-paragraph')
+btn.addEventListener('click', () => {
+    const p = document.querySelector('p')
+    if (!p.style.transition) {
+        p.style.transition = 'opacity 1s'
+    }
+    if (p.style.opacity === "0") {
+        console.log(`showing p because opacity=${p.style.opacity}`)
+        p.style.opacity = 1
+    } else {
+        console.log("hiding p")
+        p.style.opacity = 0
+    }
+})
+```
+
+Here's some standard R code
+
+```{r, name="my_script.R"}
+mean(runif(100))
+```
+
+And some "standard" JavaScript code
+
+```{js another-chunk}
+console.log("named chunk")
+```
+
+```{js}
+let x = 10
+console.log(x * 20)
+```
+
+```{json}
+{"menu": {
+  "id": "file",
+  "value": "File",
+  "popup": {
+    "menuitem": [
+      {"value": "New", "onclick": "CreateNewDoc()"},
+      {"value": "Open", "onclick": "OpenDoc()"},
+      {"value": "Close", "onclick": "CloseDoc()"}
+    ]
+  }
+}}
+```
+
+```bash
+npm run-script build
+```
+
+```yaml
+title: A demonstration
+author: Your's Truly
+output: js4shiny::html_document_js
+```

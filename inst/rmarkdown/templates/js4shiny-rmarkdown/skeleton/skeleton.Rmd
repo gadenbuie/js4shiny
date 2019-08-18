@@ -1,0 +1,81 @@
+---
+title: "Title"
+output: js4shiny::html_document_js
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+js4shiny::register_knitr_output_hooks()
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## JavaScript
+
+The `js4shiny::html_document_js()` format enables **literate programming** with JavaScript.
+All `console.log()` outputs are evaluated in the browser and returned within the document when viewed,
+just like the R code above.
+
+```{js, name="Tagged Template Literals"}
+function boldMe(strs, ...vals) {
+    let str = strs.map((string, i) => {
+        return `${string}${vals[i] ? `<b>${vals[i]}</b>` : ''}`
+    })
+    return str.join('');
+}
+
+const make = 'Porsche'
+const model = '718 Cayman'
+const sentence = boldMe`My next car is a ${make} ${model}`
+console.log(sentence);
+
+console.log(`My next car is a ${make ? `<b>${make}</b>` : ''}`)
+```
+
+## JSON
+
+Chunks are color coded according to their type,
+with colors defined for `R`, `js`, `json`, `node`, `bash`, `md`, and `yaml`.
+You can also use the `name` chunk option to set the name of the chunk,
+which should be used when the code shown is intended for a particular file.
+
+```{json, name="topAlbums.json"}
+[
+  {
+      "Artist": "Eagles",
+      "Album": "Their Greatest Hits (1971–1975)",
+      "Released": 1976,
+      "Claimed sales*": 51,
+  },
+  {
+      "Artist": "AC/DC",
+      "Album": "Back in Black",
+      "Released": 1980,
+      "Claimed sales*": 50,
+  },
+  {
+      "Artist": "Pink Floyd",
+      "Album": "The Dark Side of the Moon",
+      "Released": 1973,
+      "Claimed sales*": 45,
+  },
+]
+```
+
+## node, bash, command line
+
+```node
+npm run-script build
+```
+
+```bash
+npm install -g grunt-cli
+```

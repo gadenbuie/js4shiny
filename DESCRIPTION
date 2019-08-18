@@ -1,0 +1,18 @@
+Package: js4shiny
+Title: Companion Package for JavaScript for Shiny Users
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Garric",
+           family = "Aden-Buie",
+           role = c("aut", "cre"),
+           email = "garrick@adenbuie.com",
+           comment = c(ORCID = "0000-0002-7111-0077"))
+Description: Companion Package for JavaScript for Shiny Users.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    rmarkdown,
+    htmltools,
+    knitr
+RoxygenNote: 6.1.1
