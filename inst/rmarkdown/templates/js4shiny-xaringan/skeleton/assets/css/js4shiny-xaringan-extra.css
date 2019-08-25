@@ -1,0 +1,208 @@
+.hljs {
+  background-color: transparent !important;
+}
+pre {
+  padding: 0 0.8em;
+  margin: 19px 0;
+  border-width: 5px;
+  font-size: 1em;
+}
+html {
+  font-size: 42px;
+}
+.rotate-355 {
+  transform: rotate(-5deg);
+}
+.rotate-350 {
+  transform: rotate(-10deg);
+}
+.rotate-345 {
+  transform: rotate(-15deg);
+}
+.header {
+  font-family: 'Nunito Sans';
+}
+.text-shadow-1 {
+  text-shadow: -3px 5px 0px rgba(255, 255, 255, 1);
+}
+.remark-slide-content {
+  padding: 0 3em;
+}
+.remark-slide-content.fullscreen {
+  padding: 0;
+}
+.pull-left > *:first-child,
+.pull-right > *:first-child {
+  margin-top: 0;
+}
+
+.hl {
+  background-color: rgba(255, 255, 0, 0.5);
+  padding: 1px 4px;
+}
+.footnote {
+  position: absolute;
+  bottom: 3%;
+  left: 5%;
+  opacity: 0.66;
+}
+.hide-count .remark-slide-number {
+  display: none;
+}
+.marker {
+  font-family: 'Permanent Marker';
+}
+
+/* ---- Blockquotes ---- */
+
+blockquote {
+  font-family: 'Permanent Marker';
+  font-weight: 200;
+  font-style: normal;
+  font-size: 1.5em;
+  color: #6d7e8a;
+  margin-left: 0;
+}
+blockquote cite {
+  font-family: 'Lato',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  font-size: 75%;
+  color: #c0c8cc;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  -ms-word-break: keep-all;
+  word-break: keep-all;
+}
+blockquote cite::before {
+  content: "—";
+  margin-right: 5px;
+}
+blockquote p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* ---- Title Slide ---- */
+.title {
+  color: #FFFFFF;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #466683;
+  background-image: url("rstudio-2020-sf-hero.jpg");
+}
+.title .remark-slide-number {
+  display: none;
+}
+.title h1:first-of-type {
+  margin-top: 0;
+}
+.title h1 {
+  color: #eaecee;
+  margin-bottom: 0.25em;
+  font-size: 1.75rem;
+}
+.title h2, .title h3 {
+  margin-top: 0;
+  color: #d0d0d0;
+}
+.rstudio-conf-logo {
+  background-image: url('rstudio-2020-logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.title .rstudio-conf-logo {
+  position: absolute;
+  width: 300px;
+  height: 100px;
+  top: 1em;
+  left: 2em;
+}
+.talk-meta {
+  font-family: 'Nunito Sans',apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  position: absolute;
+  text-align: left;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-left: 2em;
+  padding-bottom: 1em;
+  background-image: linear-gradient(to bottom, #FFFFFFcc, #FFFFFFee);
+}
+.talk-author {
+  color: #2f4858;
+  font-weight: bold;
+  font-size: 1.5em;
+  line-height: 1em;
+}
+.talk-date {
+  color: #6d7e8a;
+  font-family: 'Source Code Pro', 'Fira Code', 'Consolas', 'Monaco', monospace;
+  font-size: 1.25em;
+  line-height: 0;
+}
+
+/* ---- Section Break Slides ---- */
+
+.break .remark-slide-number {
+  display: none;
+}
+.break.huge h1 {
+  font-size: 5rem;
+}
+.break h1 {
+  font-size: 3rem;
+}
+.break h2 {
+  font-size: 2.5rem;
+}
+.break h3 {
+  font-size: 2rem;
+}
+.remark-slide > .break.break-javascript {
+  vertical-align: bottom;
+  text-align: right;
+}
+.break-javascript {
+  background-color: #f0db4f;
+}
+.break-javascript > h1:last-of-type {
+  margin-bottom: 15px;
+}
+.break-javascript h1,
+.break-javascript h2,
+.break-javascript h3 {
+  color: #2f4858;
+}
+.remark-slide > .break.break-shiny {
+  vertical-align: middle;
+  text-align: center;
+}
+.break-shiny {
+  background: #75aadb;
+  background: linear-gradient(0deg, rgba(77,141,201,1) 75%, rgba(186,212,237,1) 100%);
+  color: #FFF;
+}
+.break-shiny h1,
+.break-shiny h2,
+.break-shiny h3 {
+  font-family: Galada;
+  color: #FFF;
+}
+.break-blue-pink {
+  color: #FFF;
+  background: linear-gradient(to right top, #001b44, #372d6d, #743a90, #b840a9, #ff41b4);
+}
+.break-blue-pink h1,
+.break-blue-pink h2,
+.break-blue-pink h3 {
+  font-family: Galada;
+  color: #FFF;
+}
+.break-blue-pink-yellow {
+  color: #FFF;
+  background: linear-gradient(to left top, #001b44, #6b2f65, #c04c64, #f28a4f, #f0db4f)
+}
+.break-blue-pink-yellow h1,
+.break-blue-pink-yellow h2,
+.break-blue-pink-yellow h3 {
+  font-family: Galada;
+  color: #FFF;
+}

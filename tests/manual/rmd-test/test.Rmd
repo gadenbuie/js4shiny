@@ -3,7 +3,7 @@ output: js4shiny::html_document_js
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# knitr::opts_chunk$set(echo = TRUE, class.source="numberLines")
 js4shiny::register_knitr_output_hooks()
 ```
 
@@ -41,11 +41,11 @@ mean(runif(100))
 
 And some "standard" JavaScript code
 
-```{js another-chunk}
+```{js another-chunk, class.source="numberLines"}
 console.log("named chunk")
 ```
 
-```{js}
+```{js, js_live = FALSE}
 let x = 10
 console.log(x * 20)
 ```

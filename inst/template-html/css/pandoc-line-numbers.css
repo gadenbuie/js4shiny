@@ -1,0 +1,10 @@
+pre.numberSource {
+  border-left: solid 3px;
+  margin-left: 0;
+}
+pre.numberSource code > span > a:first-child:before {
+  left: -1em;
+}
+code.sourceCode > span > a:first-child:before {
+  text-decoration: none;
+}

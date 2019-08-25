@@ -27,14 +27,7 @@ html_document_js <- function(
 
   deps <- c(
     list(
-      htmltools::htmlDependency(
-        name = "js4shiny",
-        package = "js4shiny",
-        version = utils::packageVersion("js4shiny"),
-        src = "template-html",
-        script = "redirectConsoleLog.js",
-        stylesheet = c("stylize.css", "jslog.css")
-      )
+      html_dependency_js4shiny()
     ),
     extra_dependencies
   )

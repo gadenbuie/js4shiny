@@ -21,12 +21,20 @@ const redirectLogger = (function(origConsole) {
         let output = "";
 
         for (let arg of arguments) {
-          output += `<span class="jslog-${typeof arg}">(${typeof arg}) `;
+          if (arg instanceof Error) {
+            output += `<span class="jslog-error">(error) `;
+          } else {
+            output += `<span class="jslog-${typeof arg}">(${typeof arg}) `;
+          }
 
           if (arg instanceof Node) {
             let arg_obj = domToObj(arg);
             output = output.replace('(object)', '(Node)');
             output += JSON.stringify(arg_obj);
+          } else if (
+            arg instanceof Error
+          ) {
+            output += arg.message;
           } else if (
             typeof arg === "object" &&
             typeof JSON === "object" &&
@@ -42,11 +50,19 @@ const redirectLogger = (function(origConsole) {
 
         logDiv.innerHTML += output + "<br>";
         //origConsole.log.apply(undefined, arguments);
+      },
+      clear: function() {
+        logDiv.innerHTML = "";
       }
-    }
+    };
 
     return function(code) {
-      eval(code)
-    }
-  }
-})(window.console)
+      try {
+        eval(code);
+      }
+      catch (error) {
+        console.log(error);
+      }
+    };
+  };
+})(window.console);

@@ -1,0 +1,41 @@
+// Tachyons-style utility colors classes
+// https://jameschambers.co/writing/tachyons-custom-colours/
+
+$colors: (
+  'blue': #75AADB,
+  "dark-blue": #466683,
+  "yellow": #F0DB4F,
+  "red": #ff70a3,
+  "purple": #993d70,
+  "green": #55ebbc,
+  "dark": #2f4858,
+  "gray": #6d7e8a,
+  "gray-light": #c0c8cc,
+  "gray-lighter": #eaecee
+);
+
+@each $name, $hex in $colors {
+  .#{$name} {
+    color: $hex;
+    &:visited {
+      color: $hex;
+    }
+  }
+  .bg-#{$name} {
+    background-color: $hex;
+  }
+  .b--#{$name} {
+    border-color: $hex;
+  }
+  .hover-bg-#{$name} {
+    &:focus,
+    &:active,
+    &:hover {
+      background-color: $hex;
+    }
+  }
+  .hover-#{$name}:hover,
+  .hover-#{$name}:visited:hover {
+    color: $hex
+  }
+}
