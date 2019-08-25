@@ -6,9 +6,13 @@
 \alias{register_knitr_js_engine}
 \title{Register js4shiny knitr components}
 \usage{
-register_knitr_output_hooks()
+register_knitr_output_hooks(set = TRUE)
 
-register_knitr_js_engine()
+register_knitr_js_engine(set = TRUE)
+}
+\arguments{
+\item{set}{If `FALSE` the output hook or JS engine are returned rather than
+setting via knitr directly.}
 }
 \description{
 Register the js4shiny knitr JavaScript engine or the output hooks. Generally,

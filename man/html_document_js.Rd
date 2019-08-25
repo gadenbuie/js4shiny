@@ -54,5 +54,22 @@ outputting HTML directly into the markdown document).}
 base R Markdown HTML output formatter \code{\link{html_document_base}}}
 }
 \description{
-An HTML Document with Support for Literate JavaScript Programming
+An R Markdown format for literate JavaScript programming. With
+default settings, each JavaScript chunk is run in it's own environment and
+any output written with `console.log()` is inserted in the HTML document as
+the code runs. In this setting, the JavaScript is rendered directly in the
+browser at view time.
+
+A similar effect can be achieved by using the `js_live = FALSE` chunk option
+to instead run the JavaScript code using `node` at compile time. In this
+setting, the results printed by the `node` process are captured and stored in
+the document, resulting in a non-dynamic output that captures the results of
+the JavaScript runtime code.
+
+In both of the above settings, each code chunk is run separately. You can use
+the `js_redirect = FALSE` knitr chunk option to disable the `console.log()`
+redirect and use the standard JavaScript engine included in the \pkg{knitr}
+package. Logged statements will still be available in the browser's
+devolper tools console, as this engine is equivalent to having entered
+the JavaScript code directly into the HTML source within a `<script>` tag.
 }

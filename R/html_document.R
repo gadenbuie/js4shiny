@@ -1,5 +1,24 @@
 #' An HTML Document with Support for Literate JavaScript Programming
 #'
+#' @description An R Markdown format for literate JavaScript programming. With
+#' default settings, each JavaScript chunk is run in it's own environment and
+#' any output written with `console.log()` is inserted in the HTML document as
+#' the code runs. In this setting, the JavaScript is rendered directly in the
+#' browser at view time.
+#'
+#' A similar effect can be achieved by using the `js_live = FALSE` chunk option
+#' to instead run the JavaScript code using `node` at compile time. In this
+#' setting, the results printed by the `node` process are captured and stored in
+#' the document, resulting in a non-dynamic output that captures the results of
+#' the JavaScript runtime code.
+#'
+#' In both of the above settings, each code chunk is run separately. You can use
+#' the `js_redirect = FALSE` knitr chunk option to disable the `console.log()`
+#' redirect and use the standard JavaScript engine included in the \pkg{knitr}
+#' package. Logged statements will still be available in the browser's
+#' devolper tools console, as this engine is equivalent to having entered
+#' the JavaScript code directly into the HTML source within a `<script>` tag.
+#'
 #' @param highlight One of the pandoc highlight styles.
 #' @param use_fontawesome Should FontAwesome be included? Default is `FALSE`.
 #' @inheritParams rmarkdown::html_document
@@ -70,13 +89,20 @@ html_document_js <- function(
     )
   }
 
+  # knit_hooks <- knitr::knit_hooks$get()
+  # knit_hooks$chunk <- register_knitr_output_hooks(set = FALSE)
+  register_knitr_js_engine()
+
   rmarkdown::output_format(
-    knitr = rmarkdown::knitr_options_html(
-      fig_width,
-      fig_height,
-      fig_retina,
-      keep_md,
-      dev
+    knitr = rmarkdown::knitr_options(
+      opts_chunk = list(
+        fig_width = fig_width,
+        fig_height = fig_height,
+        fig_retina = fig_retina,
+        keep_md = keep_md,
+        dev = dev
+      ) #,
+        # knit_hooks = knit_hooks
     ),
     pandoc = rmarkdown::pandoc_options(
       to = "html5",

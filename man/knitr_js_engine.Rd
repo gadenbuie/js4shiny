@@ -4,7 +4,7 @@
 \alias{knitr_js_engine}
 \title{A JavaScript Engine for knitr}
 \usage{
-knitr_js_engine(js_engine_orig = knitr::knit_engines$get("js"))
+knitr_js_engine()
 }
 \description{
 A JavaScript Engine for knitr

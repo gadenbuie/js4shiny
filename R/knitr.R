@@ -1,16 +1,17 @@
 #' A JavaScript Engine for knitr
 #'
 #' @export
-knitr_js_engine <- function(js_engine_orig = knitr::knit_engines$get("js")) {
+knitr_js_engine <- function() {
   function(options) {
     js_escape <- function(x) {
       x <- gsub('([`$])', '\\\\\\1', x)
       paste0("`", paste(x, collapse = "\n"), "`")
     }
 
-    redirect <- !isTRUE(options$js_redirect)
+    browser(expr = getOption("js4shiny.js_engine_debug", FALSE))
+    redirect <- is.null(options$js_redirect) || isTRUE(options$js_redirect)
 
-    if (!redirect) return(js_engine_orig(options))
+    if (!redirect) return(default_js_engine(options))
 
     eval_live <- options$eval && (is.null(options$js_live) || options$js_live)
 
@@ -18,7 +19,6 @@ knitr_js_engine <- function(js_engine_orig = knitr::knit_engines$get("js")) {
       out_id <- glue("out-{options$label}")
       out_logger <- glue('log_{gsub("[^a-zA-Z0-9]", "_", out_id)}')
       js_code <- js_escape(options$code)
-      browser(expr = getOption("js4shiny.js_engine_debug", FALSE))
       paste(c(
         glue('<div><pre id="{out_id}"></pre></div>'),
         '<script type="text/javascript">',
@@ -42,6 +42,17 @@ knitr_js_engine <- function(js_engine_orig = knitr::knit_engines$get("js")) {
     options$results <- 'asis'
     knitr::engine_output(options, options$code, out)
   }
+}
+
+default_js_engine <- function(options) {
+  # From https://github.com/yihui/knitr/blob/master/R/engine.R
+  prefix = '<script type="text/javascript">'
+  postfix = "</script>"
+  out = if (options$eval && knitr::is_html_output(excludes = 'markdown')) {
+    paste(c(prefix, options$code, postfix), collapse = "\n", sep = "\n")
+  }
+  options$results = 'asis'
+  knitr::engine_output(options, options$code, out)
 }
 
 has_node <- function() {
@@ -70,23 +81,27 @@ run_node <- function(code) {
 NULL
 
 #' @rdname register_knitr
+#' @param set If `FALSE` the output hook or JS engine are returned rather than
+#'   setting via knitr directly.
 #' @export
-register_knitr_output_hooks <- function() {
-  chunk_hook <- knitr::knit_hooks$get("chunk")
+register_knitr_output_hooks <- function(set = TRUE) {
+  if (set) chunk_hook <- knitr::knit_hooks$get("chunk")
   chunk_name_hook <- function(x, options) {
     is_html <- knitr::is_html_output(excludes = "markdown")
     has_name <- !is.null(options$name)
     if (options$echo && is_html && has_name) {
       x <- paste0('<div class="pre-name">', options$name, '</div>\n', x)
     }
-    chunk_hook(x, options)
+    if (!set) x else chunk_hook(x, options)
   }
+  if (!set) return(chunk_name_hook)
   knitr::knit_hooks$set(chunk = chunk_name_hook)
 }
 
 #' @rdname register_knitr
 #' @export
-register_knitr_js_engine <- function() {
-  js_engine_orig <- knitr::knit_engines$get("js")
-  knitr::knit_engines$set(js = knitr_js_engine(js_engine_orig))
+register_knitr_js_engine <- function(set = TRUE) {
+  # message("over-riding knitr js engine!")
+  if (!set) return(knitr_js_engine)
+  knitr::knit_engines$set(js = knitr_js_engine())
 }

@@ -467,7 +467,7 @@ btn.addEventListener('click', () => {
 my_script.R
 </div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">mean</span>(<span class="kw">runif</span>(<span class="dv">100</span>))</span></code></pre></div>
-<pre><code>## [1] 0.5130802</code></pre>
+<pre><code>## [1] 0.4676839</code></pre>
 <p>And some “standard” JavaScript code</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode numberSource js numberLines"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1"></a><span class="va">console</span>.<span class="at">log</span>(<span class="st">&quot;named chunk&quot;</span>)</span></code></pre></div>
 <div>
@@ -497,6 +497,23 @@ log_out_another_chunk(`console.log("named chunk")`)
 <div class="sourceCode" id="cb9"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> A demonstration</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> Your&#39;s Truly</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="fu">output</span><span class="kw">:</span><span class="at"> js4shiny::html_document_js</span></span></code></pre></div>
+<hr />
+<div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">const</span> globalVariable <span class="op">=</span> <span class="st">&#39;this should be global&#39;</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="va">console</span>.<span class="at">log</span>(globalVariable) <span class="co">// goes to browser console</span></span></code></pre></div>
+<script type="text/javascript">
+const globalVariable = 'this should be global'
+console.log(globalVariable) // goes to browser console
+</script>
+<div class="sourceCode" id="cb11"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1"></a><span class="va">console</span>.<span class="at">log</span>(globalVariable) <span class="co">// outputs in document</span></span></code></pre></div>
+<div>
+<pre id="out-unnamed-chunk-6"></pre>
+</div>
+<script type="text/javascript">
+const log_out_unnamed_chunk_6 = redirectLogger(document.getElementById("out-unnamed-chunk-6"))
+document.addEventListener("DOMContentLoaded", function() {
+log_out_unnamed_chunk_6(`console.log(globalVariable) // outputs in document`)
+})
+</script>
 
 </main>
 

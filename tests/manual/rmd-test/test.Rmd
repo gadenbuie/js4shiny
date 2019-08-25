@@ -3,7 +3,6 @@ output: js4shiny::html_document_js
 ---
 
 ```{r setup, include=FALSE}
-# knitr::opts_chunk$set(echo = TRUE, class.source="numberLines")
 js4shiny::register_knitr_output_hooks()
 ```
 
@@ -72,4 +71,15 @@ npm run-script build
 title: A demonstration
 author: Your's Truly
 output: js4shiny::html_document_js
+```
+
+---
+
+```{js, js_redirect = FALSE}
+const globalVariable = 'this is a global variable'
+console.log(globalVariable) // goes to browser console
+```
+
+```{js}
+console.log(globalVariable) // outputs in document
 ```
