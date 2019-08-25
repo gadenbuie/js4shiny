@@ -1,12 +1,16 @@
 #' A JavaScript Engine for knitr
 #'
 #' @export
-knitr_js_engine <- function() {
+knitr_js_engine <- function(js_engine_orig = knitr::knit_engines$get("js")) {
   function(options) {
     js_escape <- function(x) {
       x <- gsub('([`$])', '\\\\\\1', x)
       paste0("`", paste(x, collapse = "\n"), "`")
     }
+
+    redirect <- !isTRUE(options$js_redirect)
+
+    if (!redirect) return(js_engine_orig(options))
 
     eval_live <- options$eval && (is.null(options$js_live) || options$js_live)
 
@@ -56,8 +60,16 @@ run_node <- function(code) {
   }, error = function(e) e$message)
 }
 
-#' Register js4shiny knitr output hooks
+#' Register js4shiny knitr components
 #'
+#' Register the js4shiny knitr JavaScript engine or the output hooks. Generally,
+#' you will not need to use these. Instead, see [html_document_js()] or
+#' [html_setup()] for methods that cover most use-cases.
+#'
+#' @name register_knitr
+NULL
+
+#' @rdname register_knitr
 #' @export
 register_knitr_output_hooks <- function() {
   chunk_hook <- knitr::knit_hooks$get("chunk")
@@ -70,4 +82,11 @@ register_knitr_output_hooks <- function() {
     chunk_hook(x, options)
   }
   knitr::knit_hooks$set(chunk = chunk_name_hook)
+}
+
+#' @rdname register_knitr
+#' @export
+register_knitr_js_engine <- function() {
+  js_engine_orig <- knitr::knit_engines$get("js")
+  knitr::knit_engines$set(js = knitr_js_engine(js_engine_orig))
 }

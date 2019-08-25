@@ -109,7 +109,7 @@ html_dependency_stylize <- function(...) {
 #' @family js4shiny HTML dependencies
 #' @export
 html_setup <- function(stylize = "none") {
-  knitr::knit_engines$set(js = knitr_js_engine())
+  register_knitr_js_engine()
   register_knitr_output_hooks()
   htmltools::tagList(
     html_dependency_js4shiny(stylize = stylize)
@@ -123,10 +123,6 @@ html_setup <- function(stylize = "none") {
 html_setup_blogdown <- function(
   stylize = c("fonts", "variables", "table", "code", "utility")
 ) {
-  knitr::knit_engines$set(js = knitr_js_engine())
-  register_knitr_output_hooks()
-  htmltools::tagList(
-    html_dependency_js4shiny(stylize = stylize)
-  )
+  html_setup(stylize)
 }
 
