@@ -6,6 +6,8 @@
 #' @param redirectConsole Include JS and CSS assets to enable literate
 #'   programming with JavaScript by redirecting `console.log()` to a chunk-
 #'   specific output div.
+#' @param jsonview Include JS and CSS assets to enable tree view display of
+#'   JSON objects for the \pkg{knitr} json engine.
 #' @param stylize One of "none", "all", "fonts", "variables", "table",
 #'   "utility", "code", "pandoc-line-numbers" to include the CSS styles
 #'   developed for \pkg{js4shiny}.
@@ -13,6 +15,7 @@
 #' @export
 html_dependency_js4shiny <- function(
   redirectConsole = TRUE,
+  jsonview = TRUE,
   stylize = "all"
 ) {
   stylize <- match.arg(
@@ -27,10 +30,14 @@ html_dependency_js4shiny <- function(
     package = "js4shiny",
     version = utils::packageVersion("js4shiny"),
     src = "template-html",
-    script = if (redirectConsole) "redirectConsoleLog.js",
+    script = c(
+      if (redirectConsole) "js/redirectConsoleLog.js",
+      if (jsonview) "jsonview/jsonview.min.js"
+    ),
     stylesheet = c(
       if (!"none" %in% stylize) stylize_bundle(stylize),
-      if (redirectConsole) "jslog.css"
+      if (redirectConsole) "jslog.css",
+      if (jsonview) 'jsonview/jsonview.css'
     )
   )
 }

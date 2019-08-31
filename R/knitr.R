@@ -71,6 +71,30 @@ run_node <- function(code) {
   }, error = function(e) e$message)
 }
 
+
+knitr_json_engine <- function() {
+  function(options) {
+
+    out <- if (knitr::is_html_output(excludes = 'markdown')) {
+      label <- gsub("[^a-zA-Z0-9_.]", "_", options$label)
+      code <- paste(options$code, collapse = "\n")
+      paste(
+        glue('<div id="json-{label}"></div>'),
+        "<script>",
+        glue("let data_{label} = {code}"),
+        'document.addEventListener("DOMContentLoaded", function() {',
+        glue('  window.jsonView.format(data_{label}, "#json-{label}")'),
+        "})",
+        "</script>",
+        sep = "\n"
+      )
+    }
+
+    options$results <- "asis"
+    knitr::engine_output(options, options$code, htmltools::HTML(out))
+  }
+}
+
 #' Register js4shiny knitr components
 #'
 #' Register the js4shiny knitr JavaScript engine or the output hooks. Generally,
@@ -104,4 +128,5 @@ register_knitr_js_engine <- function(set = TRUE) {
   # message("over-riding knitr js engine!")
   if (!set) return(knitr_js_engine)
   knitr::knit_engines$set(js = knitr_js_engine())
+  knitr::knit_engines$set(json = knitr_json_engine())
 }

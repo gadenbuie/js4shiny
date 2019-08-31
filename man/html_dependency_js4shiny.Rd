@@ -6,7 +6,8 @@
 \alias{html_dependency_stylize}
 \title{js4shiny HTML Dependencies}
 \usage{
-html_dependency_js4shiny(redirectConsole = TRUE, stylize = "all")
+html_dependency_js4shiny(redirectConsole = TRUE, jsonview = TRUE,
+  stylize = "all")
 
 html_dependency_redirectConsoleLog()
 
@@ -16,6 +17,9 @@ html_dependency_stylize(...)
 \item{redirectConsole}{Include JS and CSS assets to enable literate
 programming with JavaScript by redirecting `console.log()` to a chunk-
 specific output div.}
+
+\item{jsonview}{Include JS and CSS assets to enable tree view display of
+JSON objects for the \pkg{knitr} json engine.}
 
 \item{stylize}{One of "none", "all", "fonts", "variables", "table",
 "utility", "code", "pandoc-line-numbers" to include the CSS styles

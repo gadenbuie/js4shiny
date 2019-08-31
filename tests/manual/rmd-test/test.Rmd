@@ -49,7 +49,7 @@ let x = 10
 console.log(x * 20)
 ```
 
-```{json}
+```{json json-example}
 {"menu": {
   "id": "file",
   "value": "File",
@@ -62,6 +62,12 @@ console.log(x * 20)
   }
 }}
 ```
+
+```{js}
+// data declared in a json chunk become global as data_<chunk_name>
+console.log(data_json_example)
+```
+
 
 ```bash
 npm run-script build
