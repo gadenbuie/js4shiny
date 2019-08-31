@@ -33,7 +33,7 @@ pre.md, pre.markdown, pre.yaml {
     background-color: var(--washed-red);
 }
 .pre-name {
-    margin-bottom: -19px;
+    margin-bottom: -1em;
     border-bottom: 3px solid #00000010;
     font-family: var(--font-monospace);
     text-align: right;
