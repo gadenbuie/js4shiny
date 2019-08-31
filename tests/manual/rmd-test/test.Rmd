@@ -20,6 +20,7 @@ const btn = document.getElementById('toggle-paragraph')
 btn.addEventListener('click', () => {
     const p = document.querySelector('p')
     if (!p.style.transition) {
+        console.log(p)
         p.style.transition = 'opacity 1s'
     }
     if (p.style.opacity === "0") {
@@ -88,4 +89,18 @@ console.log(globalVariable) // goes to browser console
 
 ```{js}
 console.log(globalVariable) // outputs in document
+```
+
+---
+
+```{js}
+throw 'bad thing happened'
+```
+
+```{js}
+console.log(1)
+console.log(2.0)
+console.log('test')
+console.log([1, 2, 3])
+console.log({apple: 1, banana: 2})
 ```

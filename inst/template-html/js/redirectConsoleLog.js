@@ -30,7 +30,7 @@ const redirectLogger = (function(origConsole) {
           if (arg instanceof Node) {
             let arg_obj = domToObj(arg);
             output = output.replace('(object)', '(Node)');
-            output += JSON.stringify(arg_obj);
+            output += JSON.stringify(arg_obj, null, 2);
           } else if (
             arg instanceof Error
           ) {
@@ -40,7 +40,12 @@ const redirectLogger = (function(origConsole) {
             typeof JSON === "object" &&
             typeof JSON.stringify === "function"
           ) {
-            output += JSON.stringify(arg);
+            outJsonString = JSON.stringify(arg);
+            if (outJsonString.length < 60) {
+              output += outJsonString;
+            } else {
+              output += JSON.stringify(arg, null, 2);
+            }
           } else {
             output += arg;
           }
