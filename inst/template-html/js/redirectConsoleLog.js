@@ -22,9 +22,9 @@ const redirectLogger = (function(origConsole) {
 
         for (let arg of arguments) {
           if (arg instanceof Error) {
-            output += `<span class="jslog-error">(error) `;
+            output += `<span class="jslog-error">`;
           } else {
-            output += `<span class="jslog-${typeof arg}">(${typeof arg}) `;
+            output += `<span class="jslog-${typeof arg}">`;
           }
 
           if (arg instanceof Node) {
