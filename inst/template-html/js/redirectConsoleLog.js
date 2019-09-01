@@ -13,6 +13,13 @@ function domToObj (del) {
   return obj;
 }
 
+function escapeHTML (string) {
+  return ('' + string)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 const redirectLogger = (function(origConsole) {
   return function (logDiv) {
     let console = {
@@ -42,12 +49,12 @@ const redirectLogger = (function(origConsole) {
           ) {
             outJsonString = JSON.stringify(arg);
             if (outJsonString.length < 60) {
-              output += outJsonString;
+              output += escapeHTML(outJsonString);
             } else {
-              output += JSON.stringify(arg, null, 2);
+              output += escapeHTML(JSON.stringify(arg, null, 2));
             }
           } else {
-            output += arg;
+            output += escapeHTML(arg);
           }
 
           output += "</span>&nbsp;";
