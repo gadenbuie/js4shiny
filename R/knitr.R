@@ -5,6 +5,9 @@ knitr_js_engine <- function() {
   function(options) {
     js_escape <- function(x) {
       x <- gsub('([`$])', '\\\\\\1', x)
+      x <- gsub("\\\\n", "\\\\\\\\n", x)
+      x <- gsub("\\\\t", "\\\\\\\\t", x)
+      x <- gsub("\\\\r", "\\\\\\\\r", x)
       paste0("`", paste(x, collapse = "\n"), "`")
     }
 
