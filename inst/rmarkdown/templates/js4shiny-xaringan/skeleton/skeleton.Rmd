@@ -12,7 +12,7 @@ output:
       #- assets/css/animate.css
       - assets/css/js4shiny-xaringan-extra.css
     includes:
-      after_body: assets/html/xaringan-includes.html
+      after_body: assets/html/js4shiny-includes.html
     seal: false
     chakra: assets/js/remark-latest.min.js
     nature:
