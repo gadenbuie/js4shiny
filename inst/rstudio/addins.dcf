@@ -1,0 +1,5 @@
+Name: Search MDN Web Docs
+Description: Search the Mozilla Developer Network Web Docs
+Binding: mdn_addin
+Interactive: false
+
