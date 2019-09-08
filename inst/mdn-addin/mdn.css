@@ -1,0 +1,17 @@
+.logo {
+  width: 170px;
+  height: 55px;
+  background: url('mdn-logo.svg') 100% 0 no-repeat;
+  background-size: 219px auto;
+  overflow: hidden;
+}
+.search-container {
+  display: grid;
+  height: calc(100vh - 0.5em);
+  grid-auto-columns: 1fr;
+  grid-auto-rows: auto;
+  align-content: space-evenly;
+}
+body {
+  padding-top: 0.5em;
+}

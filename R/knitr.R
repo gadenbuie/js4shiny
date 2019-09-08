@@ -117,7 +117,7 @@ register_knitr_output_hooks <- function(set = TRUE) {
     is_html <- knitr::is_html_output(excludes = "markdown")
     has_name <- !is.null(options$name)
     if (options$echo && is_html && has_name) {
-      x <- paste0('<div class="pre-name">', options$name, '</div>\n', x)
+      x <- paste0('<div class="pre-name">', options$name, '</div>', x)
     }
     if (!set) x else chunk_hook(x, options)
   }
