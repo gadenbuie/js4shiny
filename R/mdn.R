@@ -46,15 +46,7 @@ mdn_topics <- c(
 )
 
 mdn_addin <- function() {
-  if (!requireNamespace("rstudioapi", quietly = TRUE)) {
-    stop("`rstudioapi` is required: install.packages('rstudioapi')")
-  }
-
-  if (!rstudioapi::hasFun("getSourceEditorContext")) {
-    stop("Are you using RStudio?")
-  }
-
-  ctx <- rstudioapi::getSourceEditorContext()
+  ctx <- get_source_context("Are you using RStudio?")
 
   if (length(ctx$selection) > 1) {
     stop("Please select a single text string")

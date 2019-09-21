@@ -3,3 +3,12 @@ Description: Search the Mozilla Developer Network Web Docs
 Binding: mdn_addin
 Interactive: false
 
+Name: Live Preview
+Description: Starts a live preview in the directory of the current source document
+Binding: live_preview_addin
+Interactive: false
+
+Name: Live Preview (External)
+Description: Starts a live preview in the directory of the current source document
+Binding: live_preview_external_addin
+Interactive: false
