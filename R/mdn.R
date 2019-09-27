@@ -28,7 +28,8 @@ mdn_search <- function(
   } else {
     ""
   }
-  url <- glue("https://developer.mozilla.org/{locale}/search?q={term}&highlight=true{topics}")
+  locale <- if (!is.null(locale) && !is.na(locale)) glue("{locale}/") else ""
+  url <- glue("https://developer.mozilla.org/{locale}search?q={term}&highlight=true{topics}")
   if (browse) utils::browseURL(url)
   url
 }
