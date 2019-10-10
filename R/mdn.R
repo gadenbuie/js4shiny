@@ -12,7 +12,7 @@
 #'   `"css"`, `"html"`, `"svg"`, `"mobile"`, `"canvas"`, `"webdev"`, and
 #'   `"standards"`.
 #' @param locale The locale string for the search query. Default is `"en-US"`,
-#'   or set to `NULL` to try searching based on the system locale.
+#'   or set to `NULL` to search MDN without specifying a locale.
 #' @return The search URL
 #' @export
 mdn_search <- function(
@@ -70,18 +70,11 @@ mdn_browse <- function(term, browse, topics, locale) {
     return()
   }
 
-  if (is.null(locale)) locale <- guess_locale()
   if (browse) {
     invisible(mdn_search(term, TRUE, topics, locale = locale))
   } else {
     mdn_search(term, FALSE, topics, locale)
   }
-}
-
-guess_locale <- function() {
-  locale <- Sys.getenv("LANG")
-  locale <- strsplit(locale, "\\.")[[1]][1]
-  gsub("_", "-", locale)
 }
 
 #' @describeIn mdn_search A Shiny gadget for searching the MDN docs.

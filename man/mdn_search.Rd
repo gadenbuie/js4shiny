@@ -21,7 +21,7 @@ not, the URL is returned instead.}
 `"standards"`.}
 
 \item{locale}{The locale string for the search query. Default is `"en-US"`,
-or set to `NULL` to try searching based on the system locale.}
+or set to `NULL` to search MDN without specifying a locale.}
 }
 \value{
 The search URL
