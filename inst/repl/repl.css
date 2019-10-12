@@ -1,0 +1,118 @@
+/* https://stackoverflow.com/a/22025566/2022615 */
+.table-container {
+  display: table;
+  width: 100%;
+}
+
+.table-container .table-row {
+  height: 100%;
+  display: table-row;
+}
+
+.table-container .table-row .table-col {
+  display: table-cell;
+  float: none;
+  vertical-align: top;
+}
+
+html, body, .container-fluid {
+  height: 100%;
+}
+
+.full-height-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 1em;
+  height: calc(100vh - 80px);
+}
+
+#col-js {
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+  grid-row-gap: 1em;
+}
+
+#col-html {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  height: 100%;
+}
+
+#log {
+  height: 100%;
+  width: 100%;
+  min-height: 30vh;
+  max-width: 100%;
+  overflow: auto;
+  margin-bottom: 0;
+}
+
+iframe {
+  border: 2px solid #ddd;
+  border-radius: 3px;
+}
+
+.log-boolean {color: #007BFF;}
+.log-undefined {color: #9e0059;}
+.log-object {color: #DC3545;}
+.log-string {color: #28A745;}
+.log-number {color: #17A2B8;}
+
+/* bs-callout: https://codepen.io/chrisdpratt/pen/IAymB/ */
+
+.bs-callout {
+    padding: 10px;
+    margin: 0 0 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+.bs-callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+    margin-bottom: 0;
+}
+.bs-callout code {
+    border-radius: 3px;
+}
+.bs-callout+.bs-callout {
+    margin-top: -5px;
+}
+.bs-callout-default {
+    border-left-color: #777;
+}
+.bs-callout-default h4 {
+    color: #777;
+}
+.bs-callout-primary {
+    border-left-color: #428bca;
+}
+.bs-callout-primary h4 {
+    color: #428bca;
+}
+.bs-callout-success {
+    border-left-color: #5cb85c;
+}
+.bs-callout-success h4 {
+    color: #5cb85c;
+}
+.bs-callout-danger {
+    border-left-color: #d9534f;
+}
+.bs-callout-danger h4 {
+    color: #d9534f;
+}
+.bs-callout-warning {
+    border-left-color: #f0ad4e;
+}
+.bs-callout-warning h4 {
+    color: #f0ad4e;
+}
+.bs-callout-info {
+    border-left-color: #5bc0de;
+}
+.bs-callout-info h4 {
+    color: #5bc0de;
+}

@@ -21,7 +21,7 @@ function escapeHTML (string) {
 }
 
 const redirectLogger = (function(origConsole) {
-  return function (logDiv) {
+  return function (logDiv, returnConsole = false) {
     let console = {
       log: function () {
         // https://stackoverflow.com/a/45387558/2022615
@@ -66,6 +66,10 @@ const redirectLogger = (function(origConsole) {
       clear: function() {
         logDiv.innerHTML = "";
       }
+    };
+
+    if (returnConsole) {
+      return(console)
     };
 
     return function(code) {
