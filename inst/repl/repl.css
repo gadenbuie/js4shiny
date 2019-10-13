@@ -190,3 +190,23 @@ iframe {
 .bs-callout-info h4 {
     color: #5bc0de;
 }
+
+/* working indicator */
+html:not(.shiny-busy) .loader {
+  opacity: 0;
+}
+html.shiny-busy .loader {
+  opacity: 0.75;
+}
+
+.loader {
+  background-image: url(loading.svg);
+  height: 22px;
+  width: 32px;
+  float: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-y: 50%;
+  margin-left: 0.5em;
+  transition: opacity 0.5s ease-in-out;
+}

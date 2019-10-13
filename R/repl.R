@@ -87,7 +87,11 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
         class = "container-fluid",
         shiny::div(
           class = "navbar-header",
-          shiny::div(class = "navbar-brand", "js4shiny::repl()")
+          shiny::div(
+            class = "navbar-brand",
+            "js4shiny::repl()",
+            shiny::span(class = "loader")
+          )
         ),
         shiny::tags$form(
           class = "navbar-form navbar-right",
