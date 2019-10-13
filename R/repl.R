@@ -17,13 +17,15 @@ extract_yaml <- function(path) {
   yaml::yaml.load(x[(yaml_between[1] + 1):(yaml_between[2] - 1)])
 }
 
-repl_ui <- function(examples = NULL) {
+blank_example <- function() {
+  c("Blank" = file.path(js4shiny_file("repl", "0-empty.Rmd")))
+}
+
+repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
   shiny::addResourcePath("repl", js4shiny_file("repl"))
   shiny::addResourcePath("redirect", js4shiny_file("redirect"))
 
-  if (is.null(examples)) {
-    example_file_choices <- file.path(js4shiny_file("repl", "0-empty.Rmd"))
-  }
+  example_file_choices <- c(blank_example(), NULL)
 
   shiny::fluidPage(
     shiny::tags$head(
@@ -31,6 +33,7 @@ repl_ui <- function(examples = NULL) {
       shiny::tags$link(href = "redirect/jslog.css", rel = "stylesheet", type = "text/css"),
       shiny::tags$script(src = "repl/repl.js")
     ),
+    class = if (js_repl_only) "hide-navbar",
     shiny::tags$nav(
       class = "navbar navbar-default",
       shiny::div(
@@ -46,41 +49,50 @@ repl_ui <- function(examples = NULL) {
       )
     ),
     shiny::div(
-      class = "full-height-container",
-      shiny::div(
-        id = "col-js",
-        shinyAce::aceEditor(
-          "code",
-          mode = "javascript",
-          debounce = 3000,
-          height = "100%"
-        ),
-        shiny::div(
-          shiny::span(
-            shiny::icon("trash"),
-            style = "margin-right: 5px"
-          ),
-          shiny::div(
-            class = "btn-group",
-            role = "group",
-            shiny::actionButton("clear-source", "Clear Source"),
-            shiny::tags$button(
-              id = "clear-log",
-              class = "btn btn-default",
-              "Clear Log"
-            )
-          ),
-          shiny::tags$button(
-            id = "show_solution",
-            class = "btn btn-default action-button btn-primary pull-right shiny-bound-input",
-            style = "display: none",
-            "Show Solution"
-          )
-        ),
-        shiny::tags$pre(id = "log")
+      class = paste0(
+        "full-height-container",
+        if (js_repl_only) " hide-html-preview"
       ),
       shiny::div(
-        id = "col-html",
+        class = "panel-js",
+        shiny::div(
+          class = "panel-js-code",
+          shinyAce::aceEditor(
+            "code",
+            mode = "javascript",
+            debounce = 1000,
+            height = "100%"
+          ),
+          shiny::div(
+            shiny::span(
+              shiny::icon("trash"),
+              style = "margin-right: 5px"
+            ),
+            shiny::div(
+              class = "btn-group",
+              role = "group",
+              shiny::actionButton("clear-source", "Clear Source"),
+              shiny::tags$button(
+                id = "clear-log",
+                class = "btn btn-default",
+                "Clear Log"
+              )
+            ),
+            shiny::tags$button(
+              id = "show_solution",
+              class = "btn btn-default action-button btn-primary pull-right shiny-bound-input",
+              style = "display: none",
+              "Show Solution"
+            )
+          )
+        ),
+        shiny::div(
+          class = "panel-js-console",
+          shiny::tags$pre(id = "log")
+        )
+      ),
+      shiny::div(
+        class = "panel-html",
         shiny::uiOutput("instructions"),
         shiny::uiOutput("hint"),
         shiny::uiOutput("example_html")
@@ -195,9 +207,16 @@ repl_server <- function(render_dir) {
   }
 }
 
-repl <- function(examples = NULL, render_dir = NULL) {
+repl <- function(examples = NULL, render_dir = NULL, js_repl_only = FALSE) {
   if (is.null(render_dir)) {
     render_dir <- file.path(tempdir(), "repl_render")
   }
-  shiny::shinyApp(ui = repl_ui(examples), server = repl_server(render_dir))
+  shiny::shinyApp(
+    ui = repl_ui(examples, js_repl_only),
+    server = repl_server(render_dir)
+  )
+}
+
+repl_js <- function(render_dir = NULL, ...) {
+  repl(js_repl_only = TRUE, render_dir = render_dir, ...)
 }

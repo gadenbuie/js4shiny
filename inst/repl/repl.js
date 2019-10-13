@@ -10,6 +10,11 @@ $(document).ready(function() {
     document.getElementById("log").textContent = "";
   });
 
+  // scroll console log to bottom on update
+  document.getElementById('log').addEventListener('consoleLog', e => {
+    e.target.scrollTop = e.target.scrollHeight
+  });
+
   function showSolutionButton(state) {
     if (state) {
       $("#show_solution").show();
