@@ -1,7 +1,11 @@
-# library(shiny)
-# source("R/example_files.R")
-
-# example_file_choices <- get_example_file_paths()
+get_example_file_paths <- function(path) {
+  path_files <- dir(path, full.names = TRUE)
+  file_info <- purrr::map(path_files, extract_yaml)
+  names(path_files) <- file_info %>%
+    purrr::map("example") %>%
+    purrr::map_chr("title")
+  path_files
+}
 
 get_instructions <- function(path) {
   extract_yaml(path)$example$instructions
@@ -72,7 +76,7 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
   shiny::addResourcePath("repl", js4shiny_file("repl"))
   shiny::addResourcePath("redirect", js4shiny_file("redirect"))
 
-  example_file_choices <- c(blank_example(), NULL)
+  example_file_choices <- c(blank_example(), get_example_file_paths(examples))
 
   shiny::fluidPage(
     shiny::tags$head(
