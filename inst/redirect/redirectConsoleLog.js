@@ -21,6 +21,7 @@ function escapeHTML (string) {
 }
 
 const redirectLogger = (function(origConsole) {
+  const consoleEvent = new Event('consoleLog');
   return function (logDiv, returnConsole = false) {
     let console = {
       log: function () {
@@ -61,6 +62,7 @@ const redirectLogger = (function(origConsole) {
         }
 
         logDiv.innerHTML += output + "<br>";
+        logDiv.dispatchEvent(consoleEvent);
         //origConsole.log.apply(undefined, arguments);
       },
       clear: function() {
