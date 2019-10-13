@@ -113,7 +113,10 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
       shiny::div(
         class = "panel-code",
         shiny::div(
-          class = "panel-code-js",
+          class = paste0(
+            "panel-code-js",
+            if(js_repl_only) " panel-code-js__repl-only"
+          ),
           repl_ui_code(
             css = !js_repl_only,
             md = !js_repl_only,
@@ -125,10 +128,18 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
         ),
         shiny::div(
           class = "panel-code-js-console",
-          shiny::tags$button(
-            id = "clear-log",
-            class = "btn btn-default",
-            "Clear Log"
+          shiny::div(
+            class = "btn-group console__buttons",
+            if (!js_repl_only) shiny::tags$button(
+              id = "hide-log",
+              class = "btn btn-default btn-sm",
+              "Hide"
+            ),
+            shiny::tags$button(
+              id = "clear-log",
+              class = "btn btn-default btn-sm",
+              "Clear"
+            )
           ),
           shiny::tags$pre(id = "log")
         )

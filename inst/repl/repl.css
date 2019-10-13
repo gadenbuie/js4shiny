@@ -20,16 +20,31 @@ html, body, .container-fluid {
   grid-template-rows: 1fr auto;
   grid-row-gap: 1em;
 }
+.panel-code-js__repl-only {
+  grid-template-rows: 1fr;
+  grid-row-gap: 0;
+}
 .panel-code-js-console {
   position: relative;
 }
-#clear-log {
+.console__minimized .panel-code-js-console {
+  height: 34px;
+  max-height: 34px;
+  overflow: hidden;
+}
+.console__minimized #log {
+  visibility: hidden;
+}
+.panel-code.console__minimized {
+  grid-template-rows: 1fr auto;
+}
+.console__buttons {
   position: absolute;
   top: 0;
   right: 0;
   opacity: 0.5;
 }
-#clear-log:hover {
+.console__buttons:hover {
   opacity: 1;
 }
 
@@ -117,13 +132,17 @@ iframe {
   position: relative;
 }
 .tab-content {
-  position: absolute;
-  width: 100%;
-  top: 41px;
-  bottom: 0;
+	position: absolute;
+	width: 100%;
+	top: 41px;
+	bottom: 0;
+	height: calc(100% - 24px);
 }
 .tab-content>.active {
  height: 100%;
+}
+pre.ace_editor {
+  margin-bottom: 0;
 }
 
 .log-boolean {color: #007BFF;}
