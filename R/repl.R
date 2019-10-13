@@ -21,6 +21,14 @@ extract_yaml <- function(path) {
   yaml::yaml.load(x[(yaml_between[1] + 1):(yaml_between[2] - 1)])
 }
 
+remove_yaml <- function(text) {
+  if (length(text) == 1 || !grepl('\n', text)) {
+    text <- readLines(text)
+  }
+  yaml_between <- grep("^---\\s*", text)[1:2]
+  text[-(yaml_between[1]:yaml_between[2])]
+}
+
 blank_example <- function() {
   c("Blank" = file.path(js4shiny_file("repl", "0-empty.Rmd")))
 }
@@ -274,7 +282,7 @@ repl_server <- function(render_dir) {
       I("Set HTML/MD to Selected Example")
       shinyAce::updateAceEditor(
         session, "code_md",
-        value = paste(readLines(input$example), collapse = "\n")
+        value = paste(remove_yaml(input$example), collapse = "\n")
       )
     }, priority = 1000)
 
