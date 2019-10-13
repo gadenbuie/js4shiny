@@ -302,8 +302,16 @@ repl_server <- function(render_dir) {
       )
     })
 
+    html_path <- shiny::reactiveFileReader(
+      intervalMillis = 1000,
+      session = session,
+      filePath = shiny::reactive({compiled_html()$file}),
+      readFunc = function(path) return(path)
+    )
+
     output$example_html <- shiny::renderUI({
       out_html <- compiled_html()
+      html_path() # poll file in case compiled_html() misses an update
 
       shiny::tagList(
         if (!is.null(out_html$error)) {
