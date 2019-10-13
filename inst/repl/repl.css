@@ -1,6 +1,9 @@
 html, body, .container-fluid {
   height: 100%;
 }
+html * {
+  transition: opacity 0.25s ease-in-out;
+}
 
 .full-height-container {
   display: grid;
@@ -52,6 +55,18 @@ html, body, .container-fluid {
   display: grid;
   grid-template-rows: auto auto 1fr;
   height: 100%;
+}
+.panel-html__output {
+  height: 100%;
+}
+.panel-html__refresh {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0.5;
+}
+.panel-html__refresh:hover {
+  opacity: 1;
 }
 
 #example_html {

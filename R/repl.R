@@ -178,9 +178,11 @@ repl_server <- function(render_dir) {
     `%||%` <- function(x, y) if (is.null(x)) y else x
 
     compiled_html <- shiny::reactive({
-      js <- input$code_js
+      input$refresh_html
+
+      js  <- input$code_js
       css <- input$code_css
-      md <- input$code_md %||% ""
+      md  <- input$code_md %||% ""
 
       # create rmd_file from input md
       rmd_file <- tempfile(fileext = ".Rmd")
@@ -329,13 +331,24 @@ repl_server <- function(render_dir) {
             out_html$error
           )
         },
-        if (!is.null(out_html$file)) shiny::tags$iframe(
-          style = "overflow:hidden;overflow-scroll:auto;height:100%;width:100%",
-          # class = "vh-90",
-          class = "outputHTML",
-          width = "100%",
-          height = "100%",
-          src = out_html$file
+        if (!is.null(out_html$file)) shiny::div(
+          class = "panel-html__output",
+          shiny::div(
+            class = "panel-html__refresh",
+            shiny::tags$button(
+              id = "refresh_html",
+              class = "btn btn-default btn-sm action-button shiny-bound-input",
+              shiny::icon("refresh")
+            )
+          ),
+          shiny::tags$iframe(
+            style = "overflow:hidden;overflow-scroll:auto;height:100%;width:100%",
+            # class = "vh-90",
+            class = "outputHTML",
+            width = "100%",
+            height = "100%",
+            src = out_html$file
+          )
         )
       )
     })
