@@ -99,13 +99,16 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
         ),
         shiny::tags$form(
           class = "navbar-form navbar-right",
-          shiny::tags$button(
-            id = "show_solution",
-            class = "btn btn-default action-button btn-primary pull-right shiny-bound-input",
-            style = "display: none",
-            "Show Solution"
-          ),
-          shiny::selectInput("example", NULL, example_file_choices, selectize = FALSE)
+          shiny::div(
+            class = "form-group",
+            shiny::tags$button(
+              id = "show_solution",
+              class = "btn btn-default action-button btn-primary shiny-bound-input",
+              style = "display: none",
+              "Show Solution"
+            ),
+            shiny::selectInput("example", NULL, example_file_choices, selectize = FALSE)
+          )
         )
       )
     ),
@@ -247,12 +250,18 @@ repl_server <- function(render_dir) {
       shinyAce::updateAceEditor(session, "code", value = "")
     })
 
-    shiny::observeEvent(input$show_solution, {
-      shinyAce::updateAceEditor(session, "code", value = solution())
-    })
-
     solution <- shiny::reactive({
       example_yaml()$solution %||% NULL
+    })
+
+    shiny::observeEvent(input$show_solution, {
+      req(solution()$js)
+      shinyAce::updateAceEditor(session, "code_js", value = solution()$js)
+    })
+
+    shiny::observeEvent(input$show_solution, {
+      req(solution()$css)
+      shinyAce::updateAceEditor(session, "code_css", value = solution()$css)
     })
 
     shiny::observe({
