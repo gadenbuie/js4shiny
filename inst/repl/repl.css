@@ -9,16 +9,28 @@ html, body, .container-fluid {
   height: calc(100vh - 80px);
 }
 
-.panel-js {
+.panel-code {
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-gap: 1em;
 }
 
-.panel-js-code {
+.panel-code-js {
   display: grid;
   grid-template-rows: 1fr auto;
   grid-row-gap: 1em;
+}
+.panel-code-js-console {
+  position: relative;
+}
+#clear-log {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0.5;
+}
+#clear-log:hover {
+  opacity: 1;
 }
 
 .panel-html {
@@ -26,6 +38,31 @@ html, body, .container-fluid {
   grid-template-rows: auto auto 1fr;
   height: 100%;
 }
+
+#example_html {
+  position: relative;
+  overflow: hidden;
+}
+
+.panel-html__error {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 0;
+  animation: slideInUp 0.25s ease-in;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 .hide-html-preview {
   grid-template-columns: 1fr;
@@ -38,17 +75,17 @@ html, body, .container-fluid {
   bottom: 0;
   right: 150%;
 }
-.hide-html-preview .panel-js {
+.hide-html-preview .panel-code {
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
 }
-.panel-js #log {
+.panel-code #log {
   max-height: calc(50vh - 50px);
 }
-.hide-navbar .hide-html-preview .panel-js #log {
+.hide-navbar .hide-html-preview .panel-code #log {
   max-height: calc(100vh - 2em);
 }
-.hide-html-preview .panel-js #log {
+.hide-html-preview .panel-code #log {
   max-height: calc(100vh - 80px);
 }
 .hide-navbar nav {
@@ -73,6 +110,20 @@ html, body, .container-fluid {
 iframe {
   border: 2px solid #ddd;
   border-radius: 3px;
+}
+
+/* Make Code Editor Fill Code Pane when Tabbed */
+.tabbable {
+  position: relative;
+}
+.tab-content {
+  position: absolute;
+  width: 100%;
+  top: 41px;
+  bottom: 0;
+}
+.tab-content>.active {
+ height: 100%;
 }
 
 .log-boolean {color: #007BFF;}

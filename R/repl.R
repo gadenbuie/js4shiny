@@ -21,6 +21,53 @@ blank_example <- function() {
   c("Blank" = file.path(js4shiny_file("repl", "0-empty.Rmd")))
 }
 
+repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
+  repl_js <- shinyAce::aceEditor(
+    "code_js",
+    mode = "javascript",
+    debounce = 1000,
+    height = "100%",
+    ...
+  )
+
+  include_css <- is.character(css) || isTRUE(css)
+  include_md <- is.character(md) || isTRUE(md)
+
+  if (!include_css && !include_md) {
+    return(repl_js)
+  }
+
+  shiny::tabsetPanel(
+    id = "panel-code-tabset",
+    shiny::tabPanel(
+      "JS",
+      repl_js
+    ),
+    if (include_css) shiny::tabPanel(
+      "CSS",
+      shinyAce::aceEditor(
+        "code_css",
+        value = if (is.character(css)) css else "",
+        mode = "css",
+        debounce = 1000,
+        height = "100%",
+        ...
+      )
+    ),
+    if (include_md) shiny::tabPanel(
+      "HTML/Markdown",
+      shinyAce::aceEditor(
+        "code_md",
+        value = if (is.character(md)) md else "",
+        mode = "markdown",
+        debounce = 1000,
+        height = "100%",
+        ...
+      )
+    )
+  )
+}
+
 repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
   shiny::addResourcePath("repl", js4shiny_file("repl"))
   shiny::addResourcePath("redirect", js4shiny_file("redirect"))
@@ -44,6 +91,12 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
         ),
         shiny::tags$form(
           class = "navbar-form navbar-right",
+          shiny::tags$button(
+            id = "show_solution",
+            class = "btn btn-default action-button btn-primary pull-right shiny-bound-input",
+            style = "display: none",
+            "Show Solution"
+          ),
           shiny::selectInput("example", NULL, example_file_choices, selectize = FALSE)
         )
       )
@@ -54,40 +107,25 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
         if (js_repl_only) " hide-html-preview"
       ),
       shiny::div(
-        class = "panel-js",
+        class = "panel-code",
         shiny::div(
-          class = "panel-js-code",
-          shinyAce::aceEditor(
-            "code",
-            mode = "javascript",
-            debounce = 1000,
-            height = "100%"
-          ),
-          shiny::div(
-            shiny::span(
-              shiny::icon("trash"),
-              style = "margin-right: 5px"
-            ),
-            shiny::div(
-              class = "btn-group",
-              role = "group",
-              shiny::actionButton("clear-source", "Clear Source"),
-              shiny::tags$button(
-                id = "clear-log",
-                class = "btn btn-default",
-                "Clear Log"
-              )
-            ),
-            shiny::tags$button(
-              id = "show_solution",
-              class = "btn btn-default action-button btn-primary pull-right shiny-bound-input",
-              style = "display: none",
-              "Show Solution"
-            )
+          class = "panel-code-js",
+          repl_ui_code(
+            css = !js_repl_only,
+            md = !js_repl_only,
+            theme = "textmate",
+            wordWrap = TRUE,
+            autoComplete = "live",
+            tabSize = 4
           )
         ),
         shiny::div(
-          class = "panel-js-console",
+          class = "panel-code-js-console",
+          shiny::tags$button(
+            id = "clear-log",
+            class = "btn btn-default",
+            "Clear Log"
+          ),
           shiny::tags$pre(id = "log")
         )
       ),
@@ -110,40 +148,75 @@ repl_server <- function(render_dir) {
     `%||%` <- function(x, y) if (is.null(x)) y else x
 
     compiled_html <- shiny::reactive({
-      js <- input$code
-      rmd_file <- input$example
+      js <- input$code_js
+      css <- input$code_css
+      md <- input$code_md %||% ""
+
+      # create rmd_file from input md
+      rmd_file <- tempfile(fileext = ".Rmd")
+      cat(glue("
+        ---
+        output: js4shiny::html_document_plain
+        ---
+
+        {md}
+        "
+      ), file = rmd_file)
 
       # create js file from input code
       js_file <- file.path(render_dir, paste0("script_", session$token, ".js"))
       cat(js, file = js_file, sep = "\n")
 
+      # create css file from input css
+      if (!is.null(css)) {
+        css_file <- file.path(render_dir, paste0("style_", session$token, ".css"))
+        cat(css, file = css_file, sep = "\n")
+      } else {
+        css_file <- NULL
+      }
+
       html_out_file <- file.path("render", paste0(session$token, ".html"))
       html_out_file_abs <- file.path(render_dir, paste0(session$token, ".html"))
 
-      rmarkdown::render(
-        input = rmd_file,
-        output_file = html_out_file_abs,
-        quiet = TRUE,
-        output_options = list(
-          script = js4shiny:::include_script(
-            before = c(
-              js4shiny_file("redirect", "redirectConsoleLog.js"),
-              js4shiny_file("repl", "repl-child-redirect.js")
+      res <- list(file = html_out_file)
+      tryCatch({
+        rmarkdown::render(
+          input = rmd_file,
+          output_file = html_out_file_abs,
+          quiet = TRUE,
+          output_options = list(
+            script = js4shiny:::include_script(
+              before = c(
+                js4shiny_file("redirect", "redirectConsoleLog.js"),
+                js4shiny_file("repl", "repl-child-redirect.js")
+              ),
+              after = c(
+                js_file
+              )
             ),
-            after = c(
-              js_file
+            css = c(
+              "normalize",
+              js4shiny_file("repl", "repl-child.css"),
+              css_file
+            ),
+            self_contained = TRUE,
+            pandoc_args = c(
+              "--to",
+              "html5"
             )
-          ),
-          css = c("normalize", js4shiny_file("repl", "repl-child.css")),
-          self_contained = TRUE,
-          pandoc_args = c(
-            "--to",
-            "html5"
           )
         )
+      },
+      warning = function(w) {
+        res$warning <<- w$message
+      },
+      error = function(e) {
+        res$error <<- e$message
+      }
       )
 
-      html_out_file
+      if (!file.exists(html_out_file_abs)) res$file <- NULL
+      res
     })
 
     example_yaml <- shiny::reactive({
@@ -164,9 +237,18 @@ repl_server <- function(render_dir) {
     })
 
     shiny::observe({
+      I("Show/Hide Btn: Show Solution")
       state <- !is.null(solution())
       session$sendCustomMessage("showSolutionButton", state)
     })
+
+    shiny::observe({
+      I("Set HTML/MD to Selected Example")
+      shinyAce::updateAceEditor(
+        session, "code_md",
+        value = paste(readLines(input$example), collapse = "\n")
+      )
+    }, priority = 1000)
 
     output$instructions <- shiny::renderUI({
       shiny::req(example_yaml())
@@ -193,14 +275,23 @@ repl_server <- function(render_dir) {
     })
 
     output$example_html <- shiny::renderUI({
+      out_html <- compiled_html()
+
       shiny::tagList(
-        shiny::tags$iframe(
+        if (!is.null(out_html$error)) {
+          shiny::tags$div(
+            class = "panel-html__error alert alert-danger",
+            shiny::tags$strong("Error:"),
+            out_html$error
+          )
+        },
+        if (!is.null(out_html$file)) shiny::tags$iframe(
           style = "overflow:hidden;overflow-scroll:auto;height:100%;width:100%",
           # class = "vh-90",
           class = "outputHTML",
           width = "100%",
           height = "100%",
-          src = compiled_html()
+          src = out_html$file
         )
       )
     })
