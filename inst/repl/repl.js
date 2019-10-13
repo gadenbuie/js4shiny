@@ -7,10 +7,15 @@ $(document).ready(function() {
 
   document.getElementById('hide-log').addEventListener('click', () => {
     const panelCode = document.querySelector('.panel-code');
-    const isConsoleMinimzed = panelCode.classList.contains('console__minimized');
-    const newBtnText = isConsoleMinimzed ? 'Hide' : 'Show'
-    panelCode.classList.toggle('console__minimized')
-    document.getElementById('hide-log').innerHTML = newBtnText
+    const isConsoleMinimized = panelCode.classList.contains('console__minimized');
+    const newBtnText = isConsoleMinimized ? 'Hide' : 'Show';
+    panelCode.classList.toggle('console__minimized');
+    setTimeout(() => {
+      // Resize editors to avoid clipping issues in Chrome
+      const editors = ['code_js', 'code_css', 'code_md'];
+      editors.forEach(id => ace.edit(id).resize())
+    }, 0);
+    document.getElementById('hide-log').innerHTML = newBtnText;
   });
 
   // $('#example').on('change', () => { $("#log").text(''); })
