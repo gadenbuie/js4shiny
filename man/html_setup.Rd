@@ -23,7 +23,7 @@ literate JavaScript code chunks inside R Markdown formats that write to HTML.
 \section{Functions}{
 \itemize{
 \item \code{html_setup_blogdown}: A blogdown-specific HTML setup that includes styles
-for `<pre>` code blocks, tables, some utility functions, and the CSS
+for \code{<pre>} code blocks, tables, some utility functions, and the CSS
 variables declaring the \pkg{js4shiny} colors.
 }}
 

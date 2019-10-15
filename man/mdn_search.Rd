@@ -16,12 +16,12 @@ mdn_gadget(browse = TRUE, locale = NULL)
 \item{browse}{Should the search results be opened in a browser window? If
 not, the URL is returned instead.}
 
-\item{topics}{A selection of topics to search, choosing from `"js"`, `"api"`,
-`"css"`, `"html"`, `"svg"`, `"mobile"`, `"canvas"`, `"webdev"`, and
-`"standards"`.}
+\item{topics}{A selection of topics to search, choosing from \code{"js"}, \code{"api"},
+\code{"css"}, \code{"html"}, \code{"svg"}, \code{"mobile"}, \code{"canvas"}, \code{"webdev"}, and
+\code{"standards"}.}
 
-\item{locale}{The locale string for the search query. Default is `"en-US"`,
-or set to `NULL` to search MDN without specifying a locale.}
+\item{locale}{The locale string for the search query. Default is \code{"en-US"},
+or set to \code{NULL} to search MDN without specifying a locale.}
 }
 \value{
 The search URL

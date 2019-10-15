@@ -16,12 +16,12 @@ include_script(head = NULL, before = NULL, after = NULL)
 \item{...}{Additional function arguments to pass to the
 base R Markdown HTML output formatter \code{\link{html_document_base}}}
 
-\item{css}{A list of css files to include in the document's `<head>`. Include
-`"normalize"` in the list of css files to include `normalize.css`, which
+\item{css}{A list of css files to include in the document's \code{<head>}. Include
+\code{"normalize"} in the list of css files to include \code{normalize.css}, which
 provides basic style resetting.}
 
-\item{script}{A list of `.js` files to include in the document. Use
-`include_script()` to choose where in the HTML the script should be
+\item{script}{A list of \code{.js} files to include in the document. Use
+\code{include_script()} to choose where in the HTML the script should be
 sourced.}
 
 \item{highlight}{One of the pandoc highlight styles.}
@@ -46,8 +46,8 @@ outputting HTML directly into the markdown document).}
 base R Markdown HTML output formatter \code{\link{html_document_base}}}
 
 \item{head, before, after}{A character vector of source files, each to be
-included in the `<head>`, or *before* or *after* the HTML content in
-`<body>`.}
+included in the \code{<head>}, or \emph{before} or \emph{after} the HTML content in
+\code{<body>}.}
 }
 \description{
 This RMarkdown output format provides a minimal HTML5 template and minimal

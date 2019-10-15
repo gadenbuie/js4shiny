@@ -13,20 +13,20 @@ repl_js(render_dir = NULL, ...)
 \arguments{
 \item{examples}{Path to folder containing examples}
 
-\item{js_repl_only}{When `TRUE`, the app is simplified to contain only a
-JavaScript source editor and a console output. `repl_js()` is an alias to
-launch `repl()` with `js_repl_only = TRUE`.}
+\item{js_repl_only}{When \code{TRUE}, the app is simplified to contain only a
+JavaScript source editor and a console output. \code{repl_js()} is an alias to
+launch \code{repl()} with \code{js_repl_only = TRUE}.}
 
 \item{theme_app}{The theme of the app, using \pkg{shinythemes}. See
-[shinythemes::shinytheme()] for a list of valid themes.}
+\code{\link[shinythemes:shinytheme]{shinythemes::shinytheme()}} for a list of valid themes.}
 
 \item{theme_editor}{The theme of the \pkg{shinyAce} source code editors. See
-[shinyAce::getAceThemes()] for a list of valid themes.}
+\code{\link[shinyAce:getAceThemes]{shinyAce::getAceThemes()}} for a list of valid themes.}
 
-\item{render_dir}{Where to render temporary files, defaults to `tempdir()`}
+\item{render_dir}{Where to render temporary files, defaults to \code{tempdir()}}
 
-\item{...}{Arguments passed from `repl_js()` to `repl()` or from `repl()` to
-[shiny::shinyApp()].}
+\item{...}{Arguments passed from \code{repl_js()} to \code{repl()} or from \code{repl()} to
+\code{\link[shiny:shinyApp]{shiny::shinyApp()}}.}
 }
 \value{
 A shiny app
@@ -35,12 +35,12 @@ A shiny app
 Launches an interactive Shiny app for live editing of frontend JavaScript,
 CSS, and HTML/Markdown/R Markdown. The app allows users to write JS, CSS and
 HTML, preview the final product, observe the JavaScript console (specifically
-items printed to the console via `console.log()`), and download a zip file
+items printed to the console via \code{console.log()}), and download a zip file
 containing the source files.
 }
 \section{Examples for js4shiny workshop}{
 
-The app was developed for the **js4shiny** rstudio::conf workshop and can be
+The app was developed for the \strong{js4shiny} rstudio::conf workshop and can be
 used to load examples for practicing and learning JavaScript and web
 development concepts.
 
