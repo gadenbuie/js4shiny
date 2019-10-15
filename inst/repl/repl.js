@@ -15,7 +15,9 @@ $(document).ready(function() {
       const editors = ['code_js', 'code_css', 'code_md'];
       editors.forEach(id => ace.edit(id).resize())
     }, 0);
-    document.getElementById('hide-log').innerHTML = newBtnText;
+    const hideBtn = document.getElementById('hide-log');
+    hideBtn.innerHTML = newBtnText;
+    hideBtn.title = `${isConsoleMinimized ? 'Hide' : 'Show'} Console Log`;
   });
 
   // $('#example').on('change', () => { $("#log").text(''); })
