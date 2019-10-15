@@ -395,11 +395,22 @@ repl_server <- function(render_dir) {
             token = session$token,
             out_file = file
           )
-          shiny::removeModal()
         } else if (input$save_format == "rmd") {
-          warning("TODO")
-          cat("todo", file = file)
+          create_example_rmd(
+            title = input$save_example_title,
+            instructions = input$save_example_instructions,
+            hint = input$save_example_hint,
+            js = if ("js" %in% input$save_example_include_solution) {
+              input$code_js
+            },
+            css = if ("css" %in% input$save_example_include_solution) {
+              input$code_css
+            },
+            md = input$code_md,
+            output_file = file
+          )
         }
+        shiny::removeModal()
       }
     )
   }
@@ -458,19 +469,19 @@ repl_save <- function(example_yaml) {
   )
 }
 
-create_project_zip <- function(js = "", css = "", md = "", token = NULL, out_file = "project.zip") {
-  tmpdir <- if (!is.null(token)) {
-    file.path(tempdir(), token)
-  } else {
-    tempfile()
-  }
-  dir.create(tmpdir, recursive = TRUE, showWarnings = FALSE)
+write_temp_files <- function(
+  js = "",
+  css = "",
+  md = "",
+  destdir = tempfile(),
+  yaml_list = list(output = "js4shiny::html_document_plain")
+) {
+  dir.create(destdir, recursive = TRUE, showWarnings = FALSE)
 
   # file names
-  js_file <- file.path(tmpdir, "script.js")
-  css_file <- file.path(tmpdir, "style.css")
-  html_file <- file.path(tmpdir, "index.html")
-  md_file <- tempfile(fileext = ".md")
+  js_file   <- file.path(destdir, "script.js")
+  css_file  <- file.path(destdir, "style.css")
+  md_file   <- file.path(destdir, "index.md")
 
   # write into file names
   writeLines(js %||% "", js_file)
@@ -484,6 +495,22 @@ create_project_zip <- function(js = "", css = "", md = "", token = NULL, out_fil
     "
   )
   writeLines(md %||% "", md_file)
+
+  destdir
+}
+
+create_project_zip <- function(js = "", css = "", md = "", token = NULL, out_file = "project.zip") {
+  destdir <- if (!is.null(token)) {
+    file.path(tempdir(), token)
+  } else {
+    tempfile()
+  }
+
+  write_temp_files(js, css, md, destdir)
+
+  md_file   <- file.path(destdir, "index.md")
+  html_file <- file.path(destdir, "index.html")
+
   rmarkdown::render(
     input = md_file,
     output_file = html_file,
@@ -496,12 +523,60 @@ create_project_zip <- function(js = "", css = "", md = "", token = NULL, out_fil
   )
 
   # zip up!
-  old_wd <- setwd(tmpdir)
+  old_wd <- setwd(destdir)
   zip::zipr(
     zipfile = out_file,
     files = c("index.html", "script.js", "style.css")
   )
   setwd(old_wd)
+}
+
+default_example_value <- function(x, default = NULL, single = FALSE) {
+  xn <- substitute(x)
+  x <- if (is.null(x) || x == "") default else x
+  if (is.null(x)) return(x)
+  if (single && (length(x) > 1 || any(grepl("\n", x)))) {
+    warning("`", xn, "` was coerced to a single line", call. = FALSE)
+    x <- paste(gsub("\n", " ", x), collapse = " ")
+  }
+  paste(x, collapse = "\n")
+}
+
+create_example_rmd <- function(
+  title = "Example",
+  instructions = NULL,
+  hint = NULL,
+  js = NULL,
+  css = NULL,
+  md = NULL,
+  output_file = "example.Rmd"
+) {
+  example <- list(
+    title = default_example_value(title, "Example", single = TRUE),
+    instructions = default_example_value(instructions),
+    hint = default_example_value(hint),
+    solution = list(
+      js   = default_example_value(js),
+      css  = default_example_value(css)
+    )
+  )
+
+  yaml_header <- list(
+    example = example,
+    output = "js4shiny::html_document_plain"
+  )
+
+  md <- glue("
+    ---
+    {yaml::as.yaml(yaml_header)}
+    ---
+
+    {default_example_value(md, '')}
+    "
+  )
+
+  cat(md, file = output_file)
+  invisible(output_file)
 }
 
 repl <- function(examples = NULL, render_dir = NULL, js_repl_only = FALSE) {
