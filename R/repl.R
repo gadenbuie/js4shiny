@@ -113,6 +113,8 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
               id = "show_solution",
               class = "btn btn-default action-button btn-primary shiny-bound-input",
               style = "display: none",
+              `aria-label` = "Show Solution to Exercise",
+              title = "Show Solution to Exercise",
               "Show Solution"
             ),
             shiny::selectInput("example", NULL, example_file_choices, selectize = FALSE)
@@ -148,11 +150,15 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
             if (!js_repl_only) shiny::tags$button(
               id = "hide-log",
               class = "btn btn-default btn-sm",
+              `aria-label` = "Hide Console Log",
+              title = "Hide Console Log",
               "Hide"
             ),
             shiny::tags$button(
               id = "clear-log",
               class = "btn btn-default btn-sm",
+              `aria-label` = "Clear Console Log",
+              title = "Clear Console Log",
               "Clear"
             )
           ),
@@ -338,6 +344,8 @@ repl_server <- function(render_dir) {
             shiny::tags$button(
               id = "refresh_html",
               class = "btn btn-default btn-sm action-button shiny-bound-input",
+              `aria-label` = "Refresh Preview",
+              title = "Refresh Preview",
               shiny::icon("refresh")
             )
           ),
