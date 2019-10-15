@@ -14,6 +14,7 @@ BugReports: https://github.com/gadenbuie/js4shiny/issues
 Imports: 
     glue,
     htmltools,
+    htmlwidgets,
     knitr,
     magrittr,
     purrr,
