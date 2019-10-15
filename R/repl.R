@@ -117,7 +117,20 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
               title = "Show Solution to Exercise",
               "Show Solution"
             ),
-            shiny::selectInput("example", NULL, example_file_choices, selectize = FALSE)
+            shiny::selectInput(
+              inputId = "example",
+              label = NULL,
+              choices = example_file_choices,
+              selectize = FALSE,
+              width = "250px"
+            ),
+            shiny::tags$button(
+              id = "do_save",
+              class = "btn btn-default action-button shiny-bound-input",
+              `aria-label` = "Save Project",
+              title = "Save Project",
+              shiny::icon("floppy-o")
+            )
           )
         )
       )
@@ -360,7 +373,135 @@ repl_server <- function(render_dir) {
         )
       )
     })
+
+    shiny::observeEvent(input$do_save, {
+      repl_save(example_yaml())
+    })
+
+    output$download_project <- shiny::downloadHandler(
+      filename = function() {
+        if (input$save_format == "zip") {
+          "project.zip"
+        } else {
+          "example.Rmd"
+        }
+      },
+      content = function(file) {
+        if (input$save_format == "zip") {
+          create_project_zip(
+            js = input$code_js,
+            css = input$code_css,
+            md = input$code_md,
+            token = session$token,
+            out_file = file
+          )
+          shiny::removeModal()
+        } else if (input$save_format == "rmd") {
+          warning("TODO")
+          cat("todo", file = file)
+        }
+      }
+    )
   }
+}
+
+repl_save <- function(example_yaml) {
+  shiny::showModal(
+    shiny::modalDialog(
+      title = "Save Project",
+      footer = shiny::tagList(
+        shiny::modalButton("Cancel"),
+        shiny::downloadButton("download_project", "Save")
+      ),
+      shiny::radioButtons(
+        inputId = "save_format",
+        label = "Download as...",
+        inline = TRUE,
+        choices = c(
+          "Zip file with HTML, CSS and JS" = "zip",
+          "js4shiny Example" = "rmd"
+        )
+      ),
+      shiny::conditionalPanel(
+        condition = "input.save_format === 'rmd'",
+        shiny::textInput(
+          inputId = "save_example_title",
+          label = "Title",
+          width = "100%",
+          value = example_yaml$title %||% ""
+        ),
+        shiny::div(
+          class = "textarea-monospace constrain-textarea-width",
+          shiny::textAreaInput(
+            inputId = "save_example_instructions",
+            label = "Instructions",
+            width = "100%",
+            value = example_yaml$instructions %||% ""
+          ),
+          shiny::textAreaInput(
+            inputId = "save_example_hint",
+            label = "Hint",
+            width = "100%",
+            value = example_yaml$hint %||% ""
+          )
+        ),
+        shiny::checkboxGroupInput(
+          inputId = "save_example_include_solution",
+          label = "Include as \"Solution\"",
+          choices = c("JavaScript" = "js", "CSS" = "css"),
+          selected = c("js", "css"),
+          inline = TRUE,
+          width = "100%"
+        )
+      )
+    )
+  )
+}
+
+create_project_zip <- function(js = "", css = "", md = "", token = NULL, out_file = "project.zip") {
+  tmpdir <- if (!is.null(token)) {
+    file.path(tempdir(), token)
+  } else {
+    tempfile()
+  }
+  dir.create(tmpdir, recursive = TRUE, showWarnings = FALSE)
+
+  # file names
+  js_file <- file.path(tmpdir, "script.js")
+  css_file <- file.path(tmpdir, "style.css")
+  html_file <- file.path(tmpdir, "index.html")
+  md_file <- tempfile(fileext = ".md")
+
+  # write into file names
+  writeLines(js %||% "", js_file)
+  writeLines(css %||% "", css_file)
+  md <- glue("
+    ---
+    output: js4shiny::html_document_plain
+    ---
+
+    {md %||% ''}
+    "
+  )
+  writeLines(md %||% "", md_file)
+  rmarkdown::render(
+    input = md_file,
+    output_file = html_file,
+    quiet = TRUE,
+    output_options = list(
+      self_contained = FALSE,
+      script = include_script(after = "script.js"),
+      css = "style.css"
+    )
+  )
+
+  # zip up!
+  old_wd <- setwd(tmpdir)
+  zip::zipr(
+    zipfile = out_file,
+    files = c("index.html", "script.js", "style.css")
+  )
+  setwd(old_wd)
 }
 
 repl <- function(examples = NULL, render_dir = NULL, js_repl_only = FALSE) {

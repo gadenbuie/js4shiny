@@ -142,6 +142,16 @@ iframe {
   border-radius: 3px;
 }
 
+.textarea-monospace textarea {
+  font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+  font-size: 0.9em;
+}
+
+.constrain-textarea-width textarea {
+  max-width: 100%;
+  max-width: 100%;
+}
+
 /* Make Code Editor Fill Code Pane when Tabbed */
 .tabbable {
   position: relative;
@@ -165,6 +175,11 @@ pre.ace_editor {
 .log-object {color: #DC3545;}
 .log-string {color: #28A745;}
 .log-number {color: #17A2B8;}
+
+.shiny-input-container:not(.shiny-input-container-inline) {
+  width: 100%;
+  max-width: 100%;
+}
 
 /* bs-callout: https://codepen.io/chrisdpratt/pen/IAymB/ */
 
