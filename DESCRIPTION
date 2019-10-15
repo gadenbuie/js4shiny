@@ -19,7 +19,9 @@ Imports:
     purrr,
     rmarkdown,
     shiny (>= 1.3.0),
-    utils
+    utils,
+    yaml,
+    shinyAce
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
