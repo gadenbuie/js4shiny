@@ -1,4 +1,5 @@
-get_example_file_paths <- function(path) {
+get_example_file_paths <- function(path = NULL) {
+  path %||% return()
   path_files <- dir(path, full.names = TRUE)
   file_info <- purrr::map(path_files, extract_yaml)
   names(path_files) <- file_info %>%
