@@ -81,7 +81,12 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
   )
 }
 
-repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
+repl_ui <- function(
+  examples = NULL,
+  js_repl_only = FALSE,
+  theme_app = NULL,
+  theme_editor = "textmate"
+) {
   shiny::addResourcePath("repl", js4shiny_file("repl"))
   shiny::addResourcePath("redirect", js4shiny_file("redirect"))
 
@@ -94,6 +99,10 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
       shiny::tags$script(src = "repl/repl.js")
     ),
     class = if (js_repl_only) "hide-navbar",
+    theme = if (!is.null(theme_app)) {
+      requires_pkg("shinythemes")
+      shinythemes::shinytheme(theme_app)
+    },
     shiny::tags$nav(
       class = "navbar navbar-default",
       shiny::div(
@@ -151,7 +160,7 @@ repl_ui <- function(examples = NULL, js_repl_only = FALSE) {
           repl_ui_code(
             css = !js_repl_only,
             md = !js_repl_only,
-            theme = "textmate",
+            theme = theme_editor,
             wordWrap = TRUE,
             autoComplete = "live",
             tabSize = 4
@@ -580,12 +589,18 @@ create_example_rmd <- function(
   invisible(output_file)
 }
 
-repl <- function(examples = NULL, render_dir = NULL, js_repl_only = FALSE) {
+repl <- function(
+  examples = NULL,
+  render_dir = NULL,
+  js_repl_only = FALSE,
+  theme_app = NULL,
+  theme_editor = "textmate"
+) {
   if (is.null(render_dir)) {
     render_dir <- file.path(tempdir(), "repl_render")
   }
   shiny::shinyApp(
-    ui = repl_ui(examples, js_repl_only),
+    ui = repl_ui(examples, js_repl_only, theme_app = theme_app, theme_editor = theme_editor),
     server = repl_server(render_dir)
   )
 }

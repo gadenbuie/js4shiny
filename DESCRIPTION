@@ -28,6 +28,7 @@ Suggests:
     commonmark,
     rstudioapi,
     servr,
+    shinythemes,
     xaringan
 Encoding: UTF-8
 LazyData: true

@@ -140,6 +140,7 @@ html * {
 iframe {
   border: 2px solid #ddd;
   border-radius: 3px;
+  background: #FFF;
 }
 
 .textarea-monospace textarea {
