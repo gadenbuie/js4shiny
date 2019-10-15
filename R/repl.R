@@ -1,3 +1,58 @@
+#' REPL for live JS, CSS, and HTML development
+#'
+#' Launches an interactive Shiny app for live editing of frontend JavaScript,
+#' CSS, and HTML/Markdown/R Markdown. The app allows users to write JS, CSS and
+#' HTML, preview the final product, observe the JavaScript console (specifically
+#' items printed to the console via `console.log()`), and download a zip file
+#' containing the source files.
+#'
+#' @section Examples for js4shiny workshop:
+#' The app was developed for the **js4shiny** rstudio::conf workshop and can be
+#' used to load examples for practicing and learning JavaScript and web
+#' development concepts.
+#'
+#' TODO: include details on how to load examples.
+#'
+#' @param examples Path to folder containing examples
+#' @param render_dir Where to render temporary files, defaults to `tempdir()`
+#' @param js_repl_only When `TRUE`, the app is simplified to contain only a
+#'   JavaScript source editor and a console output. `repl_js()` is an alias to
+#'   launch `repl()` with `js_repl_only = TRUE`.
+#' @param theme_app The theme of the app, using \pkg{shinythemes}. See
+#'   [shinythemes::shinytheme()] for a list of valid themes.
+#' @param theme_editor The theme of the \pkg{shinyAce} source code editors. See
+#'   [shinyAce::getAceThemes()] for a list of valid themes.
+#' @param ... Arguments passed from `repl_js()` to `repl()` or from `repl()` to
+#'   [shiny::shinyApp()].
+#'
+#' @return A shiny app
+#' @export
+repl <- function(
+  examples = NULL,
+  js_repl_only = FALSE,
+  theme_app = NULL,
+  theme_editor = "textmate",
+  render_dir = NULL,
+  .__C__.externalptr
+) {
+  if (is.null(render_dir)) {
+    render_dir <- file.path(tempdir(), "repl_render")
+  }
+  shiny::shinyApp(
+    ui = repl_ui(examples, js_repl_only, theme_app = theme_app, theme_editor = theme_editor),
+    server = repl_server(render_dir),
+    ...
+  )
+}
+
+#' @rdname repl
+#' @export
+repl_js <- function(render_dir = NULL, ...) {
+  repl(js_repl_only = TRUE, render_dir = render_dir, ...)
+}
+
+
+
 get_example_file_paths <- function(path = NULL) {
   path %||% return()
   path_files <- dir(path, full.names = TRUE)
@@ -587,24 +642,4 @@ create_example_rmd <- function(
 
   cat(md, file = output_file)
   invisible(output_file)
-}
-
-repl <- function(
-  examples = NULL,
-  render_dir = NULL,
-  js_repl_only = FALSE,
-  theme_app = NULL,
-  theme_editor = "textmate"
-) {
-  if (is.null(render_dir)) {
-    render_dir <- file.path(tempdir(), "repl_render")
-  }
-  shiny::shinyApp(
-    ui = repl_ui(examples, js_repl_only, theme_app = theme_app, theme_editor = theme_editor),
-    server = repl_server(render_dir)
-  )
-}
-
-repl_js <- function(render_dir = NULL, ...) {
-  repl(js_repl_only = TRUE, render_dir = render_dir, ...)
 }
