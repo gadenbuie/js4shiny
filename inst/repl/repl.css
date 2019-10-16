@@ -59,13 +59,13 @@ html * {
 .panel-html__output {
   height: 100%;
 }
-.panel-html__refresh {
+.panel-html__options {
   position: absolute;
   top: 0;
   right: 0;
   opacity: 0.5;
 }
-.panel-html__refresh:hover {
+.panel-html__options:hover {
   opacity: 1;
 }
 

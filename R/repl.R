@@ -418,13 +418,22 @@ repl_server <- function(render_dir) {
         if (!is.null(out_html$file)) shiny::div(
           class = "panel-html__output",
           shiny::div(
-            class = "panel-html__refresh",
+            class = "panel-html__options btn-group",
             shiny::tags$button(
               id = "refresh_html",
               class = "btn btn-default btn-sm action-button shiny-bound-input",
               `aria-label` = "Refresh Preview",
               title = "Refresh Preview",
               shiny::icon("refresh")
+            ),
+            shiny::tags$a(
+              id = "open_external_preview",
+              class = "btn btn-default btn-sm",
+              href = out_html$file,
+              target = "_blank",
+              `aria-label` = "Open External Preview",
+              title = "Open External Preview",
+              shiny::icon("external-link-alt")
             )
           ),
           shiny::tags$iframe(
