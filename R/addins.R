@@ -2,7 +2,11 @@ live_preview <- function(path = getwd(), pattern = "[.](js|css|html?|s[ca]ss)$",
   requires_pkg("servr")
   path_dir <- dirname(path)
   path_file <- basename(path)
-  viewer <- if (external) browseURL else getOption("viewer", browseURL)
+  viewer <- if (external) {
+    utils::browseURL
+  } else {
+    getOption("viewer", utils::browseURL)
+  }
   x <- servr::httw(path_dir, pattern = pattern, initpath = path_file, browser = FALSE, ...)
   viewer(x$url)
 }

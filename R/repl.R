@@ -301,7 +301,7 @@ repl_server <- function(render_dir) {
           output_file = html_out_file_abs,
           quiet = TRUE,
           output_options = list(
-            script = js4shiny:::include_script(
+            script = include_script(
               before = c(
                 js4shiny_file("redirect", "redirectConsoleLog.js"),
                 js4shiny_file("repl", "repl-child-redirect.js")
@@ -349,12 +349,12 @@ repl_server <- function(render_dir) {
     })
 
     shiny::observeEvent(input$show_solution, {
-      req(solution()$js)
+      shiny::req(solution()$js)
       shinyAce::updateAceEditor(session, "code_js", value = solution()$js)
     })
 
     shiny::observeEvent(input$show_solution, {
-      req(solution()$css)
+      shiny::req(solution()$css)
       shinyAce::updateAceEditor(session, "code_css", value = solution()$css)
     })
 
