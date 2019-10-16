@@ -23,6 +23,7 @@ function escapeHTML (string) {
 const redirectLogger = (function(origConsole) {
   const consoleEvent = new Event('consoleLog');
   return function (logDiv, returnConsole = false) {
+    if (!logDiv) return origConsole;
     let console = {
       log: function () {
         // https://stackoverflow.com/a/45387558/2022615
