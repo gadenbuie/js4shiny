@@ -6,7 +6,7 @@
 \title{REPL for live JS, CSS, and HTML development}
 \usage{
 repl(examples = NULL, js_repl_only = FALSE, theme_app = NULL,
-  theme_editor = "textmate", render_dir = NULL, .__C__.externalptr)
+  theme_editor = "textmate", render_dir = NULL, ...)
 
 repl_js(render_dir = NULL, ...)
 }

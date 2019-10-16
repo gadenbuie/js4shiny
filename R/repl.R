@@ -33,7 +33,7 @@ repl <- function(
   theme_app = NULL,
   theme_editor = "textmate",
   render_dir = NULL,
-  .__C__.externalptr
+  ...
 ) {
   if (is.null(render_dir)) {
     render_dir <- file.path(tempdir(), "repl_render")
