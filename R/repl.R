@@ -186,6 +186,7 @@ repl_ui <- function(
               inputId = "example",
               label = NULL,
               choices = example_file_choices,
+              selected = example_file_choices[min(length(example_file_choices), 2)],
               selectize = FALSE,
               width = "250px"
             ),
