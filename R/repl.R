@@ -469,7 +469,7 @@ repl_server <- function(render_dir) {
             token = session$token,
             out_file = file
           )
-        } else if (input$save_format == "rmd") {
+        } else if (input$save_format == "example") {
           create_example_rmd(
             title = input$save_example_title,
             instructions = input$save_example_instructions,
@@ -480,6 +480,13 @@ repl_server <- function(render_dir) {
             css = if ("css" %in% input$save_example_include_solution) {
               input$code_css
             },
+            md = input$code_md,
+            output_file = file
+          )
+        } else if (input$save_format == "rmd") {
+          create_plain_rmd(
+            js = input$code_js,
+            css = input$code_css,
             md = input$code_md,
             output_file = file
           )
@@ -504,11 +511,12 @@ repl_save <- function(example_yaml) {
         inline = TRUE,
         choices = c(
           "Zip file with HTML, CSS and JS" = "zip",
-          "js4shiny Example" = "rmd"
+          "Plain R Markdown" = "rmd",
+          "js4shiny Example" = "example"
         )
       ),
       shiny::conditionalPanel(
-        condition = "input.save_format === 'rmd'",
+        condition = "input.save_format === 'example'",
         shiny::textInput(
           inputId = "save_example_title",
           label = "Title",
@@ -650,5 +658,35 @@ create_example_rmd <- function(
   )
 
   cat(md, file = output_file)
+  invisible(output_file)
+}
+
+create_plain_rmd <- function(
+  js = NULL,
+  css = NULL,
+  md = NULL,
+  output_file = "example.Rmd"
+) {
+  js <- js %||% ""
+  css <- css %||% ""
+  md <- md %||% ""
+
+  out_txt <- glue("
+  ---
+  output: html_document
+  ---
+
+  {md}
+
+  ```{{js, echo=FALSE}}
+  {js}
+  ````
+
+  ```{{css, echo=FALSE}}
+  {css}
+  ```
+  ")
+
+  cat(out_txt, file = output_file)
   invisible(output_file)
 }
