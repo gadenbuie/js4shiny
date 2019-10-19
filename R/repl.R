@@ -38,6 +38,17 @@ repl <- function(
   if (is.null(render_dir)) {
     render_dir <- file.path(tempdir(), "repl_render")
   }
+  if (!js_repl_only && !isTRUE(getOption("js4shiny.repl_disclaimer", FALSE))) {
+    warning(
+      "js4shiny::repl() IS INTENDED FOR LOCAL TESTING ONLY!\n",
+      "The repl environment renders R Markdown and if deployed publicly, ",
+      "will allow any user to execute arbitrary R code on your server. ",
+      "(This message is shown once per session.)\n",
+      call. = FALSE,
+      immediate. = TRUE
+    )
+    options(js4shiny.repl_disclaimer = TRUE)
+  }
   shiny::shinyApp(
     ui = repl_ui(examples, js_repl_only, theme_app = theme_app, theme_editor = theme_editor),
     server = repl_server(render_dir),
