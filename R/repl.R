@@ -148,111 +148,113 @@ repl_ui <- function(
 
   example_file_choices <- c(blank_example(), get_example_file_paths(examples))
 
-  shiny::fluidPage(
-    shiny::tags$head(
-      shiny::tags$link(href = "repl/repl.css", rel = "stylesheet", type = "text/css"),
-      shiny::tags$link(href = "redirect/jslog.css", rel = "stylesheet", type = "text/css"),
-      shiny::tags$script(src = "repl/repl.js")
-    ),
-    class = if (js_repl_only) "hide-navbar",
-    theme = if (!is.null(theme_app)) {
-      requires_pkg("shinythemes")
-      shinythemes::shinytheme(theme_app)
-    },
-    shiny::tags$nav(
-      class = "navbar navbar-default",
-      shiny::div(
-        class = "container-fluid",
+  function(request) {
+    shiny::fluidPage(
+      shiny::tags$head(
+        shiny::tags$link(href = "repl/repl.css", rel = "stylesheet", type = "text/css"),
+        shiny::tags$link(href = "redirect/jslog.css", rel = "stylesheet", type = "text/css"),
+        shiny::tags$script(src = "repl/repl.js")
+      ),
+      class = if (js_repl_only) "hide-navbar",
+      theme = if (!is.null(theme_app)) {
+        requires_pkg("shinythemes")
+        shinythemes::shinytheme(theme_app)
+      },
+      shiny::tags$nav(
+        class = "navbar navbar-default",
         shiny::div(
-          class = "navbar-header",
+          class = "container-fluid",
           shiny::div(
-            class = "navbar-brand",
-            "js4shiny::repl()",
-            shiny::span(class = "loader")
-          )
-        ),
-        shiny::tags$form(
-          class = "navbar-form navbar-right",
-          shiny::div(
-            class = "form-group",
-            shiny::tags$button(
-              id = "show_solution",
-              class = "btn btn-default action-button btn-primary shiny-bound-input",
-              style = "display: none",
-              `aria-label` = "Show Solution to Exercise",
-              title = "Show Solution to Exercise",
-              "Show Solution"
-            ),
-            shiny::selectInput(
-              inputId = "example",
-              label = NULL,
-              choices = example_file_choices,
-              selected = example_file_choices[min(length(example_file_choices), 2)],
-              selectize = FALSE,
-              width = "250px"
-            ),
-            shiny::tags$button(
-              id = "do_save",
-              class = "btn btn-default action-button shiny-bound-input",
-              `aria-label` = "Save Project",
-              title = "Save Project",
-              shiny::icon("floppy-o")
+            class = "navbar-header",
+            shiny::div(
+              class = "navbar-brand",
+              "js4shiny::repl()",
+              shiny::span(class = "loader")
+            )
+          ),
+          shiny::tags$form(
+            class = "navbar-form navbar-right",
+            shiny::div(
+              class = "form-group",
+              shiny::tags$button(
+                id = "show_solution",
+                class = "btn btn-default action-button btn-primary shiny-bound-input",
+                style = "display: none",
+                `aria-label` = "Show Solution to Exercise",
+                title = "Show Solution to Exercise",
+                "Show Solution"
+              ),
+              shiny::selectInput(
+                inputId = "example",
+                label = NULL,
+                choices = example_file_choices,
+                selected = example_file_choices[min(length(example_file_choices), 2)],
+                selectize = FALSE,
+                width = "250px"
+              ),
+              shiny::tags$button(
+                id = "do_save",
+                class = "btn btn-default action-button shiny-bound-input",
+                `aria-label` = "Save Project",
+                title = "Save Project",
+                shiny::icon("floppy-o")
+              )
             )
           )
         )
-      )
-    ),
-    shiny::div(
-      class = paste0(
-        "full-height-container",
-        if (js_repl_only) " hide-html-preview"
       ),
       shiny::div(
-        class = "panel-code",
+        class = paste0(
+          "full-height-container",
+          if (js_repl_only) " hide-html-preview"
+        ),
         shiny::div(
-          class = paste0(
-            "panel-code-js",
-            if(js_repl_only) " panel-code-js__repl-only"
+          class = "panel-code",
+          shiny::div(
+            class = paste0(
+              "panel-code-js",
+              if (js_repl_only) " panel-code-js__repl-only"
+            ),
+            repl_ui_code(
+              css = !js_repl_only,
+              md = !js_repl_only,
+              theme = theme_editor,
+              wordWrap = TRUE,
+              autoComplete = "live",
+              tabSize = 4
+            )
           ),
-          repl_ui_code(
-            css = !js_repl_only,
-            md = !js_repl_only,
-            theme = theme_editor,
-            wordWrap = TRUE,
-            autoComplete = "live",
-            tabSize = 4
+          shiny::div(
+            class = "panel-code-js-console",
+            shiny::div(
+              class = "btn-group console__buttons",
+              if (!js_repl_only) shiny::tags$button(
+                id = "hide-log",
+                class = "btn btn-default btn-sm",
+                `aria-label` = "Hide Console Log",
+                title = "Hide Console Log",
+                "Hide"
+              ),
+              shiny::tags$button(
+                id = "clear-log",
+                class = "btn btn-default btn-sm",
+                `aria-label` = "Clear Console Log",
+                title = "Clear Console Log",
+                "Clear"
+              )
+            ),
+            shiny::tags$pre(id = "log")
           )
         ),
         shiny::div(
-          class = "panel-code-js-console",
-          shiny::div(
-            class = "btn-group console__buttons",
-            if (!js_repl_only) shiny::tags$button(
-              id = "hide-log",
-              class = "btn btn-default btn-sm",
-              `aria-label` = "Hide Console Log",
-              title = "Hide Console Log",
-              "Hide"
-            ),
-            shiny::tags$button(
-              id = "clear-log",
-              class = "btn btn-default btn-sm",
-              `aria-label` = "Clear Console Log",
-              title = "Clear Console Log",
-              "Clear"
-            )
-          ),
-          shiny::tags$pre(id = "log")
+          class = "panel-html",
+          shiny::uiOutput("instructions"),
+          shiny::uiOutput("hint"),
+          shiny::uiOutput("example_html")
         )
-      ),
-      shiny::div(
-        class = "panel-html",
-        shiny::uiOutput("instructions"),
-        shiny::uiOutput("hint"),
-        shiny::uiOutput("example_html")
       )
     )
-  )
+  }
 }
 
 repl_server <- function(render_dir) {
@@ -262,6 +264,31 @@ repl_server <- function(render_dir) {
 
   function(input, output, session) {
     `%||%` <- function(x, y) if (is.null(x)) y else x
+
+    shiny::setBookmarkExclude(repl_exclude_bookmark())
+
+    shiny::observe({
+      shiny::req(input$repl_debug == "gubed")
+      browser()
+    })
+
+    shiny::onRestored(function(state) {
+      shinyAce::updateAceEditor(session, "code_js", state$input$code_js)
+      if (!is.null(state$input$code_css)) {
+        shinyAce::updateAceEditor(session, "code_css", state$input$code_css)
+      }
+      if (!is.null(state$input$code_md)) {
+        shinyAce::updateAceEditor(session, "code_md", state$input$code_md)
+      }
+    })
+
+    shiny::observe({
+      shiny::reactiveValuesToList(input)
+      session$doBookmark()
+    })
+    shiny::onBookmarked(function(url) {
+      shiny::updateQueryString(url)
+    })
 
     compiled_html <- shiny::reactive({
       input$refresh_html
@@ -705,4 +732,19 @@ repl_show_disclaimer <- function() {
     )
     options(js4shiny.repl_disclaimer = TRUE)
   }
+}
+
+repl_exclude_bookmark <- function() {
+  c(
+    "code_css_shinyAce_annotationTrigger",
+    "code_js_shinyAce_annotationTrigger",
+    "code_js_shinyAce_tooltipItem",
+    "code_md_shinyAce_annotationTrigger",
+    "do_save",
+    "example",
+    "panel-code-tabset",
+    "refresh_html",
+    "repl_debug",
+    "show_solution"
+  )
 }
