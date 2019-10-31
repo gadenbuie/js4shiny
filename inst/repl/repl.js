@@ -1,9 +1,11 @@
 /* eslint-disable no-undef */
 $(document).ready(function() {
-  document.getElementById("clear-log").addEventListener("click", () => {
-    let log = document.getElementById("log");
-    log.textContent = "";
-  });
+  const clearElementById = (id) => {
+    document.getElementById(id).textContent = '';
+  };
+
+  document.getElementById("clear-log")
+    .addEventListener("click", () => clearElementById('log'));
 
   document.getElementById('hide-log').addEventListener('click', () => {
     const panelCode = document.querySelector('.panel-code');
@@ -21,9 +23,8 @@ $(document).ready(function() {
   });
 
   // $('#example').on('change', () => { $("#log").text(''); })
-  document.getElementById("example").addEventListener("change", () => {
-    document.getElementById("log").textContent = "";
-  });
+  document.getElementById("example")
+    .addEventListener("change", () => clearElementById('log'));
 
   // scroll console log to bottom on update
   document.getElementById('log').addEventListener('consoleLog', e => {
@@ -38,5 +39,6 @@ $(document).ready(function() {
     }
   }
 
+  Shiny.addCustomMessageHandler('clearElementById', clearElementById);
   Shiny.addCustomMessageHandler("showSolutionButton", showSolutionButton);
 });

@@ -360,7 +360,11 @@ repl_server <- function(render_dir) {
       }
       )
 
-      if (!file.exists(html_out_file_abs)) res$file <- NULL
+      if (!file.exists(html_out_file_abs)) {
+        res$file <- NULL
+      } else {
+        session$sendCustomMessage("clearElementById", "log")
+      }
       res
     })
 
