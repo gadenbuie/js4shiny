@@ -8,24 +8,27 @@ $(document).ready(function() {
     clearElementById('log');
   });
 
-  document.getElementById('hide-log').addEventListener('click', () => {
-    const panelCode = document.querySelector('.panel-code');
-    const isConsoleMinimized = panelCode.classList.contains(
-      'console__minimized'
-    );
-    const newBtnText = isConsoleMinimized ? 'Hide' : 'Show';
-    panelCode.classList.toggle('console__minimized');
-    setTimeout(() => {
-      // Resize editors to avoid clipping issues in Chrome
-      const editors = ['code_js', 'code_css', 'code_md'];
-      editors.forEach((id) => {
-        ace.edit(id).resize();
-      });
-    }, 0);
-    const hideBtn = document.getElementById('hide-log');
-    hideBtn.innerHTML = newBtnText;
-    hideBtn.title = `${isConsoleMinimized ? 'Hide' : 'Show'} Console Log`;
-  });
+  const elHideLog = document.getElementById('hide-log');
+  if (elHideLog) {
+    elHideLog.addEventListener('click', () => {
+      const panelCode = document.querySelector('.panel-code');
+      const isConsoleMinimized = panelCode.classList.contains(
+        'console__minimized'
+      );
+      const newBtnText = isConsoleMinimized ? 'Hide' : 'Show';
+      panelCode.classList.toggle('console__minimized');
+      setTimeout(() => {
+        // Resize editors to avoid clipping issues in Chrome
+        const editors = ['code_js', 'code_css', 'code_md'];
+        editors.forEach((id) => {
+          ace.edit(id).resize();
+        });
+      }, 0);
+      const hideBtn = document.getElementById('hide-log');
+      hideBtn.innerHTML = newBtnText;
+      hideBtn.title = `${isConsoleMinimized ? 'Hide' : 'Show'} Console Log`;
+    });
+  }
 
   // $('#example').on('change', () => { $("#log").text(''); })
   document.getElementById('example').addEventListener('change', () => {
