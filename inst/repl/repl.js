@@ -8,6 +8,18 @@ $(document).ready(function() {
     clearElementById('log');
   });
 
+  const resizeAceEditors = () => {
+    // Resize editors to avoid clipping issues in Chrome
+    const editors = ['code_js', 'code_css', 'code_md'];
+    editors
+      .filter((id) => {
+        return !!document.getElementById(id);
+      })
+      .forEach((id) => {
+        ace.edit(id).resize();
+      });
+  };
+
   const elHideLog = document.getElementById('hide-log');
   if (elHideLog) {
     elHideLog.addEventListener('click', () => {
@@ -16,14 +28,9 @@ $(document).ready(function() {
         'console__minimized'
       );
       const newBtnText = isConsoleMinimized ? 'Hide' : 'Show';
-      panelCode.classList.toggle('console__minimized');
-      setTimeout(() => {
-        // Resize editors to avoid clipping issues in Chrome
-        const editors = ['code_js', 'code_css', 'code_md'];
-        editors.forEach((id) => {
-          ace.edit(id).resize();
-        });
-      }, 0);
+      panelCode.classList.toggle('console__minimized', !isConsoleMinimized);
+      panelCode.classList.toggle('resize--disabled', !isConsoleMinimized);
+      setTimeout(resizeAceEditors, 0);
       const hideBtn = document.getElementById('hide-log');
       hideBtn.innerHTML = newBtnText;
       hideBtn.title = `${isConsoleMinimized ? 'Hide' : 'Show'} Console Log`;
@@ -50,4 +57,109 @@ $(document).ready(function() {
 
   Shiny.addCustomMessageHandler('clearElementById', clearElementById);
   Shiny.addCustomMessageHandler('showSolutionButton', showSolutionButton);
+
+  // ---- Resize Panels ---- //
+  const siblings = (el) => {
+    return [...el.parentElement.children];
+  };
+
+  const prevAdjEl = (el) => {
+    const sibs = siblings(el);
+    const elIdx = sibs.findIndex((e) => {
+      return e === el;
+    });
+    return elIdx === 0 ? null : sibs[elIdx - 1];
+  };
+
+  const otherSpace = (el, dim = 'minWidth') => {
+    return siblings(el)
+      .map((e) => {
+        return window.getComputedStyle(e).getPropertyValue(dim);
+      })
+      .filter((s) => {
+        return s.includes('px');
+      })
+      .map((s) => {
+        return s.replace(/[^\d]/g, '');
+      })
+      .map((s) => {
+        return parseInt(s) || 0;
+      })
+      .reduce((acc, item) => {
+        return acc + item;
+      }, 0);
+  };
+
+  const ownMinSpace = (el, dim = 'minWidth') => {
+    const size = window
+      .getComputedStyle(el)
+      .getPropertyValue(dim)
+      .replace(/[^\d]/g, '');
+
+    return parseInt(size) || 0;
+  };
+
+  const initializeResize = (ev) => {
+    ev.preventDefault();
+
+    let { target } = ev;
+    if (
+      ev.target.nodeName !== 'div' ||
+      !ev.target.className.includes('resize-handle')
+    ) {
+      target = ev.target.closest('.resize-handle');
+    }
+
+    if (target.parentElement.className.includes('resize--disabled')) {
+      // do nothing if parent has class .resize--disabled
+      return null;
+    }
+
+    // find previous sibling of event target
+    const elResize = prevAdjEl(target);
+
+    // check if resizing is horizontal (otherwise vertical)
+    const isResizeHorizontal = target.className.includes('horizontal');
+
+    const elParent = elResize.parentElement;
+    const minWidth = ownMinSpace(elResize, 'minWidth');
+    const maxWidth =
+      elParent.offsetWidth - otherSpace(elResize, 'minWidth') + minWidth;
+    const minHeight = ownMinSpace(elResize, 'minHeight');
+    const maxHeight =
+      elParent.offsetHeight - otherSpace(elResize, 'minHeight') + minHeight;
+
+    const startResizing = (event) => {
+      if (isResizeHorizontal) {
+        let newWidth = Math.min(
+          event.pageX - elResize.getBoundingClientRect().left,
+          maxWidth
+        );
+        newWidth = Math.max(newWidth, minWidth);
+        // console.log({maxWidth, newWidth});
+        elResize.style.width = `${newWidth}px`;
+      } else {
+        let newHeight = Math.min(
+          event.pageY - elResize.getBoundingClientRect().top,
+          maxHeight
+        );
+        newHeight = Math.max(newHeight, minHeight);
+        // console.log({maxHeight, newHeight, pageY: ev.pageY, top: elResize.getBoundingClientRect().top});
+        elResize.style.height = `${newHeight}px`;
+      }
+    };
+    const stopResizing = () => {
+      window.removeEventListener('mousemove', startResizing);
+      window.removeEventListener('mouseup', stopResizing);
+      setTimeout(resizeAceEditors, 0);
+    };
+
+    window.addEventListener('mousemove', startResizing);
+    window.addEventListener('mouseup', stopResizing);
+  };
+
+  const paneResizeHandle = [...document.querySelectorAll('.resize-handle')];
+  paneResizeHandle.forEach((el) => {
+    return el.addEventListener('mousedown', initializeResize);
+  });
 });

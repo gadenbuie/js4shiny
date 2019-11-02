@@ -226,6 +226,11 @@ repl_ui <- function(
             )
           ),
           shiny::div(
+            class = paste(
+              "resize-handle",
+              if (js_repl_only) "resize--horizontal" else "resize--vertical")
+          ),
+          shiny::div(
             class = "panel-code-js-console",
             shiny::div(
               class = "btn-group console__buttons",
@@ -246,6 +251,10 @@ repl_ui <- function(
             ),
             shiny::tags$pre(id = "log")
           )
+        ),
+        if (!js_repl_only) shiny::div(
+          class = "resize-handle resize--horizontal__top",
+          HTML('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 36 36"><path d="M20 9H4v2h16V9zM4 15h16v-2H4v2z"></path></svg>')
         ),
         shiny::div(
           class = "panel-html",

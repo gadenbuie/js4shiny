@@ -9,31 +9,57 @@ html * {
 }
 
 .full-height-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-column-gap: 1em;
+  display: flex;
   height: calc(100vh - 80px);
+  flex-direction: row;
 }
 
 .panel-code {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-gap: 1em;
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.hide-html-preview .panel-code {
+  flex-direction: row;
+  width: 100%;
 }
 
 .panel-code-js {
   display: grid;
   grid-template-rows: 1fr auto;
   grid-row-gap: 1em;
+  width: 100%;
+  height: 50%;
+  min-height: 200px;
+}
+
+.hide-html-preview .panel-code-js {
+  width: 50%;
+  height: 100%;
 }
 
 .panel-code-js__repl-only {
   grid-template-rows: 1fr;
   grid-row-gap: 0;
+  width: 50%;
+  min-width: 200px;
 }
 
 .panel-code-js-console {
   position: relative;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-code:not(.hide-html-preview) .panel-code-js-console {
+  min-height: 100px;
+}
+
+.panel-code.console__minimized .panel-code-js-console {
+  min-height: 0;
 }
 
 .console__minimized .panel-code-js-console {
@@ -42,12 +68,20 @@ html * {
   overflow: hidden;
 }
 
+.hide-html-preview .panel-code-js-console {
+  min-width: 200px;
+}
+
 .console__minimized #log {
   visibility: hidden;
 }
 
 .panel-code.console__minimized {
   grid-template-rows: 1fr auto;
+}
+
+.console__minimized .panel-code-js {
+  flex-grow: 1;
 }
 
 .console__buttons {
@@ -65,6 +99,8 @@ html * {
   display: grid;
   grid-template-rows: auto auto 1fr;
   height: 100%;
+  min-width: 200px;
+  flex-grow: 1;
 }
 
 .panel-html__output {
@@ -107,10 +143,6 @@ html * {
   }
 }
 
-.hide-html-preview {
-  grid-template-columns: 1fr;
-}
-
 .hide-html-preview .panel-html {
   /* hide off-screen */
   position: absolute;
@@ -120,13 +152,8 @@ html * {
   right: 150%;
 }
 
-.hide-html-preview .panel-code {
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr;
-}
-
 .panel-code #log {
-  max-height: calc(50vh - 50px);
+  /* max-height: calc(50vh - 50px); */
 }
 
 .hide-navbar .hide-html-preview .panel-code #log {
@@ -149,13 +176,41 @@ html * {
   height: calc(100vh - 2em);
 }
 
+/* ---- Resizing ---- */
+.resize-handle.resize--horizontal {
+  width: 1em;
+  min-width: 1em;
+  cursor: ew-resize;
+}
+
+.resize-handle.resize--vertical {
+  height: 1em;
+  min-height: 1em;
+  cursor: ns-resize;
+}
+
+.resize-handle.resize--horizontal__top {
+  width: 1em;
+  min-width: 1em;
+  height: 1em;
+  position: relative;
+  margin-top: -10px;
+  opacity: 0.5;
+  cursor: ns-resize;
+}
+
+.resize--disabled .resize-handle {
+  cursor: default;
+  pointer-events: none;
+}
+
 #log {
   height: 100%;
   width: 100%;
-  min-height: 30vh;
   max-width: 100%;
   overflow: auto;
   margin-bottom: 0;
+  flex-grow: 1;
 }
 
 iframe {
