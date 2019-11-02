@@ -82,6 +82,17 @@ output: js4shiny::html_document_js
 
 ---
 
+JavaScript chunks are redirected into closures 
+where `console.log()` has been redefined.
+In other words, each chunk is isolated.
+
+But you can use the `js_redirect = FALSE` chunk option
+to treat the JavaScript chunk like a normal JS chunk.
+The JS is then embedded in `<script>` tags 
+in the HTML document's global environment,
+so `console.log()` goes to the browser console and 
+any declared variables are globally available.
+
 ```{js, js_redirect = FALSE}
 const globalVariable = 'this is a global variable'
 console.log(globalVariable) // goes to browser console
