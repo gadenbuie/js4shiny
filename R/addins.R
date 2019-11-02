@@ -46,3 +46,24 @@ get_source_context <- function(error_msg = "Requires RStudio") {
   }
   rstudioapi::getSourceEditorContext()
 }
+
+#' Choose Launch Location for Shiny Apps
+#'
+#' This function sets the `shiny.launch.browser` option to launch Shiny apps in
+#' an `"external"` browser, the RStudio viewer `"pane"`, or a new `"window"` in
+#' RStudio.
+#'
+#' @param where One of `"external"`, `"pane"`, or `"window"`.
+#' @export
+launch_shiny_in <- function(where = c("external", "pane", "window")) {
+  requires_pkg("rstudioapi")
+  if (!isTRUE(rstudioapi::hasFun("getSourceEditorContext"))) {
+    stop("Must be called from RStudio")
+  }
+  options(shiny.launch.browser = switch(
+    match.arg(where),
+    external = get(".rs.invokeShinyWindowExternal", "tools:rstudio"),
+    pane = get(".rs.invokeShinyPaneViewer", "tools:rstudio"),
+    window = get(".rs.invokeShinyWindowViewer", "tools:rstudio")
+  ))
+}
