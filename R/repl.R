@@ -221,7 +221,8 @@ repl_ui <- function(
               theme = theme_editor,
               wordWrap = TRUE,
               autoComplete = "live",
-              tabSize = 4
+              tabSize = 2,
+              useSoftTabs = TRUE
             )
           ),
           shiny::div(
