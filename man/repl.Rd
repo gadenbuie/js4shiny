@@ -5,13 +5,13 @@
 \alias{repl_js}
 \title{REPL for live JS, CSS, and HTML development}
 \usage{
-repl(examples = NULL, js_repl_only = FALSE, theme_app = NULL,
+repl(example = NULL, js_repl_only = FALSE, theme_app = NULL,
   theme_editor = "textmate", render_dir = NULL, ...)
 
-repl_js(render_dir = NULL, ...)
+repl_js(..., render_dir = NULL)
 }
 \arguments{
-\item{examples}{Path to folder containing examples}
+\item{example}{Path to folder containing example or to an example Rmd file.}
 
 \item{js_repl_only}{When \code{TRUE}, the app is simplified to contain only a
 JavaScript source editor and a console output. \code{repl_js()} is an alias to

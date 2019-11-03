@@ -13,7 +13,7 @@
 #'
 #' TODO: include details on how to load examples.
 #'
-#' @param examples Path to folder containing examples
+#' @param example Path to folder containing example or to an example Rmd file.
 #' @param render_dir Where to render temporary files, defaults to `tempdir()`
 #' @param js_repl_only When `TRUE`, the app is simplified to contain only a
 #'   JavaScript source editor and a console output. `repl_js()` is an alias to
@@ -28,7 +28,7 @@
 #' @return A shiny app
 #' @export
 repl <- function(
-  examples = NULL,
+  example = NULL,
   js_repl_only = FALSE,
   theme_app = NULL,
   theme_editor = "textmate",
@@ -40,7 +40,7 @@ repl <- function(
   }
   if (!js_repl_only) repl_show_disclaimer()
   shiny::shinyApp(
-    ui = repl_ui(examples, js_repl_only, theme_app = theme_app, theme_editor = theme_editor),
+    ui = repl_ui(example, js_repl_only, theme_app = theme_app, theme_editor = theme_editor),
     server = repl_server(render_dir),
     ...
   )
@@ -145,7 +145,7 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
 }
 
 repl_ui <- function(
-  examples = NULL,
+  example = NULL,
   js_repl_only = FALSE,
   theme_app = NULL,
   theme_editor = "textmate"
@@ -153,7 +153,7 @@ repl_ui <- function(
   shiny::addResourcePath("repl", js4shiny_file("repl"))
   shiny::addResourcePath("redirect", js4shiny_file("redirect"))
 
-  example_file_choices <- c(blank_example(), get_example_file_paths(examples))
+  example_file_choices <- c(blank_example(), get_example_file_paths(example))
 
   function(request) {
     shiny::fluidPage(
