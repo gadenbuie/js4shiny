@@ -56,7 +56,14 @@ repl_js <- function(..., render_dir = NULL) {
 
 get_example_file_paths <- function(path = NULL) {
   path %||% return()
-  path_files <- dir(path, full.names = TRUE)
+  if (length(path) != 1) {
+    stop("Please provide a single path to a directory or file", call. = FALSE)
+  }
+  if (fs::is_dir(path)) {
+    path_files <- fs::dir_ls(path, recurse = TRUE, regexp = "[.][Rr][Mm][Dd]")
+  } else {
+    path_files <- path
+  }
   file_info <- purrr::map(path_files, extract_yaml)
   names(path_files) <- file_info %>%
     purrr::map("example") %>%

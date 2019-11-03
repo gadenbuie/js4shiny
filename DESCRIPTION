@@ -12,6 +12,7 @@ License: MIT + file LICENSE
 URL: https://github.com/gadenbuie/js4shiny
 BugReports: https://github.com/gadenbuie/js4shiny/issues
 Imports: 
+    fs,
     glue,
     htmltools,
     htmlwidgets,
