@@ -196,7 +196,7 @@ html * {
   position: relative;
   margin-top: -10px;
   opacity: 0.5;
-  cursor: ns-resize;
+  cursor: ew-resize;
 }
 
 .resize--disabled .resize-handle {
