@@ -52,15 +52,13 @@ repl_js <- function(..., render_dir = NULL) {
   repl(js_repl_only = TRUE, render_dir = render_dir, ...)
 }
 
-
-
 get_example_file_paths <- function(path = NULL) {
   path %||% return()
   if (length(path) != 1) {
     stop("Please provide a single path to a directory or file", call. = FALSE)
   }
   if (fs::is_dir(path)) {
-    path_files <- fs::dir_ls(path, recurse = TRUE, regexp = "[.][Rr][Mm][Dd]")
+    path_files <- fs::dir_ls(path, regexp = "[.][Rr][Mm][Dd]")
   } else {
     path_files <- path
   }
