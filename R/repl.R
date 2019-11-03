@@ -280,6 +280,8 @@ repl_server <- function(render_dir) {
   function(input, output, session) {
     `%||%` <- function(x, y) if (is.null(x)) y else x
 
+    example_cache <- list()
+
     shiny::setBookmarkExclude(repl_exclude_bookmark())
 
     shiny::observe({
@@ -311,6 +313,13 @@ repl_server <- function(render_dir) {
       js  <- input$code_js
       css <- input$code_css
       md  <- input$code_md %||% ""
+
+      # Cache current values of inputs
+      example_cache[[isolate(input$example)]] <<- list(
+        js = input$code_js,
+        css = input$code_css,
+        md = input$code_md
+      )
 
       # create rmd_file from input md
       rmd_file <- tempfile(fileext = ".Rmd")
@@ -413,10 +422,38 @@ repl_server <- function(render_dir) {
     })
 
     shiny::observe({
-      I("Set HTML/MD to Selected Example")
+      I("Update Editors to Selected Example")
+      shiny::req(example_yaml())
+
+      # Get cached inputs
+      cache <- example_cache[[isolate(input$example)]] %>%
+        purrr::compact() %>%
+        purrr::keep(~ . != "")
+
+      shinyAce::updateAceEditor(
+        session,
+        "code_js",
+        value = paste(
+          cache$js %||% example_yaml()$initial$js %||% "",
+          collapse = "\n"
+        )
+      )
+
+      shinyAce::updateAceEditor(
+        session,
+        "code_css",
+        value = paste(
+          cache$css %||% example_yaml()$initial$css %||% "",
+          collapse = "\n"
+        )
+      )
+
       shinyAce::updateAceEditor(
         session, "code_md",
-        value = paste(remove_yaml(input$example), collapse = "\n")
+        value = paste(
+          cache$md %||% remove_yaml(input$example),
+          collapse = "\n"
+        )
       )
     }, priority = 1000)
 
