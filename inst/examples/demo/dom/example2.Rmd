@@ -1,0 +1,56 @@
+---
+example:
+  title: Rewrite multiple DOM elements (2)
+  instructions: |
+    Rewrite the `<binary>` tags on this page as `<select class="form-control">`
+    tags. Convert the child tags of the `<binary>` tag to `<option>` tags, with
+    classes matching the name of the original tag.
+
+    ```html
+    <select class="form-control">
+      <option></option>
+      <option class="true">right</option>
+      <option class="false">wrong</option>
+    </select>
+    ```
+  hint: |
+    Add en event listener that adds the `is-correct` or `is-wrong` class when
+    the user selects the correct or incorrect answer.
+  solution:
+    js: |
+      const binary = [...document.getElementsByTagName('binary')]
+
+      function rewriteBinary (binary) {
+        let select = document.createElement('select')
+        select.className = 'form-control'
+        select.appendChild(document.createElement('option'))
+        for (let opt of binary.children) {
+          let option = document.createElement('option')
+          option.className = opt.tagName.toLowerCase()
+          option.textContent = opt.textContent
+          select.appendChild(option)
+        }
+        return select
+      }
+
+      console.log(binary)
+
+      for (let el of binary) {
+        console.log(el)
+        el.replaceWith(rewriteBinary(el))
+      }
+    css: |-
+      .is-correct {
+          border: 2px solid green;
+      }
+      .is-wrong {
+          border: 2px solid red;
+      }
+output: js4shiny::html_document_plain
+
+---
+
+
+This statement is <binary><true>correct</true><false>incorrect</false></binary>.
+
+There are <binary><true>more than</true><false>less than</false></binary> 7 billion people on planet Earth.

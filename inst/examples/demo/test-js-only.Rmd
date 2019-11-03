@@ -1,0 +1,12 @@
+---
+example:
+  title: "A JavaScript-only Example"
+  runtime: repl_js
+  initial:
+    js: |
+      console.log('test1')
+      console.log('test2')
+      console.log('test3')
+      console.log('test4')
+output: html_document_base
+---
