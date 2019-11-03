@@ -48,7 +48,7 @@ repl <- function(
 
 #' @rdname repl
 #' @export
-repl_js <- function(render_dir = NULL, ...) {
+repl_js <- function(..., render_dir = NULL) {
   repl(js_repl_only = TRUE, render_dir = render_dir, ...)
 }
 
