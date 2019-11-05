@@ -17,6 +17,7 @@ html * {
 .panel-code {
   display: flex;
   width: 50%;
+  min-width: 200px;
   flex-direction: column;
   flex-shrink: 0;
 }
@@ -44,7 +45,7 @@ html * {
   grid-template-rows: 1fr;
   grid-row-gap: 0;
   width: 50%;
-  min-width: 200px;
+  min-width: 150px;
 }
 
 .panel-code-js-console {
@@ -69,7 +70,7 @@ html * {
 }
 
 .hide-html-preview .panel-code-js-console {
-  min-width: 200px;
+  min-width: 100px;
 }
 
 .console__minimized #log {
@@ -180,13 +181,13 @@ html * {
 .resize-handle.resize--horizontal {
   width: 1em;
   min-width: 1em;
-  cursor: ew-resize;
+  cursor: col-resize;
 }
 
 .resize-handle.resize--vertical {
   height: 1em;
   min-height: 1em;
-  cursor: ns-resize;
+  cursor: row-resize;
 }
 
 .resize-handle.resize--horizontal__top {
@@ -196,7 +197,7 @@ html * {
   position: relative;
   margin-top: -10px;
   opacity: 0.5;
-  cursor: ew-resize;
+  cursor: col-resize;
 }
 
 .resize--disabled .resize-handle {

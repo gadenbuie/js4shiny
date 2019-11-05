@@ -122,12 +122,12 @@ $(document).ready(function() {
     const isResizeHorizontal = target.className.includes('horizontal');
 
     const elParent = elResize.parentElement;
-    const minWidth = ownMinSpace(elResize, 'minWidth');
+    const minWidth = ownMinSpace(elResize, 'min-width');
     const maxWidth =
-      elParent.offsetWidth - otherSpace(elResize, 'minWidth') + minWidth;
-    const minHeight = ownMinSpace(elResize, 'minHeight');
+      elParent.offsetWidth - otherSpace(elResize, 'min-width') + minWidth;
+    const minHeight = ownMinSpace(elResize, 'min-height');
     const maxHeight =
-      elParent.offsetHeight - otherSpace(elResize, 'minHeight') + minHeight;
+      elParent.offsetHeight - otherSpace(elResize, 'min-height') + minHeight;
 
     const startResizing = (event) => {
       if (isResizeHorizontal) {
