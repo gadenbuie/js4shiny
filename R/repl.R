@@ -244,14 +244,14 @@ repl_ui <- function(
                 class = "btn btn-default btn-sm",
                 `aria-label` = "Hide Console Log",
                 title = "Hide Console Log",
-                "Hide"
+                shiny::icon("window-minimize")
               ),
               shiny::tags$button(
                 id = "clear-log",
                 class = "btn btn-default btn-sm",
                 `aria-label` = "Clear Console Log",
                 title = "Clear Console Log",
-                "Clear"
+                shiny::icon("backspace")
               )
             ),
             shiny::tags$pre(id = "log")

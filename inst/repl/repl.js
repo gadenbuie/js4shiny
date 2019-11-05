@@ -27,12 +27,15 @@ $(document).ready(function() {
       const isConsoleMinimized = panelCode.classList.contains(
         'console--minimized'
       );
-      const newBtnText = isConsoleMinimized ? 'Hide' : 'Show';
+      // isConsoleMinimized is the current state of the console, everything
+      // below moves from the current state to the opposite state
       panelCode.classList.toggle('console--minimized', !isConsoleMinimized);
       panelCode.classList.toggle('resize--disabled', !isConsoleMinimized);
       setTimeout(resizeAceEditors, 0);
       const hideBtn = document.getElementById('hide-log');
-      hideBtn.innerHTML = newBtnText;
+      const btnIcon = hideBtn.querySelector('i.fa');
+      btnIcon.classList.toggle('fa-window-minimize', isConsoleMinimized);
+      btnIcon.classList.toggle('fa-window-restore', !isConsoleMinimized);
       hideBtn.title = `${isConsoleMinimized ? 'Hide' : 'Show'} Console Log`;
     });
   }
