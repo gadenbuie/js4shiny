@@ -55,17 +55,38 @@ get_source_context <- function(error_msg = "Requires RStudio") {
 #'
 #' @param where One of `"external"`, `"pane"`, or `"window"`.
 #' @export
-launch_shiny_in <- function(where = c("external", "pane", "window")) {
+launch_shiny_in <- function(where = NULL) {
   requires_pkg("rstudioapi")
   if (!isTRUE(rstudioapi::hasFun("getSourceEditorContext"))) {
     stop("Must be called from RStudio")
   }
+
+  where <- where %||% ask_where_to_launch()
+  message(glue("Shiny apps will launch in {where} viewer"))
+
   options(shiny.launch.browser = switch(
-    match.arg(where),
+    match.arg(where, c("external", "pane", "window")),
     external = get(".rs.invokeShinyWindowExternal", "tools:rstudio"),
     pane = get(".rs.invokeShinyPaneViewer", "tools:rstudio"),
     window = get(".rs.invokeShinyWindowViewer", "tools:rstudio")
   ))
+}
+
+ask_where_to_launch <- function() {
+  if (!interactive()) {
+    return("external")
+  }
+  where <- utils::askYesNo(
+    "Launch Shiny apps in [E]xternal Browser or RStudio [W]indow or [P]ane?",
+    prompts = "E/W/P"
+  )
+  where <- if (isTRUE(where)) {
+    "external"
+  } else if (is.na(where)) {
+    "pane"
+  } else if (!isTRUE(where)) {
+    "window"
+  }
 }
 
 launch_repl <- function() {
