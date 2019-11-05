@@ -25,10 +25,10 @@ $(document).ready(function() {
     elHideLog.addEventListener('click', () => {
       const panelCode = document.querySelector('.panel-code');
       const isConsoleMinimized = panelCode.classList.contains(
-        'console__minimized'
+        'console--minimized'
       );
       const newBtnText = isConsoleMinimized ? 'Hide' : 'Show';
-      panelCode.classList.toggle('console__minimized', !isConsoleMinimized);
+      panelCode.classList.toggle('console--minimized', !isConsoleMinimized);
       panelCode.classList.toggle('resize--disabled', !isConsoleMinimized);
       setTimeout(resizeAceEditors, 0);
       const hideBtn = document.getElementById('hide-log');

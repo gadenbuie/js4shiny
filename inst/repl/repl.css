@@ -59,11 +59,11 @@ html * {
   min-height: 100px;
 }
 
-.panel-code.console__minimized .panel-code-js-console {
+.panel-code.console--minimized .panel-code-js-console {
   min-height: 0;
 }
 
-.console__minimized .panel-code-js-console {
+.console--minimized .panel-code-js-console {
   height: 34px;
   max-height: 34px;
   overflow: hidden;
@@ -73,15 +73,15 @@ html * {
   min-width: 100px;
 }
 
-.console__minimized #log {
+.console--minimized #log {
   visibility: hidden;
 }
 
-.panel-code.console__minimized {
+.panel-code.console--minimized {
   grid-template-rows: 1fr auto;
 }
 
-.console__minimized .panel-code-js {
+.console--minimized .panel-code-js {
   flex-grow: 1;
 }
 
