@@ -132,6 +132,18 @@ html * {
   animation: slideInUp 0.25s ease-in;
 }
 
+.tab-settings {
+  overflow: auto;
+  height: 100%;
+  width: 117%; /* unscale(0.85) */
+  padding: 1em;
+}
+
+.scale--smaller {
+  transform-origin: top left;
+  transform: scale(0.85);
+}
+
 @keyframes slideInUp {
   from {
     opacity: 0;

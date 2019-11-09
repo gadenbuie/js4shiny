@@ -16,6 +16,7 @@ Imports:
     glue,
     htmltools,
     htmlwidgets,
+    jsonlite,
     knitr,
     magrittr,
     purrr,

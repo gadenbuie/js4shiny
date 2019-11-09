@@ -61,6 +61,14 @@ $(document).ready(function() {
   Shiny.addCustomMessageHandler('clearElementById', clearElementById);
   Shiny.addCustomMessageHandler('showSolutionButton', showSolutionButton);
 
+  // ---- Update Tab Name ---- //
+  const updateTabName = ({id, value, replacement}) => {
+    const tabLink = document.querySelector(`#${id} a[data-value="${value}"]`);
+    tabLink.innerHTML = replacement;
+  }
+
+  Shiny.addCustomMessageHandler('updateTabName', updateTabName)
+
   // ---- Resize Panels ---- //
   const siblings = (el) => {
     return [...el.parentElement.children];

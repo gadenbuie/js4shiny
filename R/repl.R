@@ -115,10 +115,12 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
     id = "panel-code-tabset",
     shiny::tabPanel(
       "JS",
+      value = "js",
       repl_js
     ),
     if (include_css) shiny::tabPanel(
       "CSS",
+      value = "css",
       shinyAce::aceEditor(
         "code_css",
         value = if (is.character(css)) css else "",
@@ -129,7 +131,8 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
       )
     ),
     if (include_md) shiny::tabPanel(
-      "HTML/Markdown",
+      "R Markdown",
+      value = "md",
       shinyAce::aceEditor(
         "code_md",
         value = if (is.character(md)) md else "",
@@ -137,6 +140,23 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
         debounce = 1000,
         height = "100%",
         ...
+      )
+    ),
+    if (include_css | include_md) shiny::tabPanel(
+      title = NULL,
+      value = "settings",
+      icon = shiny::icon("gear"),
+      shiny::div(
+        class = "tab-settings",
+        shiny::div(
+          class = "scale--smaller",
+          shiny::selectInput("md_format", "Document Mode", choices = c("R Markdown" = "md", "HTML" = "html")),
+          shiny::selectInput("css_format", "Styles", choices = c("CSS", "SASS", "SCSS")),
+          shiny::tags$div(
+            class = "col-xs-12",
+            includeExtrasUI("extras")
+          )
+        )
       )
     )
   )
@@ -533,6 +553,26 @@ repl_server <- function(render_dir) {
       )
     })
 
+    # ---- Settings ----
+    shiny::observe({
+      shiny::req(input$md_format)
+      fmt_label <- switch(input$md_format, md = "R Markdown", html = "HTML")
+      fmt_mode <- switch(input$md_format, md = "markdown", html = "html")
+      session$sendCustomMessage("updateTabName", list(
+        id = "panel-code-tabset",
+        value = "md",
+        replacement = fmt_label
+      ))
+      shinyAce::updateAceEditor(
+        session = session,
+        editorId = "code_md",
+        mode = fmt_mode
+      )
+    })
+
+    extra_resources <- includeExtras("extras")
+
+    # ---- Saving Current Document ----
     shiny::observeEvent(input$do_save, {
       repl_save(example_yaml())
     })
@@ -802,5 +842,327 @@ repl_exclude_bookmark <- function() {
     "refresh_html",
     "repl_debug",
     "show_solution"
+  )
+}
+
+# Include Extra CSS/JS Module ---------------------------------------------
+
+includeExtrasUI <- function(id) {
+  ns <- shiny::NS(id)
+  shiny::tagList(
+    shiny::fluidRow(
+      shiny::div(
+        class = "pull-left",
+        shiny::selectizeInput(
+          ns("file_url"),
+          "Add Resource",
+          choices = list(
+            "Enter a URL or choose from options" = "",
+            "Shiny, Current" = list(
+              "jQuery v3.4.1" = "jquery@3.4.1",
+              "Bootstrap CSS v3.4.1" = "bootstrap@3.4.1/dist/css/bootstrap.min.css",
+              "Bootstrap JS v3.4.1" = "bootstrap@3.4.1/dist/js/bootstrap.js"
+            ),
+            "Shiny, Legacy" = list(
+              "jQuery v1.12.4" = "jquery@1.12.4",
+              "Bootstrap CSS v3.3.7" = "bootstrap@3.3.7/dist/css/bootstrap.min.css",
+              "Bootstrap JS v3.3.7" = "bootstrap@3.3.7/dist/js/bootstrap.js"
+            ),
+            "Others" = list(
+              "Bulma" = "bulma",
+              "BulmaJS" = "bulmajs",
+              "Tachyons" = "tachyons"
+            )
+          ),
+          options = list(create = TRUE)
+        )
+      ),
+      shiny::div(
+        class = "pull-right",
+        style = "margin-top: 25px;",
+        shiny::actionButton(ns("add_file"), NULL, icon = shiny::icon("plus"))
+      )
+    ),
+    shiny::fluidRow(
+      shiny::helpText(
+        "Enter a full URL or an ",
+        shiny::a(href = "https://unpkg.com", "unpkg"),
+        " identifier, like ",
+        shiny::tags$code("three"),
+        " or ",
+        shiny::tags$code("react@16.7.0"),
+        "."
+      )
+    ),
+    shiny::fluidRow(
+      class = "includes-file-list",
+      shiny::uiOutput(ns("file_list"))
+    ),
+    shiny::verbatimTextOutput(ns("debug")),
+    shiny::singleton(shiny::tags$script(shiny::HTML("
+    $(document).on('click', '.includes-file-list .btn__file', (ev) => {
+      //console.log(ev.target.closest('.btn__file').dataset)
+      const btnData = ev.target.closest('.btn__file').dataset
+      Shiny.setInputValue(btnData.inputid, btnData.fileid, {priority: 'event'})
+    })
+
+    const btnWait = (id) => {
+      const btn = document.getElementById(id)
+      const btnIcon = btn.querySelector('i')
+      btnIcon.dataset.restoreClass = btnIcon.className
+      btnIcon.className = 'fas fa-spinner fa-spin'
+      btn.classList.add('disabled')
+    }
+    const btnRestore = (id) => {
+      const btn = document.getElementById(id)
+      const btnIcon = btn.querySelector('i')
+      btnIcon.className = btnIcon.dataset.restoreClass || 'fa fa-plus'
+      btn.classList.remove('disabled')
+    }
+
+    Shiny.addCustomMessageHandler('btnWait', btnWait)
+    Shiny.addCustomMessageHandler('btnRestore', btnRestore)
+    "))),
+    shiny::singleton(shiny::tags$style(shiny::HTML("
+    .file-list-row {
+      display: grid;
+      grid-template-columns: auto 100px 120px 125px;
+      grid-column-gap: 1em;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+    .file-list-row * {
+      margin-bottom: 0;
+    }
+    .file-list-row p {
+      word-break: break-all;
+    }
+    .file--moved {
+      animation: anim-file-moved 2s ease-in-out;
+    }
+    @keyframes anim-file-moved {
+      0% {
+        background: #f2ed6faa;
+      }
+      100% {
+        background: transparent;
+      }
+    }
+    ")))
+  )
+}
+
+includeExtras <- function(id, ...) {
+  shiny::callModule(includeExtrasModule, id = id, ...)
+}
+
+includeExtrasModule <- function(input, output, session, ...) {
+  ns <- session$ns
+  rv <- shiny::reactiveValues(files = list())
+  trigger_file_update <- shiny::reactiveVal(0)
+  if (isTRUE(getOption("js4shiny.debug.includeExtras", FALSE))) {
+    output$debug <- shiny::renderPrint(str(rv$files))
+  }
+
+  shiny::observeEvent(input$add_file, {
+    session$sendCustomMessage("btnWait", ns("add_file"))
+    url <- input$file_url
+    name <- NULL
+    if (is_url(input$file_url) & !grepl("unpkg", url)) {
+      file_name <- tolower(basename(url))
+      file_type <- sub("^.+(css|js)$", "\\1", file_name)
+      file_type <- intersect(c("js", "css"), file_type)
+      file_type <- if (nchar(file_type)) {
+        c(js = "javascript", css = "css")[file_type]
+      } else {
+        ""
+      }
+    } else {
+      name <- url
+      url <- unpkg_url(url)
+      file_type <- unpkg_type(url)
+    }
+    if (is.null(file_type)) {
+      # doesn't exist on unpkg?
+      shiny::showNotification(
+        glue("Could not locate {url} on unpkg"),
+        type = "warning"
+      )
+    } else {
+      rv$files <- discard_class(add_file(rv$files, url, file_type, "head", name))
+      rv$files[[length(rv$files)]]$class <- "file--moved"
+      shiny::updateSelectizeInput(session, "file_url", selected = "")
+      trigger_file_update(trigger_file_update() + 1)
+    }
+    session$sendCustomMessage("btnRestore", ns("add_file"))
+  })
+
+  file_list_ui <- function(file) {
+    file_glue <- function(...) {
+      paste0(glue(..., .envir = file))
+    }
+    id_where <- file_glue("{id}_{where}")
+    id_type <- file_glue("{id}_{type}")
+    shiny::tags$div(
+      class = paste("file-list-row", file$class),
+      shiny::tags$p(file$name %||% file$path),
+      shiny::selectInput(
+        inputId = ns(id_type),
+        label = NULL,
+        selectize = FALSE,
+        choices = c("unknown" = "", "js" = "javascript", "css"),
+        selected = input[[id_type]] %||% file$type
+      ),
+      shiny::selectInput(
+        inputId = ns(id_where),
+        label = NULL,
+        selectize = FALSE,
+        choices = c("head", "before body" = "before", "after body" = "after"),
+        selected = input[[id_where]] %||% file$where
+      ),
+      shiny::div(
+        class = "btn-group",
+        shiny::tags$button(
+          class = "btn btn-default btn__file",
+          `data-fileId` = file$id,
+          `data-inputId` = ns("file_up"),
+          title = "Load resource earlier",
+          shiny::icon("caret-up")
+        ),
+        shiny::tags$button(
+          class = "btn btn-default btn__file",
+          `data-fileId` = file$id,
+          `data-inputId` = ns("file_down"),
+          title = "Load resource later",
+          shiny::icon("caret-down")
+        ),
+        shiny::tags$button(
+          class = "btn btn-default btn__file",
+          `data-fileId` = file$id,
+          `data-inputId` = ns("file_delete"),
+          title = "Remove resource",
+          shiny::icon("times")
+        )
+      )
+    )
+  }
+
+  discard_class <- function(ll, keep = NULL, keep_class = "file--moved") {
+    purrr::map(ll, ~ {
+      if (is.null(keep)) {
+        .x$class <- NULL
+      } else {
+        .x$class <- if (.x$id %in% keep) keep_class
+      }
+      .x
+    })
+  }
+
+  output$file_list <- shiny::renderUI({
+    trigger_file_update()
+    shiny::req(length(shiny::isolate(rv$files)))
+    shiny::tagList(
+      purrr::map(shiny::isolate(rv$files), file_list_ui)
+    )
+  })
+
+  shiny::observeEvent(input$file_up, {
+    ids <- purrr::map_chr(rv$files, "id")
+    if (length(ids) == 1) return()
+
+    this_idx <- which(ids == input$file_up)
+    if (this_idx == 1) return()
+
+    new_order <- seq_along(ids)
+    new_order[this_idx - 1] <- this_idx
+    new_order[this_idx] <- this_idx - 1
+    rv$files <- discard_class(rv$files[new_order], input$file_up, "file--moved")
+    trigger_file_update(trigger_file_update() + 1)
+  })
+
+  shiny::observeEvent(input$file_down, {
+    ids <- purrr::map_chr(rv$files, "id")
+    if (length(ids) == 1) return()
+
+    this_idx <- which(ids == input$file_down)
+    if (this_idx == length(ids)) return()
+
+    new_order <- seq_along(ids)
+    new_order[this_idx + 1] <- this_idx
+    new_order[this_idx] <- this_idx + 1
+    rv$files <- discard_class(rv$files[new_order], input$file_down, "file--moved")
+    trigger_file_update(trigger_file_update() + 1)
+  })
+
+  shiny::observeEvent(input$file_delete, {
+    ids <- purrr::map_chr(rv$files, "id")
+    this_idx <- which(ids == input$file_delete)
+    rv$files <- discard_class(rv$files[-this_idx])
+    trigger_file_update(trigger_file_update() + 1)
+  })
+
+  return(shiny::reactive(rv$files))
+}
+
+add_file <- function(
+  file_list,
+  path,
+  type = "javascript",
+  where = c("head", "before", "after"),
+  name = NULL
+) {
+  where <- match.arg(where, several.ok = FALSE)
+  c(file_list,
+    list(list(
+      id = rand_id(),
+      name = name,
+      path = paste(path),
+      type = type,
+      where = where
+    ))
+  )
+}
+is_url <- function(url) {
+  grepl("^https?", url)
+}
+
+rand_id <- function() {
+  paste(sample(c(0:9, letters[1:6]), 8, replace = TRUE), collapse = "")
+}
+
+unpkg_url <- function(slug) {
+  if (is_url(slug)) {
+    return(slug)
+  }
+  glue("https://unpkg.com/{slug}")
+}
+
+unpkg_meta <- function(url) {
+  url <- unpkg_url(url)
+  url <- glue("{url}?meta")
+  tryCatch(
+    jsonlite::fromJSON(url),
+    error = function(e) {
+      warning(e$message)
+      return(NULL)
+    }
+  )
+}
+
+unpkg_type <- function(slug) {
+  meta <- unpkg_meta(slug)
+  if (is.null(meta)) {
+    return(NULL)
+  }
+  type <- sub("^\\w+/", "", meta$contentType)
+  if (type %in% c("javascript", "css")) type else ""
+}
+
+includeExtrasDev <- function() {
+  shiny::shinyApp(
+    ui = shiny::fluidPage(includeExtrasUI("test")),
+    server = function(input, output, session) {
+      includeExtras("test")
+    }
   )
 }
