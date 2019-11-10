@@ -390,6 +390,8 @@ repl_server <- function(render_dir) {
             ),
             self_contained = TRUE,
             pandoc_args = c(
+              "--from",
+              "markdown+ascii_identifiers+tex_math_single_backslash-markdown_in_html_blocks+raw_html",
               "--to",
               "html5"
             )
