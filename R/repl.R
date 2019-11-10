@@ -138,6 +138,17 @@ resource_to_js4shiny_yaml <- function(resources) {
     })
 }
 
+resource_add_ids <- function(resources) {
+  if (is.null(resources)) return(list())
+  if (!length(resources)) return(list())
+  for (i in seq_along(resources)) {
+    resources[[i]]$id <- resources[[i]]$id %||% rand_id()
+  }
+  ids <- purrr::map_chr(resources, ~ .$id)
+  names(resources) <- ids
+  resources
+}
+
 map_name_into_list <- function(ll) {
   ll <- purrr::imap(ll, function(n, p) {
     purrr::map(p, ~ list(path = .x, where = n))
@@ -1022,13 +1033,23 @@ includeExtrasUI <- function(id) {
 }
 
 includeExtras <- function(id, files = NULL, ...) {
-  shiny::callModule(includeExtrasModule, id = id, ...)
+  shiny::callModule(includeExtrasModule, id = id, files = files, ...)
 }
 
-includeExtrasModule <- function(input, output, session, ...) {
+includeExtrasModule <- function(input, output, session, files = list(), ...) {
   ns <- session$ns
-  rv <- shiny::reactiveValues(files = list())
+
+  if (shiny::is.reactivevalues(files)) {
+    rv <- files
+    shiny::observe({
+      rv$files <- resource_add_ids(rv$files)
+    }, priority = 5000)
+  } else {
+    rv <- shiny::reactiveValues(files = resource_add_ids(files))
+  }
+
   trigger_file_update <- shiny::reactiveVal(0)
+
   if (isTRUE(getOption("js4shiny.debug.includeExtras", FALSE))) {
     output$debug <- shiny::renderPrint(str(rv$files))
   }
@@ -1046,31 +1067,18 @@ includeExtrasModule <- function(input, output, session, ...) {
 
   shiny::observeEvent(input$add_file, {
     session$sendCustomMessage("btnWait", ns("add_file"))
-    url <- input$file_url
-    name <- NULL
-    if (is_url(input$file_url) & !grepl("unpkg", url)) {
-      file_name <- tolower(basename(url))
-      file_type <- sub("^.+(css|js)$", "\\1", file_name)
-      file_type <- intersect(c("js", "css"), file_type)
-      file_type <- if (nchar(file_type)) {
-        c(js = "javascript", css = "css")[file_type]
-      } else {
-        ""
-      }
-    } else {
-      name <- url
-      url <- unpkg_url(url)
-      file_type <- unpkg_type(url)
-    }
-    if (is.null(file_type)) {
+    resource <- file_resource_list(input$file_url)
+    if (is.null(resource)) {
       # doesn't exist on unpkg?
       shiny::showNotification(
         glue("Could not locate {url} on unpkg"),
         type = "warning"
       )
     } else {
-      rv$files <- discard_class(add_file(rv$files, url, file_type, "head", name))
-      rv$files[[length(rv$files)]]$class <- "file--moved"
+      resource[[1]]$class <- "file--moved"
+      rvf <- discard_class(rv$files)
+      rvf <- c(rvf, resource)
+      rv$files <- rvf
       shiny::updateSelectizeInput(session, "file_url", selected = "")
       trigger_file_update(trigger_file_update() + 1)
     }
@@ -1225,7 +1233,7 @@ file_resource_list <- function(path, type = NULL, where = "head", name = NULL) {
     name <- tolower(basename(url))
     type <- sub("^.+(css|js)$", "\\1", name)
     type <- intersect(c("js", "css"), type)
-    type <- if (nchar(type)) {
+    type <- if (length(type) && nzchar(type)) {
       c(js = "javascript", css = "css")[type]
     } else {
       ""
@@ -1338,7 +1346,7 @@ unpkg_type <- function(slug) {
   if (type %in% c("javascript", "css")) type else ""
 }
 
-includeExtrasDev <- function() {
+includeExtrasDev <- function(files = NULL) {
   shiny::shinyApp(
     ui = shiny::fluidPage(
       shiny::div(
@@ -1347,7 +1355,8 @@ includeExtrasDev <- function() {
       )
     ),
     server = function(input, output, session) {
-      includeExtras("test")
+      r_files <- shiny::reactiveValues(files = files)
+      includeExtras("test", files = r_files)
     }
   )
 }
