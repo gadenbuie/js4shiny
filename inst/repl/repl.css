@@ -22,6 +22,10 @@ html * {
   flex-shrink: 0;
 }
 
+.full-height-container:not(.hide-html-preview) > .panel-code {
+  min-width: 400px;
+}
+
 .hide-html-preview .panel-code {
   flex-direction: row;
   width: 100%;
