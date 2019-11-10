@@ -855,6 +855,7 @@ includeExtrasUI <- function(id) {
     shiny::fluidRow(
       shiny::div(
         class = "pull-left",
+        style = "width: calc(100% - 30px - 1em);",
         shiny::selectizeInput(
           ns("file_url"),
           "Add Resource",
@@ -876,6 +877,7 @@ includeExtrasUI <- function(id) {
               "Tachyons" = "tachyons"
             )
           ),
+          width = "100%",
           options = list(create = TRUE)
         )
       ),
