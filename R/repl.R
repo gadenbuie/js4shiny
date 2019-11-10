@@ -93,6 +93,7 @@ remove_yaml <- function(text) {
 }
 
 extract_resources <- function(path) {
+  # path is a file path or previously processed yaml list
   if (is.null(path)) {
     return()
   } else if (is.character(path)) {
@@ -100,6 +101,8 @@ extract_resources <- function(path) {
   } else if (is.list(path)) {
     yml <- path
   }
+
+  # if no resources, return NULL
   if (is.null(yml)) return()
   if (is.null(yml$output)) return()
   if (is.character(yml$output)) return()
@@ -110,32 +113,37 @@ extract_resources <- function(path) {
   resources <- purrr::compact(resources)
   if (!length(resources)) return()
 
-  # this is way more complicated than I expected but it takes a list like
-  # css$head = c('file1', 'file2')
-  # and turns it into
-  # list(list(path = file1, type = css, where = head), ...)
-  resources <- resources %>%
-    purrr::modify_depth(2, ~ purrr::map(.x, ~ list(path = .x))) %>%
-    purrr::map(
-      ~ purrr::imap(.x, function(ll, n) {
-        purrr::map(ll, ~ c(.x, where = n))
-      }) %>%
-        purrr::reduce(c)
-    ) %>%
-    purrr::imap(function(ll, n) purrr::map(ll, ~ c(.x, type = n))) %>%
-    purrr::flatten(.)
+  res <- list()
+  if ("css" %in% names(resources)) {
+    res <- c(
+      res,
+      purrr::map(
+        resources$css,
+        ~ list(path = .x, type = "css", where = "head")
+      )
+    )
+  }
 
-  resources
+  if ("javascript" %in% names(resources)) {
+    for (where in names(resources$javascript)) {
+      res <- c(res, purrr::map(
+        resources$javascript[[where]],
+        ~ list(path = .x, type = "javascript", where = where)
+      ))
+    }
+  }
+
+  res
 }
 
 resource_to_js4shiny_yaml <- function(resources) {
   # does the reverse of extract_resources
   purrr::reduce(
     resources,
-    .init = list(css = list(), script = list()),
+    .init = list(css = c(), script = list()),
     function(acc, item) {
       if (item$type == "css") {
-        acc$css[[item$where]] <- c(acc$css[[item$where]], item$path)
+        acc$css <- c(acc$css, item$path)
       }
       if (item$type == "javascript") {
         acc$script[[item$where]] <- c(acc$script[[item$where]], item$path)
