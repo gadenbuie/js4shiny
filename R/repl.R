@@ -79,6 +79,7 @@ get_hint <- function(path) {
 
 extract_yaml <- function(path) {
   x <- readLines(path)
+  if (!sum(grepl("^---", x)) >= 2) return()
   yaml_between <- grep("^---\\s*", x)[1:2] # assume first two ---
   yaml::yaml.load(x[(yaml_between[1] + 1):(yaml_between[2] - 1)])
 }
@@ -89,6 +90,60 @@ remove_yaml <- function(text) {
   }
   yaml_between <- grep("^---\\s*", text)[1:2]
   text[-(yaml_between[1]:yaml_between[2])]
+}
+
+extract_resources <- function(path) {
+  yml <- extract_yaml(path)
+  if (is.null(yml)) return()
+  if (is.null(yml$output)) return()
+  if (is.character(yml$output)) return()
+  resources <- yml$output[['js4shiny::html_document_plain']]
+  if (is.null(resources) || is.character(resources)) return()
+  resources <- resources[c("css", "script")]
+  names(resources) <- c("css", "javascript")
+  resources <- purrr::compact(resources)
+  if (!length(resources)) return()
+
+  # this is way more complicated than I expected but it takes a list like
+  # css$head = c('file1', 'file2')
+  # and turns it into
+  # list(list(path = file1, type = css, where = head), ...)
+  resources <- resources %>%
+    purrr::modify_depth(2, ~ purrr::map(.x, ~ list(path = .x))) %>%
+    purrr::map(
+      ~ purrr::imap(.x, function(ll, n) {
+        purrr::map(ll, ~ c(.x, where = n))
+      }) %>%
+        purrr::reduce(c)
+    ) %>%
+    purrr::imap(function(ll, n) purrr::map(ll, ~ c(.x, type = n))) %>%
+    purrr::flatten(.)
+
+  resources
+}
+
+resource_to_js4shiny_yaml <- function(resources) {
+  # does the reverse of extract_resources
+  purrr::reduce(
+    resources,
+    .init = list(css = list(), script = list()),
+    function(acc, item) {
+      if (item$type == "css") {
+        acc$css[[item$where]] <- c(acc$css[[item$where]], item$path)
+      }
+      if (item$type == "javascript") {
+        acc$script[[item$where]] <- c(acc$script[[item$where]], item$path)
+      }
+      acc
+    })
+}
+
+map_name_into_list <- function(ll) {
+  ll <- purrr::imap(ll, function(n, p) {
+    purrr::map(p, ~ list(path = .x, where = n))
+  })
+
+  purrr::reduce(ll, c)
 }
 
 blank_example <- function() {
