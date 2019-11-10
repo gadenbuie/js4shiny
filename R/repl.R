@@ -93,7 +93,13 @@ remove_yaml <- function(text) {
 }
 
 extract_resources <- function(path) {
-  yml <- extract_yaml(path)
+  if (is.null(path)) {
+    return()
+  } else if (is.character(path)) {
+    yml <- extract_yaml(path)
+  } else if (is.list(path)) {
+    yml <- path
+  }
   if (is.null(yml)) return()
   if (is.null(yml$output)) return()
   if (is.character(yml$output)) return()
@@ -482,8 +488,12 @@ repl_server <- function(render_dir) {
 
     example_yaml <- shiny::reactive({
       input$example %||% return(NULL)
-      extract_yaml(input$example)$example
+      extract_yaml(input$example)$example %>%
+        purrr::map(purrr::compact) %>%
+        purrr::compact()
     })
+
+    example_resources <- shiny::reactiveValues(files = list())
 
     shiny::observeEvent(input$`clear-source`, {
       shinyAce::updateAceEditor(session, "code", value = "")
@@ -512,6 +522,7 @@ repl_server <- function(render_dir) {
     shiny::observe({
       I("Update Editors to Selected Example")
       shiny::req(example_yaml())
+      str(example_yaml())
 
       # Get cached inputs
       cache <- example_cache[[isolate(input$example)]] %>%
@@ -543,6 +554,8 @@ repl_server <- function(render_dir) {
           collapse = "\n"
         )
       )
+
+      example_resources$files <- cache$resources %||% extract_resources(input$example %||% return(NULL))
     }, priority = 1000)
 
     output$instructions <- shiny::renderUI({
@@ -638,7 +651,7 @@ repl_server <- function(render_dir) {
       )
     })
 
-    extra_resources <- includeExtras("extras")
+    extra_resources <- includeExtras("extras", files = example_resources)
 
     # ---- Saving Current Document ----
     shiny::observeEvent(input$do_save, {
