@@ -407,6 +407,17 @@ repl_server <- function(render_dir) {
       shiny::updateQueryString(url)
     })
 
+    example_yaml <- shiny::reactive({
+      input$example %||% return(NULL)
+      extract_yaml(input$example)$example %>%
+        purrr::map(purrr::compact) %>%
+        purrr::compact()
+    })
+
+    example_resources <- shiny::reactiveValues(files = list())
+
+    extra_resources <- includeExtras("extras", files = example_resources)
+
     compiled_html <- shiny::reactive({
       input$refresh_html
 
@@ -414,11 +425,22 @@ repl_server <- function(render_dir) {
       css <- input$code_css
       md  <- input$code_md %||% ""
 
+      extra_css <- extra_resources() %>%
+        purrr::keep(~ .$type == "css") %>%
+        purrr::map_chr("path")
+      extra_js <- extra_resources() %>%
+        purrr::keep(~ .$type == "javascript") %>%
+        purrr::reduce(.init = list(), function(acc, item) {
+          acc[[item$where]] <- c(acc[[item$where]], item$path)
+          acc
+        })
+
       # Cache current values of inputs
       example_cache[[isolate(input$example)]] <<- list(
         js = input$code_js,
         css = input$code_css,
-        md = input$code_md
+        md = input$code_md,
+        resources = extra_resources()$files
       )
 
       # create rmd_file from input md
@@ -448,6 +470,7 @@ repl_server <- function(render_dir) {
       html_out_file_abs <- file.path(render_dir, paste0(session$token, ".html"))
 
       res <- list(file = html_out_file)
+
       tryCatch({
         rmarkdown::render(
           input = rmd_file,
@@ -455,17 +478,24 @@ repl_server <- function(render_dir) {
           quiet = TRUE,
           output_options = list(
             script = include_script(
+              head = extra_js$head,
               before = c(
+                extra_js$before,
                 js4shiny_file("redirect", "redirectConsoleLog.js"),
                 js4shiny_file("repl", "repl-child-redirect.js")
               ),
               after = c(
+                extra_js$after,
                 js_file
               )
             ),
             css = c(
               "normalize",
-              js4shiny_file("repl", "repl-child.css"),
+              if (!length(extra_css)) c(
+                js4shiny_file("repl", "repl-child.css")
+              ) else {
+                extra_css
+              },
               css_file
             ),
             self_contained = TRUE,
@@ -494,15 +524,6 @@ repl_server <- function(render_dir) {
       res
     })
 
-    example_yaml <- shiny::reactive({
-      input$example %||% return(NULL)
-      extract_yaml(input$example)$example %>%
-        purrr::map(purrr::compact) %>%
-        purrr::compact()
-    })
-
-    example_resources <- shiny::reactiveValues(files = list())
-
     shiny::observeEvent(input$`clear-source`, {
       shinyAce::updateAceEditor(session, "code", value = "")
     })
@@ -530,10 +551,10 @@ repl_server <- function(render_dir) {
     shiny::observe({
       I("Update Editors to Selected Example")
       shiny::req(example_yaml())
-      str(example_yaml())
+      # str(example_yaml())
 
       # Get cached inputs
-      cache <- example_cache[[isolate(input$example)]] %>%
+      cache <- example_cache[[shiny::isolate(input$example)]] %>%
         purrr::compact() %>%
         purrr::keep(~ . != "")
 
@@ -658,8 +679,6 @@ repl_server <- function(render_dir) {
         mode = fmt_mode
       )
     })
-
-    extra_resources <- includeExtras("extras", files = example_resources)
 
     # ---- Saving Current Document ----
     shiny::observeEvent(input$do_save, {
@@ -1117,8 +1136,8 @@ includeExtrasModule <- function(input, output, session, files = list(), ...) {
       where = shiny::isolate(input[[id_where]]) %||% file$where
     )
     if (!identical(where_choice$where, file$where)) {
-      # validation changed the where location
-      rv$files[[file$id]]$where <- where_choice$where
+      # message("validation changed the where location")
+      rv$files[[file$id]]$where <- where_choice$selected
     }
     v_type <- validate_type_choice(
       shiny::isolate(input[[id_type]]) %||% file$type
