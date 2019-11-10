@@ -908,6 +908,12 @@ includeExtrasUI <- function(id) {
       Shiny.setInputValue(btnData.inputid, btnData.fileid, {priority: 'event'})
     })
 
+    $(document).on('change', '.includes-file-list select', (ev) => {
+      const [inputId, fileId] = ev.target.id.split('__')
+      const value = ev.target.value
+      Shiny.setInputValue(inputId + '_change', {id: fileId, value})
+    })
+
     const btnWait = (id) => {
       const btn = document.getElementById(id)
       const btnIcon = btn.querySelector('i')
@@ -954,7 +960,7 @@ includeExtrasUI <- function(id) {
   )
 }
 
-includeExtras <- function(id, ...) {
+includeExtras <- function(id, files = NULL, ...) {
   shiny::callModule(includeExtrasModule, id = id, ...)
 }
 
@@ -964,6 +970,17 @@ includeExtrasModule <- function(input, output, session, ...) {
   trigger_file_update <- shiny::reactiveVal(0)
   if (isTRUE(getOption("js4shiny.debug.includeExtras", FALSE))) {
     output$debug <- shiny::renderPrint(str(rv$files))
+  }
+
+  discard_class <- function(ll, keep = NULL, keep_class = "file--moved") {
+    purrr::map(ll, ~ {
+      if (is.null(keep)) {
+        .x$class <- NULL
+      } else {
+        .x$class <- if (.x$id %in% keep) keep_class
+      }
+      .x
+    })
   }
 
   shiny::observeEvent(input$add_file, {
@@ -1003,8 +1020,21 @@ includeExtrasModule <- function(input, output, session, ...) {
     file_glue <- function(...) {
       paste0(glue(..., .envir = file))
     }
-    id_where <- file_glue("{id}_{where}")
-    id_type <- file_glue("{id}_{type}")
+    id_where <- file_glue("file_where__{id}")
+    id_type <- file_glue("file_type__{id}")
+    where_choice <- validate_where_choice(
+      type = file$type,
+      where = shiny::isolate(input[[id_where]]) %||% file$where
+    )
+    if (!identical(where_choice$where, file$where)) {
+      # validation changed the where location
+      rv$files[[file$id]]$where <- where_choice$where
+    }
+    v_type <- validate_type_choice(file$type)
+    if (!identical(file$type, v_type)) {
+      rv$files[[file$id]]$type <- v_type
+      file$type <- v_type
+    }
     shiny::tags$div(
       class = paste("file-list-row", file$class),
       shiny::tags$p(file$name %||% file$path),
@@ -1013,14 +1043,14 @@ includeExtrasModule <- function(input, output, session, ...) {
         label = NULL,
         selectize = FALSE,
         choices = c("unknown" = "", "js" = "javascript", "css"),
-        selected = input[[id_type]] %||% file$type
+        selected = shiny::isolate(input[[id_type]]) %||% file$type
       ),
       shiny::selectInput(
         inputId = ns(id_where),
         label = NULL,
         selectize = FALSE,
-        choices = c("head", "before body" = "before", "after body" = "after"),
-        selected = input[[id_where]] %||% file$where
+        choices = where_choice$choices,
+        selected = where_choice$selected
       ),
       shiny::div(
         class = "btn-group",
@@ -1049,24 +1079,29 @@ includeExtrasModule <- function(input, output, session, ...) {
     )
   }
 
-  discard_class <- function(ll, keep = NULL, keep_class = "file--moved") {
-    purrr::map(ll, ~ {
-      if (is.null(keep)) {
-        .x$class <- NULL
-      } else {
-        .x$class <- if (.x$id %in% keep) keep_class
-      }
-      .x
-    })
-  }
-
   output$file_list <- shiny::renderUI({
     trigger_file_update()
-    shiny::req(length(shiny::isolate(rv$files)))
+    rvf <- shiny::isolate(rv$files)
+    shiny::req(length(rvf))
     shiny::tagList(
-      purrr::map(shiny::isolate(rv$files), file_list_ui)
+      purrr::map(rvf, file_list_ui)
     )
   })
+
+  # These observers all use custom javascript for receiving updates from the
+  # client. Otherwise it would have been too difficult to track which resource
+  # is being updated.
+  shiny::observeEvent(input$file_type_change, {
+    rv$files[[input$file_type_change$id]]$type <- input$file_type_change$value
+    rv$files <- discard_class(rv$files)
+    trigger_file_update(trigger_file_update() + 1)
+  }, priority = 1000)
+
+  shiny::observeEvent(input$file_where_change, {
+    rv$files[[input$file_where_change$id]]$where <- input$file_where_change$value
+    rv$files <- discard_class(rv$files)
+    trigger_file_update(trigger_file_update() + 1)
+  }, priority = 1000)
 
   shiny::observeEvent(input$file_up, {
     ids <- purrr::map_chr(rv$files, "id")
@@ -1106,26 +1141,85 @@ includeExtrasModule <- function(input, output, session, ...) {
   return(shiny::reactive(rv$files))
 }
 
+file_resource_list <- function(path, type = NULL, where = "head", name = NULL) {
+  url <- path
+  if (is_url(url) & !grepl("unpkg", url)) {
+    name <- tolower(basename(url))
+    type <- sub("^.+(css|js)$", "\\1", name)
+    type <- intersect(c("js", "css"), type)
+    type <- if (nchar(type)) {
+      c(js = "javascript", css = "css")[type]
+    } else {
+      ""
+    }
+  } else {
+    name <- path
+    url <- unpkg_url(url)
+    type <- unpkg_type(url)
+  }
+  if (is.null(type)) {
+    return(NULL)
+  }
+
+  add_file(NULL, url, type, where, name)
+}
+
 add_file <- function(
   file_list,
   path,
-  type = "javascript",
+  type = NULL,
   where = c("head", "before", "after"),
-  name = NULL
+  name = NULL,
+  type_allow_unknown = TRUE
 ) {
+  type <- type %||% ""
+  if (!type_allow_unknown) {
+    type <- match.arg(type, choices = c("javascript", "css"))
+  } else {
+    if (length(setdiff(type, c("javascript", "css", "")))) {
+      type <- ""
+    }
+  }
+  where <- where %||% "head"
   where <- match.arg(where, several.ok = FALSE)
-  c(file_list,
-    list(list(
-      id = rand_id(),
-      name = name,
-      path = paste(path),
-      type = type,
-      where = where
-    ))
+  resource <- list()
+  id <- rand_id()
+  resource[[id]] <- list(
+    id = id,
+    name = name,
+    path = paste(path),
+    type = type,
+    where = where
   )
+
+  c(file_list, resource)
 }
+
 is_url <- function(url) {
   grepl("^https?", url)
+}
+
+validate_where_choice <- function(type, where = NULL) {
+  choices <- switch(
+    type,
+    javascript = c("head", "before body" = "before", "after body" = "after"),
+    css = c("head"),
+    c("set type" = "", "head")
+  )
+  where <- where %||% choices[1]
+  selected <- intersect(choices, where)
+  if (!length(selected)) selected <- choices[1]
+  list(choices = choices, selected = selected)
+}
+
+validate_type_choice <- function(type) {
+  if (length(type) > 1) {
+    warning("Multiple types provided, using only first.")
+  }
+  if (length(type) == 0) return("")
+  if (type %in% c("js", "javascript")) return("javascript")
+  if (type == "css") return("css")
+  return("")
 }
 
 rand_id <- function() {
