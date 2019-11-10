@@ -947,6 +947,10 @@ includeExtrasUI <- function(id) {
     .file-list-row p {
       word-break: break-all;
     }
+    .file-type-indicator {
+      float: right;
+      padding-top: 4px;
+    }
     .file--moved {
       animation: anim-file-moved 2s ease-in-out;
     }
@@ -1032,20 +1036,37 @@ includeExtrasModule <- function(input, output, session, ...) {
       # validation changed the where location
       rv$files[[file$id]]$where <- where_choice$where
     }
-    v_type <- validate_type_choice(file$type)
-    if (!identical(file$type, v_type)) {
-      rv$files[[file$id]]$type <- v_type
-      file$type <- v_type
+    v_type <- validate_type_choice(
+      shiny::isolate(input[[id_type]]) %||% file$type
+    )
+    if (!identical(file$type, v_type$type)) {
+      rv$files[[file$id]]$type <- v_type$type
+      file$type <- v_type$type
     }
     shiny::tags$div(
       class = paste("file-list-row", file$class),
-      shiny::tags$p(file$name %||% file$path),
+      shiny::tags$p(
+        shiny::tags$span(
+          class = paste("file-type-indicator", switch(
+            file$type,
+            "javascript" = "fab fa-js-square fa-2x",
+            "css" = "fab fa-css3-alt fa-2x",
+            "fas fa-exclamation-triangle fa-2x text-danger"
+          )),
+          style = switch(
+            file$type,
+            "javascript" = "color: #f7df1e",
+            "css" = "color: #0277BD"
+          )
+        ),
+        file$name %||% file$path
+      ),
       shiny::selectInput(
         inputId = ns(id_type),
         label = NULL,
         selectize = FALSE,
-        choices = c("unknown" = "", "js" = "javascript", "css"),
-        selected = shiny::isolate(input[[id_type]]) %||% file$type
+        choices = v_type$choices,
+        selected = file$type
       ),
       shiny::selectInput(
         inputId = ns(id_where),
@@ -1218,10 +1239,16 @@ validate_type_choice <- function(type) {
   if (length(type) > 1) {
     warning("Multiple types provided, using only first.")
   }
-  if (length(type) == 0) return("")
-  if (type %in% c("js", "javascript")) return("javascript")
-  if (type == "css") return("css")
-  return("")
+  choices <- c("js" = "javascript", "css" = "css")
+  if (length(type) == 0) {
+    list(type = "", choices = c("", choices))
+  } else if (type %in% c("js", "javascript")) {
+    list(type = "javascript", choices = choices)
+  } else if (type == "css") {
+    list(type = "css", choices = choices)
+  } else {
+    list(type = "", choices = c("", choices))
+  }
 }
 
 rand_id <- function() {
