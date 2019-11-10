@@ -1285,7 +1285,12 @@ unpkg_type <- function(slug) {
 
 includeExtrasDev <- function() {
   shiny::shinyApp(
-    ui = shiny::fluidPage(includeExtrasUI("test")),
+    ui = shiny::fluidPage(
+      shiny::div(
+        class = "col-xs-12 col-sm-8 col-sm-offset-2",
+        includeExtrasUI("test")
+      )
+    ),
     server = function(input, output, session) {
       includeExtras("test")
     }
