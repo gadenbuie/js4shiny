@@ -76,7 +76,10 @@ args_css <- function(css = NULL) {
 #'   `<body>`.
 #' @export
 include_script <- function(head = NULL, before = NULL, after = NULL) {
-  list(head = head, before = before, after = after)
+  x <- purrr::compact(
+    list(head = head, before = before, after = after)
+  )
+  if (length(x)) x
 }
 
 args_scripts <- function(script) {
