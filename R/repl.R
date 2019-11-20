@@ -720,6 +720,7 @@ repl_server <- function(render_dir) {
               input$code_css
             },
             md = input$code_md,
+            resources = extra_resources(),
             output_file = file
           )
         } else if (input$save_format == "rmd") {
@@ -870,6 +871,7 @@ create_example_rmd <- function(
   js = NULL,
   css = NULL,
   md = NULL,
+  resources = NULL,
   output_file = "example.Rmd"
 ) {
   example <- list(
@@ -884,7 +886,15 @@ create_example_rmd <- function(
 
   yaml_header <- list(
     example = example,
-    output = "js4shiny::html_document_plain"
+    output = if (is.null(resources) || !length(purrr::compact(resources))) {
+      "js4shiny::html_document_plain"
+    } else {
+      list(
+        "js4shiny::html_document_plain" = resources %>%
+          purrr::compact() %>%
+          resource_to_js4shiny_yaml()
+      )
+    }
   )
 
   md <- glue("
