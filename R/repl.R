@@ -231,7 +231,7 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
         shiny::div(
           class = "scale--smaller",
           shiny::selectInput("md_format", "Document Mode", choices = c("R Markdown" = "md", "HTML" = "html")),
-          shiny::selectInput("css_format", "Styles", choices = c("CSS", "SASS", "SCSS")),
+          # shiny::selectInput("css_format", "Styles", choices = c("CSS" = "css", "Sass" = "sass")),
           shiny::tags$div(
             class = "col-xs-12",
             includeExtrasUI("extras")
