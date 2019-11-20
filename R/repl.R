@@ -620,8 +620,19 @@ repl_server <- function(render_dir) {
     html_path <- shiny::reactiveFileReader(
       intervalMillis = 1000,
       session = session,
-      filePath = shiny::reactive(file.path("render", paste0(session$token, ".html"))),
-      readFunc = function(path) return(path)
+      filePath = file.path("render", paste0(session$token, ".html")),
+      readFunc = function(path) {
+        if (!file.exists(path)) {
+          cat(
+            "<html><body>",
+            "<p style='color:#999;'>Hang on while I get this started...</p>",
+            "</body></html>",
+            sep = "\n",
+            file = file.path(render_dir, paste0(session$token, ".html"))
+          )
+        }
+        path
+      }
     )
 
     output$example_html <- shiny::renderUI({
