@@ -44,7 +44,7 @@ html_document_plain <- function(
     ),
     pandoc = rmarkdown::pandoc_options(
       to = "html5",
-      from = "markdown+ascii_identifiers+tex_math_single_backslash",
+      from = "markdown+ascii_identifiers+tex_math_single_backslash+raw_html-markdown_in_html_blocks-native_divs-native_spans",
       args = c(
         if (!is.null(css)) args_css(css),
         pandoc_args,
