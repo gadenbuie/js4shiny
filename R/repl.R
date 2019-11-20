@@ -688,7 +688,7 @@ repl_server <- function(render_dir) {
 
     # ---- Saving Current Document ----
     shiny::observeEvent(input$do_save, {
-      repl_save(example_yaml())
+      repl_save(example_yaml(), length(extra_resources()) > 0)
     })
 
     output$download_project <- shiny::downloadHandler(
@@ -706,6 +706,7 @@ repl_server <- function(render_dir) {
             css = input$code_css,
             md = input$code_md,
             token = session$token,
+            resources = extra_resources(),
             out_file = file
           )
         } else if (input$save_format == "example") {
@@ -737,7 +738,7 @@ repl_server <- function(render_dir) {
   }
 }
 
-repl_save <- function(example_yaml) {
+repl_save <- function(example_yaml, has_extra_resources = FALSE) {
   shiny::showModal(
     shiny::modalDialog(
       title = "Save Project",
@@ -754,6 +755,14 @@ repl_save <- function(example_yaml) {
           "Plain R Markdown" = "rmd",
           "js4shiny Example" = "example"
         )
+      ),
+      if (has_extra_resources) shiny::conditionalPanel(
+        condition = "input.save_format === 'rmd'",
+        shiny::helpText(shiny::HTML(
+          "This format is a plain <code>rmarkdown::html_document()</code>",
+          "and will not include the extra resources. Please instead download",
+          "the project as a zip file."
+        ))
       ),
       shiny::conditionalPanel(
         condition = "input.save_format === 'example'",
@@ -821,7 +830,14 @@ write_temp_files <- function(
   destdir
 }
 
-create_project_zip <- function(js = "", css = "", md = "", token = NULL, out_file = "project.zip") {
+create_project_zip <- function(
+  js = "",
+  css = "",
+  md = "",
+  token = NULL,
+  resources = NULL,
+  out_file = "project.zip"
+) {
   destdir <- if (!is.null(token)) {
     file.path(tempdir(), token)
   } else {
@@ -830,8 +846,25 @@ create_project_zip <- function(js = "", css = "", md = "", token = NULL, out_fil
 
   write_temp_files(js, css, md, destdir)
 
-  md_file   <- file.path(destdir, "index.md")
+  md_file <- file.path(destdir, "index.md")
   html_file <- file.path(destdir, "index.html")
+
+  includes <- list(script = list(after = "script.js"), css = "style.css")
+  if (!is.null(resources) && length(purrr::compact(resources))) {
+    resources <- resource_to_js4shiny_yaml(resources)
+    if (!is.null(resources$script)) {
+      for (where in c("head", "before", "after")) {
+        if (is.null(resources$script[[where]])) next
+        includes$script[[where]] <- c(
+          resources$script[[where]],
+          includes$script[[where]]
+        )
+      }
+    }
+    if (!is.null(resources$css)) {
+      includes$css <- c(resources$css, includes$css)
+    }
+  }
 
   rmarkdown::render(
     input = md_file,
@@ -839,8 +872,8 @@ create_project_zip <- function(js = "", css = "", md = "", token = NULL, out_fil
     quiet = TRUE,
     output_options = list(
       self_contained = FALSE,
-      script = include_script(after = "script.js"),
-      css = "style.css"
+      script = includes$script,
+      css = includes$css
     )
   )
 
