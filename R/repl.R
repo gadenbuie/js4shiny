@@ -407,7 +407,7 @@ repl_server <- function(render_dir) {
       shiny::updateQueryString(url)
     })
 
-    example_yaml <- shiny::reactive({
+    example_yaml <- shiny::reactive(label = "yaml from selected example", {
       input$example %||% return(NULL)
       extract_yaml(input$example)$example %>%
         purrr::map(purrr::compact) %>%
@@ -418,12 +418,26 @@ repl_server <- function(render_dir) {
 
     extra_resources <- includeExtras("extras", files = example_resources)
 
-    compiled_html <- shiny::reactive({
+    skip_compile <- shiny::reactiveVal(FALSE)
+
+    #---- Compile HTML Preview ----
+    compiled_html <- shiny::reactive(label = "compiled_html", {
+      I("compile HTML")
       input$refresh_html
 
       js  <- input$code_js
       css <- input$code_css
       md  <- input$code_md %||% ""
+
+      html_out_file <- file.path("render", paste0(session$token, ".html"))
+      html_out_file_abs <- file.path(render_dir, paste0(session$token, ".html"))
+
+      res <- list(file = html_out_file)
+
+      if (shiny::isolate(skip_compile())) {
+        skip_compile(FALSE)
+        return(res)
+      }
 
       extra_css <- extra_resources() %>%
         purrr::keep(~ .$type == "css") %>%
@@ -436,7 +450,7 @@ repl_server <- function(render_dir) {
         })
 
       # Cache current values of inputs
-      example_cache[[isolate(input$example)]] <<- list(
+      example_cache[[shiny::isolate(input$example)]] <<- list(
         js = input$code_js,
         css = input$code_css,
         md = input$code_md,
@@ -466,16 +480,11 @@ repl_server <- function(render_dir) {
         css_file <- NULL
       }
 
-      html_out_file <- file.path("render", paste0(session$token, ".html"))
-      html_out_file_abs <- file.path(render_dir, paste0(session$token, ".html"))
-
-      res <- list(file = html_out_file)
-
       tryCatch({
         rmarkdown::render(
           input = rmd_file,
           output_file = html_out_file_abs,
-          quiet = TRUE,
+          quiet = getOption("js4shiny.debug.repl", FALSE),
           output_options = list(
             script = include_script(
               head = extra_js$head,
@@ -498,13 +507,7 @@ repl_server <- function(render_dir) {
               },
               css_file
             ),
-            self_contained = TRUE,
-            pandoc_args = c(
-              "--from",
-              "markdown+ascii_identifiers+tex_math_single_backslash-markdown_in_html_blocks+raw_html",
-              "--to",
-              "html5"
-            )
+            self_contained = TRUE
           )
         )
       },
@@ -553,8 +556,10 @@ repl_server <- function(render_dir) {
       shiny::req(example_yaml())
       # str(example_yaml())
 
+      this_example <- shiny::isolate(input$example)
+
       # Get cached inputs
-      cache <- example_cache[[shiny::isolate(input$example)]] %>%
+      cache <- example_cache[[this_example]] %>%
         purrr::compact() %>%
         purrr::keep(~ . != "")
 
@@ -579,13 +584,14 @@ repl_server <- function(render_dir) {
       shinyAce::updateAceEditor(
         session, "code_md",
         value = paste(
-          cache$md %||% remove_yaml(input$example),
+          cache$md %||% remove_yaml(this_example),
           collapse = "\n"
         )
       )
-
-      example_resources$files <- cache$resources %||% extract_resources(input$example %||% return(NULL))
-    }, priority = 1000)
+      example_resources$files <- cache$resources %||%
+        extract_resources(this_example %||% return(NULL))
+      skip_compile(TRUE)
+    }, priority = 1000, label = "update editors based on example")
 
     output$instructions <- shiny::renderUI({
       shiny::req(example_yaml())
@@ -614,7 +620,7 @@ repl_server <- function(render_dir) {
     html_path <- shiny::reactiveFileReader(
       intervalMillis = 1000,
       session = session,
-      filePath = shiny::reactive({compiled_html()$file}),
+      filePath = shiny::reactive(file.path("render", paste0(session$token, ".html"))),
       readFunc = function(path) return(path)
     )
 
@@ -678,7 +684,7 @@ repl_server <- function(render_dir) {
         editorId = "code_md",
         mode = fmt_mode
       )
-    })
+    }, label = "change md/html editor format")
 
     # ---- Saving Current Document ----
     shiny::observeEvent(input$do_save, {
@@ -946,10 +952,12 @@ repl_exclude_bookmark <- function() {
     "code_md_shinyAce_annotationTrigger",
     "do_save",
     "example",
+    "example_html",
     "panel-code-tabset",
     "refresh_html",
     "repl_debug",
-    "show_solution"
+    "show_solution",
+    "compiled_html"
   )
 }
 
