@@ -71,3 +71,8 @@ p code {
   /* background-color: var(--text-lighter); */
   color: var(--red);
 }
+
+/* don't show empty output divs */
+.sourceCode + div > pre[id^="out-"]:empty {
+  display: none;
+}
