@@ -23,9 +23,9 @@ knitr_js_engine <- function() {
       out_logger <- glue('log_{gsub("[^a-zA-Z0-9]", "_", out_id)}')
       js_code <- js_escape(options$code)
       paste(c(
-        glue('<div><pre id="{out_id}"></pre></div>'),
+        glue('<div id="{out_id}"><pre></pre></div>'),
         '<script type="text/javascript">',
-        glue('const {out_logger} = redirectLogger(document.getElementById("{out_id}"))'),
+        glue('const {out_logger} = redirectLogger(document.querySelector("#{out_id} > pre"))'),
         paste0(
           'document.addEventListener("DOMContentLoaded", function() {\n',
           out_logger, "(", js_code, ")\n",

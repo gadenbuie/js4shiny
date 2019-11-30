@@ -115,3 +115,26 @@ console.log('test')
 console.log([1, 2, 3])
 console.log({apple: 1, banana: 2})
 ```
+
+---
+
+### Output `<div>`
+
+The new knitr js engine adds a `<div>` above the live `<script>` tag containing
+the JavaScript code in the chunk.
+This `<div>` has the id `#out-{chunk-name}`.
+Spaces or non alpha-numeric characters in the chunk name are converted to `"_"`.
+This allows you to write into the `<div>` if needed,
+and it makes inserting 
+[data visualizations like this](https://livefreeordichotomize.com/2017/01/24/custom-javascript-visualizations-in-rmarkdown/)
+much easier.
+
+```{js write-my-own-content}
+// chunk name is "write-my-own-content"
+const outDiv = document.getElementById('out-write-my-own-content')
+outDiv.innerHTML = `<p>I added this text myself at runtime.</p>`
+outDiv.style.background = "var(--red)"
+outDiv.style.color = "white"
+outDiv.style.borderRadius = "5px"
+outDiv.style.padding = "0.5em"
+```
