@@ -73,6 +73,6 @@ p code {
 }
 
 /* don't show empty output divs */
-.sourceCode + div[id^="out-"]:empty {
+.sourceCode + div[id^="out-"] > pre:empty {
   display: none;
 }

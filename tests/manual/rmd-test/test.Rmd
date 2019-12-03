@@ -138,3 +138,11 @@ outDiv.style.color = "white"
 outDiv.style.borderRadius = "5px"
 outDiv.style.padding = "0.5em"
 ```
+
+But this js chunk won't output anything, 
+so there shouldn't be visible output.
+
+```{js write-nothing}
+const x = 42
+const meaning = 'life'
+```
