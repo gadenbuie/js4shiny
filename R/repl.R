@@ -532,7 +532,20 @@ repl_server <- function(render_dir) {
     })
 
     solution <- shiny::reactive({
-      example_yaml()$solution %||% NULL
+      ex_yml <- example_yaml()
+      solution <- ex_yml$solution
+      initial <- ex_yml$initial
+      current <- list(js = trimws(input$code_js), css = trimws(input$code_css))
+      if (current$js == "") current$js <- NULL
+      if (current$css == "") current$css <- NULL
+
+      # Use solution > current code > initial code > NULL
+      # Current code is included here in case the example has an initial state
+      # in which case, we'd prefer not to overwrite the current original code
+      solution$js <- solution$js %||% current$js %||% initial$js %||% NULL
+      solution$css <- solution$css %||% current$css %||% initial$css %||% NULL
+
+      solution
     })
 
     shiny::observeEvent(input$show_solution, {
