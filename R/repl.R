@@ -725,12 +725,22 @@ repl_server <- function(render_dir) {
             title = input$save_example_title,
             instructions = input$save_example_instructions,
             hint = input$save_example_hint,
-            js = if ("js" %in% input$save_example_include_solution) {
-              input$code_js
-            },
-            css = if ("css" %in% input$save_example_include_solution) {
-              input$code_css
-            },
+            initial = list(
+              js = if (input$save_example_location_js %in% c("both", "initial")) {
+                input$code_js
+              },
+              css = if (input$save_example_location_css %in% c("both", "initial")) {
+                input$code_css
+              }
+            ),
+            solution = list(
+              js = if (input$save_example_location_js %in% c("both", "solution")) {
+                input$code_js
+              },
+              css = if (input$save_example_location_css %in% c("both", "solution")) {
+                input$code_css
+              }
+            ),
             md = input$code_md,
             resources = extra_resources(),
             output_file = file
@@ -798,13 +808,27 @@ repl_save <- function(example_yaml, has_extra_resources = FALSE) {
             value = example_yaml$hint %||% ""
           )
         ),
-        shiny::checkboxGroupInput(
-          inputId = "save_example_include_solution",
-          label = "Include as \"Solution\"",
-          choices = c("JavaScript" = "js", "CSS" = "css"),
-          selected = c("js", "css"),
-          inline = TRUE,
-          width = "100%"
+        shiny::fluidRow(
+          shiny::div(
+            class = "col-xs-6",
+            shiny::selectInput(
+              inputId = "save_example_location_js",
+              label = "Include JavaScript as",
+              choices = c("Initial" = "initial", "Solution" = "solution", "Both" = "both"),
+              selected = "solution",
+              selectize = FALSE
+            )
+          ),
+          shiny::div(
+            class = "col-xs-6",
+            shiny::selectInput(
+              inputId = "save_example_location_css",
+              label = "Include CSS as",
+              choices = c("Initial" = "initial", "Solution" = "solution", "Both" = "both"),
+              selected = "solution",
+              selectize = FALSE
+            )
+          )
         )
       )
     )
@@ -912,8 +936,8 @@ create_example_rmd <- function(
   title = "Example",
   instructions = NULL,
   hint = NULL,
-  js = NULL,
-  css = NULL,
+  initial = NULL,
+  solution = NULL,
   md = NULL,
   resources = NULL,
   output_file = "example.Rmd"
@@ -922,9 +946,13 @@ create_example_rmd <- function(
     title = default_example_value(title, "Example", single = TRUE),
     instructions = default_example_value(instructions),
     hint = default_example_value(hint),
+    initial = list(
+      js = default_example_value(initial$js),
+      css = default_example_value(initial$css)
+    ),
     solution = list(
-      js   = default_example_value(js),
-      css  = default_example_value(css)
+      js   = default_example_value(solution$js),
+      css  = default_example_value(solution$css)
     )
   )
 
