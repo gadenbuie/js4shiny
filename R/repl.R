@@ -462,10 +462,13 @@ repl_server <- function(render_dir) {
         resources = extra_resources()$files
       )
 
+      example_title <- isolate(example_yaml()$title) %||% "js4shiny Repl Preview"
+
       # create rmd_file from input md
       rmd_file <- tempfile(fileext = ".Rmd")
       cat(glue("
         ---
+        pagetitle: {example_title}
         output: js4shiny::html_document_plain
         ---
 
@@ -963,8 +966,9 @@ create_example_rmd <- function(
   resources = NULL,
   output_file = "example.Rmd"
 ) {
+  title <- default_example_value(title, "Example", single = TRUE)
   example <- list(
-    title = default_example_value(title, "Example", single = TRUE),
+    title = title,
     instructions = default_example_value(instructions),
     hint = default_example_value(hint),
     initial = list(
@@ -978,6 +982,7 @@ create_example_rmd <- function(
   )
 
   yaml_header <- list(
+    pagetitle = title,
     example = example,
     output = if (is.null(resources) || !length(purrr::compact(resources))) {
       "js4shiny::html_document_plain"
