@@ -535,9 +535,12 @@ repl_server <- function(render_dir) {
       ex_yml <- example_yaml()
       solution <- ex_yml$solution
       initial <- ex_yml$initial
-      current <- list(js = trimws(input$code_js), css = trimws(input$code_css))
-      if (current$js == "") current$js <- NULL
-      if (current$css == "") current$css <- NULL
+      current <- list(
+        js  = if (!is.null(input$code_js))  trimws(input$code_js),
+        css = if (!is.null(input$code_css)) trimws(input$code_css)
+      )
+      if (!is.null(current$js)  && current$js  == "") current$js  <- NULL
+      if (!is.null(current$css) && current$css == "") current$css <- NULL
 
       # Use solution > current code > initial code > NULL
       # Current code is included here in case the example has an initial state
