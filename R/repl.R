@@ -337,24 +337,29 @@ repl_ui <- function(
           ),
           shiny::div(
             class = "panel-code-js-console",
+            if (js_repl_only) shiny::uiOutput("instructions"),
+            if (js_repl_only) shiny::uiOutput("hint"),
             shiny::div(
-              class = "btn-group console__buttons",
-              if (!js_repl_only) shiny::tags$button(
-                id = "hide-log",
-                class = "btn btn-default btn-sm",
-                `aria-label` = "Hide Console Log",
-                title = "Hide Console Log",
-                shiny::icon("window-minimize")
+              class = "log-container",
+              shiny::div(
+                class = "btn-group console__buttons",
+                if (!js_repl_only) shiny::tags$button(
+                  id = "hide-log",
+                  class = "btn btn-default btn-sm",
+                  `aria-label` = "Hide Console Log",
+                  title = "Hide Console Log",
+                  shiny::icon("window-minimize")
+                ),
+                shiny::tags$button(
+                  id = "clear-log",
+                  class = "btn btn-default btn-sm",
+                  `aria-label` = "Clear Console Log",
+                  title = "Clear Console Log",
+                  shiny::icon("backspace")
+                )
               ),
-              shiny::tags$button(
-                id = "clear-log",
-                class = "btn btn-default btn-sm",
-                `aria-label` = "Clear Console Log",
-                title = "Clear Console Log",
-                shiny::icon("backspace")
-              )
-            ),
-            shiny::tags$pre(id = "log")
+              shiny::tags$pre(id = "log")
+            )
           )
         ),
         if (!js_repl_only) shiny::div(
@@ -363,8 +368,8 @@ repl_ui <- function(
         ),
         shiny::div(
           class = "panel-html",
-          shiny::uiOutput("instructions"),
-          shiny::uiOutput("hint"),
+          if (!js_repl_only) shiny::uiOutput("instructions"),
+          if (!js_repl_only) shiny::uiOutput("hint"),
           shiny::uiOutput("example_html")
         )
       )

@@ -221,6 +221,12 @@ html * {
   pointer-events: none;
 }
 
+.log-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
 #log {
   height: 100%;
   width: 100%;

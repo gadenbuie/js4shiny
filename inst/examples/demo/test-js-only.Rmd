@@ -2,6 +2,8 @@
 example:
   title: "A JavaScript-only Example"
   runtime: repl_js
+  instructions: Make sure that you see the output of four test strings.
+  hint: They should be easy to identify.
   initial:
     js: |
       console.log('test1')
