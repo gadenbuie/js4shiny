@@ -74,6 +74,7 @@ html * {
 }
 
 .hide-html-preview .panel-code-js-console {
+  width: min-content;
   min-width: 100px;
 }
 
