@@ -13,8 +13,11 @@ live_preview <- function(
     getOption("viewer", utils::browseURL)
   }
   render <- function(path) {
-    if (grepl("[.]rmd", path, ignore.case = TRUE)) {
-      rmarkdown::render(path, envir = new.env())
+    rmd_paths <- path[grepl("[.]rmd", path, ignore.case = TRUE)]
+    if (length(rmd_paths)) {
+      for (rmd_path in rmd_paths) {
+        rmarkdown::render(rmd_path, envir = new.env())
+      }
     }
     path
   }
