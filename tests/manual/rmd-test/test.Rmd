@@ -146,3 +146,15 @@ so there shouldn't be visible output.
 const x = 42
 const meaning = 'life'
 ```
+
+---
+
+```{css}
+.red-text {
+  color: var(--red);
+}
+```
+
+```{html}
+<p class="red-text">Is this text red?</p>
+```
