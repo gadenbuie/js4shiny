@@ -98,6 +98,20 @@ knitr_json_engine <- function() {
   }
 }
 
+knitr_html_engine <- function() {
+  function(options) {
+    out <- if (options$eval && knitr::is_html_output()) {
+      paste0(
+        '<div id="out-', options$label, '">\n',
+        options$code,
+        "\n</div>"
+      )
+    }
+    options$results <- "asis"
+    knitr::engine_output(options, options$code, out)
+  }
+}
+
 #' Register js4shiny knitr components
 #'
 #' Register the js4shiny knitr JavaScript engine or the output hooks. Generally,
@@ -132,4 +146,5 @@ register_knitr_js_engine <- function(set = TRUE) {
   if (!set) return(knitr_js_engine)
   knitr::knit_engines$set(js = knitr_js_engine())
   knitr::knit_engines$set(json = knitr_json_engine())
+  knitr::knit_engines$set(html = knitr_html_engine())
 }
