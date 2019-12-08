@@ -252,13 +252,12 @@ choose_examples <- function(
 }
 
 list_examples <- function(path, recurse = 0L) {
-  registry_yaml <- find_registry_yaml(path)
-  has_registry_yaml <- length(registry_yaml) == 1
+  registry_info <- read_registry_yaml(path)
   has_subdir <- length(fs::dir_ls(path, type = "dir")) > 0
 
   list(
     path = path,
-    info = if (has_registry_yaml) read_registry_yaml(registry_yaml),
+    info = registry_info,
     files = as.character(fs::dir_ls(path, regexp = ".[Rr][Mm][Dd]$", recurse = recurse)),
     dirs = if (has_subdir && recurse < 2) {
       unname(purrr::map(
@@ -282,6 +281,7 @@ example_path_info <- function(x) {
 }
 
 find_registry_yaml <- function(path) {
+  path <- path[1]
   if (grepl("registry.ya?ml", path, ignore.case = TRUE)) {
     return(path)
   }
@@ -290,6 +290,7 @@ find_registry_yaml <- function(path) {
 
 read_registry_yaml <- function(path) {
   path <- find_registry_yaml(path)
+  if (!length(path)) return()
   x <- yaml::yaml.load_file(path)
   x <- x[c("title", "description")]
   if (length(x)) x
