@@ -243,6 +243,11 @@ iframe {
   background: #fff;
 }
 
+.tab-pane.active[data-value="settings"] {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
 .textarea-monospace textarea {
   font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
   font-size: 0.9em;
