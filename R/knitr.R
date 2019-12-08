@@ -78,7 +78,7 @@ run_node <- function(code) {
 knitr_json_engine <- function() {
   function(options) {
 
-    out <- if (knitr::is_html_output(excludes = 'markdown')) {
+    out <- if (options$eval && knitr::is_html_output(excludes = 'markdown')) {
       label <- gsub("[^a-zA-Z0-9_.]", "_", options$label)
       code <- paste(options$code, collapse = "\n")
       paste(
