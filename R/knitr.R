@@ -102,9 +102,9 @@ knitr_html_engine <- function() {
   function(options) {
     out <- if (options$eval && knitr::is_html_output()) {
       paste0(
-        '<div id="out-', options$label, '">\n',
+        '\n```{=html}\n',
         options$code,
-        "\n</div>"
+        "\n```"
       )
     }
     options$results <- "asis"
