@@ -36,7 +36,8 @@ html_dependency_js4shiny <- function(
     stylesheet = c(
       if (!"none" %in% stylize) stylize_bundle(stylize),
       if (jsonview) 'jsonview/jsonview.css'
-    )
+    ),
+    all_files = FALSE
   )
   deps <- list(deps)
 
@@ -93,7 +94,8 @@ html_dependency_redirectConsoleLog <- function() {
     version = utils::packageVersion("js4shiny"),
     src = "redirect",
     script = "redirectConsoleLog.js",
-    stylesheet = "jslog.css"
+    stylesheet = "jslog.css",
+    all_files = FALSE
   )
 }
 
@@ -107,7 +109,8 @@ html_dependency_stylize <- function(...) {
     package = "js4shiny",
     version = utils::packageVersion("js4shiny"),
     src = "template-html",
-    stylesheet = stylize_bundle(..., bundle = FALSE)
+    stylesheet = stylize_bundle(..., bundle = FALSE),
+    all_files = FALSE
   )
 }
 
