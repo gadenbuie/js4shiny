@@ -33,7 +33,7 @@ knitr_js_engine <- function() {
         ),
         '</script>\n'
       ), sep = "\n", collapse = "\n")
-    } else if (has_node()) {
+    } else if (options$eval && has_node()) {
       paste(
         "```",
         paste(run_node(options$code), collapse = "\n"),
