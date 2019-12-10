@@ -172,7 +172,7 @@ map_name_into_list <- function(ll) {
 }
 
 blank_example <- function() {
-  c("Blank" = file.path(js4shiny_file("repl", "0-empty.Rmd")))
+  c("Blank" = file.path(js4shiny_file("repl", "blank.Rmd")))
 }
 
 repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
@@ -729,7 +729,7 @@ repl_server <- function(render_dir) {
     output$download_project <- shiny::downloadHandler(
       filename = function() {
         ex_file_name <- basename(input$example)
-        if (grepl("blank", ex_file_name)) {
+        if (ex_file_name == "blank.Rmd") {
           if (input$save_format == "zip") {
             "project.zip"
           } else {
