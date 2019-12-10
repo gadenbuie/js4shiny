@@ -20,7 +20,7 @@ Imports:
     knitr,
     magrittr,
     purrr,
-    rmarkdown,
+    rmarkdown (>= 1.16.0),
     shiny (>= 1.3.0),
     shinyAce,
     utils,

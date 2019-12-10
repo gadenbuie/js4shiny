@@ -86,7 +86,7 @@ args_scripts <- function(script) {
   args <- c()
   for (item in c("head", "before", "after")) {
     if (is.null(script[[item]])) next
-    for (src in rev(script[[item]])) {
+    for (src in script[[item]]) {
       args <- c(args, "-V", paste0("script-", item, "=", src))
     }
   }

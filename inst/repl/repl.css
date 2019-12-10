@@ -1,3 +1,5 @@
+/* prefixed by https://autoprefixer.github.io (PostCSS: v7.0.23, autoprefixer: v9.7.3) */
+
 html,
 body,
 .container-fluid {
@@ -5,21 +7,34 @@ body,
 }
 
 html * {
+  -webkit-transition: opacity 0.25s ease-in-out;
+  -o-transition: opacity 0.25s ease-in-out;
   transition: opacity 0.25s ease-in-out;
 }
 
 .full-height-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: calc(100vh - 80px);
-  flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
 
 .panel-code {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 50%;
   min-width: 200px;
-  flex-direction: column;
-  flex-shrink: 0;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 
 .full-height-container:not(.hide-html-preview) > .panel-code {
@@ -27,12 +42,17 @@ html * {
 }
 
 .hide-html-preview .panel-code {
-  flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
   width: 100%;
 }
 
 .panel-code-js {
+  display: -ms-grid;
   display: grid;
+  -ms-grid-rows: 1fr 1em auto;
   grid-template-rows: 1fr auto;
   grid-row-gap: 1em;
   width: 100%;
@@ -46,6 +66,7 @@ html * {
 }
 
 .panel-code-js__repl-only {
+  -ms-grid-rows: 1fr;
   grid-template-rows: 1fr;
   grid-row-gap: 0;
   width: 50%;
@@ -54,9 +75,16 @@ html * {
 
 .panel-code-js-console {
   position: relative;
-  flex-grow: 1;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .panel-code:not(.hide-html-preview) .panel-code-js-console {
@@ -74,6 +102,8 @@ html * {
 }
 
 .hide-html-preview .panel-code-js-console {
+  width: -webkit-min-content;
+  width: -moz-min-content;
   width: min-content;
   min-width: 100px;
 }
@@ -83,11 +113,14 @@ html * {
 }
 
 .panel-code.console--minimized {
+  -ms-grid-rows: 1fr auto;
   grid-template-rows: 1fr auto;
 }
 
 .console--minimized .panel-code-js {
-  flex-grow: 1;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
 }
 
 .console__buttons {
@@ -102,11 +135,15 @@ html * {
 }
 
 .panel-html {
+  display: -ms-grid;
   display: grid;
+  -ms-grid-rows: auto auto 1fr;
   grid-template-rows: auto auto 1fr;
   height: 100%;
   min-width: 200px;
-  flex-grow: 1;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
 }
 
 .panel-html__output {
@@ -134,7 +171,8 @@ html * {
   bottom: 0;
   width: 100%;
   margin-bottom: 0;
-  animation: slideInUp 0.25s ease-in;
+  -webkit-animation: slideInUp 0.25s ease-in;
+          animation: slideInUp 0.25s ease-in;
 }
 
 .tab-settings {
@@ -145,19 +183,39 @@ html * {
 }
 
 .scale--smaller {
-  transform-origin: top left;
-  transform: scale(0.85);
+  -webkit-transform-origin: top left;
+      -ms-transform-origin: top left;
+          transform-origin: top left;
+  -webkit-transform: scale(0.85);
+      -ms-transform: scale(0.85);
+          transform: scale(0.85);
+}
+
+@-webkit-keyframes slideInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(100%);
+            transform: translateY(100%);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
 }
 
 @keyframes slideInUp {
   from {
     opacity: 0;
-    transform: translateY(100%);
+    -webkit-transform: translateY(100%);
+            transform: translateY(100%);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
   }
 }
 
@@ -234,7 +292,9 @@ html * {
   max-width: 100%;
   overflow: auto;
   margin-bottom: 0;
-  flex-grow: 1;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
 }
 
 iframe {
@@ -397,5 +457,7 @@ html.shiny-busy .loader {
   background-repeat: no-repeat;
   background-position-y: 50%;
   margin-left: 0.5em;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -o-transition: opacity 0.5s ease-in-out;
   transition: opacity 0.5s ease-in-out;
 }
