@@ -45,6 +45,19 @@ And some "standard" JavaScript code
 console.log("named chunk")
 ```
 
+The last statement in a chunk doesn't need `console.log()` to be output.
+This makes it easier to show results of code
+without requiring numerous `console.log()` statements.
+
+```{js}
+const x = 10
+x * 4 + 2
+```
+
+```{js}
+true && false
+```
+
 ```{js, js_live = FALSE}
 let x = 10
 console.log(x * 20)
@@ -66,7 +79,7 @@ console.log(x * 20)
 
 ```{js}
 // data declared in a json chunk become global as data_<chunk_name>
-console.log(data_json_example)
+data_json_example
 ```
 
 

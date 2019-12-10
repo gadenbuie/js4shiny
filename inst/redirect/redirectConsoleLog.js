@@ -77,7 +77,8 @@ const redirectLogger = (function(origConsole) {
 
     return function(code) {
       try {
-        eval(code);
+        let ret = eval(code);
+        if (typeof ret !== 'undefined') console.log(ret);
       }
       catch (error) {
         console.log(error);
