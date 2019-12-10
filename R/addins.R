@@ -92,8 +92,14 @@ ask_where_to_launch <- function() {
   }
 }
 
-launch_repl <- function() {
-  example <- choose_examples()
+repl_example <- function(example = NULL) {
+  if (is.null(example)) {
+    example <- choose_examples()
+  } else {
+    if (!file.exists(example)) {
+      example <- search_for_example(example)
+    }
+  }
 
   if (is.null(example)) {
     return()
@@ -118,6 +124,20 @@ launch_repl <- function() {
     glue('js4shiny::{run_fn}(example = "{example}")'),
     execute = TRUE
   )
+}
+
+search_for_example <- function(example) {
+  # assume that example is a slug, i.e. the file name of an example without .Rmd
+  all_examples <- dir(
+    js4shiny_file("examples"),
+    pattern = "[.]Rmd$",
+    full.names = TRUE,
+    recursive = TRUE
+  )
+  all_example_slugs <- sub("(.+)[.][Rr]md", "\\1", basename(all_examples))
+
+  example <- all_examples[which(example == all_example_slugs)]
+  if (length(example)) example[1] else NULL
 }
 
 choose_examples <- function(
