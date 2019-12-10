@@ -728,10 +728,18 @@ repl_server <- function(render_dir) {
 
     output$download_project <- shiny::downloadHandler(
       filename = function() {
-        if (input$save_format == "zip") {
-          "project.zip"
+        ex_file_name <- basename(input$example)
+        if (grepl("blank", ex_file_name)) {
+          if (input$save_format == "zip") {
+            "project.zip"
+          } else {
+            "example.Rmd"
+          }
         } else {
-          "example.Rmd"
+          if (input$save_format == "zip") {
+            ex_file_name <- sub("(.+)[.].+$", "\\1.zip", ex_file_name)
+          }
+          ex_file_name
         }
       },
       content = function(file) {
