@@ -75,19 +75,25 @@ html * {
 
 .panel-code-js-console {
   position: relative;
+  height: min-content;
+  flex-grow: 1;
+}
+
+.hide-html-preview .panel-code-js-console {
+  height: 100%;
   -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
-.panel-code:not(.hide-html-preview) .panel-code-js-console {
+.full-height-container:not(.hide-html-preview) .panel-code-js-console {
   min-height: 100px;
 }
 
@@ -228,8 +234,8 @@ html * {
   right: 150%;
 }
 
-.panel-code #log {
-  /* max-height: calc(50vh - 50px); */
+.full-height-container:not(.hide-html-preview) .panel-code {
+  max-height: calc(100vh - 2em);
 }
 
 .hide-navbar .hide-html-preview .panel-code #log {
@@ -288,6 +294,7 @@ html * {
 
 #log {
   height: 100%;
+  min-height: 100px;
   width: 100%;
   max-width: 100%;
   overflow: auto;
