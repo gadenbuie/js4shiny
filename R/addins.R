@@ -258,7 +258,7 @@ choose_examples <- function(
       choice <- if (input$category %||% "" == "") {
         NULL
       } else if (input$examples == "all") {
-        if (input$group == "") input$category else input$group
+        if (input$group %||% "" == "") input$category else input$group
       } else {
         input$examples
       }
