@@ -114,6 +114,10 @@ html * {
   min-width: 100px;
 }
 
+.panel-code-js-console #show_solution {
+	margin-bottom: 0.5em;
+}
+
 .console--minimized #log {
   visibility: hidden;
 }
@@ -375,7 +379,7 @@ pre.ace_editor {
 
 .bs-callout {
   padding: 10px;
-  margin: 0 0 20px 0;
+  margin: 0 0 0.5em 0;
   border: 1px solid #eee;
   border-left-width: 5px;
   border-radius: 3px;

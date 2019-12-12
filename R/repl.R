@@ -254,6 +254,15 @@ repl_ui <- function(
   example_file_choices <- c(blank_example(), get_example_file_paths(example))
 
   function(request) {
+    btn_show_solution <- shiny::tags$button(
+      id = "show_solution",
+      class = "btn btn-default action-button btn-primary shiny-bound-input",
+      style = "display: none",
+      `aria-label` = "Show Solution to Exercise",
+      title = "Show Solution to Exercise",
+      "Show Solution"
+    )
+
     shiny::fluidPage(
       shiny::tags$head(
         shiny::tags$link(href = "repl/repl.css", rel = "stylesheet", type = "text/css"),
@@ -281,14 +290,7 @@ repl_ui <- function(
             class = "navbar-form navbar-right",
             shiny::div(
               class = "form-group",
-              shiny::tags$button(
-                id = "show_solution",
-                class = "btn btn-default action-button btn-primary shiny-bound-input",
-                style = "display: none",
-                `aria-label` = "Show Solution to Exercise",
-                title = "Show Solution to Exercise",
-                "Show Solution"
-              ),
+              if (!js_repl_only) btn_show_solution,
               shiny::selectInput(
                 inputId = "example",
                 label = NULL,
@@ -339,6 +341,7 @@ repl_ui <- function(
             class = "panel-code-js-console",
             if (js_repl_only) shiny::uiOutput("instructions"),
             if (js_repl_only) shiny::uiOutput("hint"),
+            if (js_repl_only) btn_show_solution,
             shiny::div(
               class = "log-container",
               shiny::div(
