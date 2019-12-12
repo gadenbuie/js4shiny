@@ -3,13 +3,6 @@
 #' @export
 knitr_js_engine <- function() {
   function(options) {
-    js_escape <- function(x) {
-      x <- gsub('([`$])', '\\\\\\1', x)
-      x <- gsub("\\\\n", "\\\\\\\\n", x)
-      x <- gsub("\\\\t", "\\\\\\\\t", x)
-      x <- gsub("\\\\r", "\\\\\\\\r", x)
-      paste0("`", paste(x, collapse = "\n"), "`")
-    }
 
     browser(expr = getOption("js4shiny.js_engine_debug", FALSE))
     redirect <- is.null(options$js_redirect) || isTRUE(options$js_redirect)
@@ -45,6 +38,14 @@ knitr_js_engine <- function() {
     options$results <- 'asis'
     knitr::engine_output(options, options$code, out)
   }
+}
+
+js_escape <- function(x) {
+  x <- gsub('([`$])', '\\\\\\1', x)
+  x <- gsub("\\\\n", "\\\\\\\\n", x)
+  x <- gsub("\\\\t", "\\\\\\\\t", x)
+  x <- gsub("\\\\r", "\\\\\\\\r", x)
+  paste0("`", paste(x, collapse = "\n"), "`")
 }
 
 default_js_engine <- function(options) {
