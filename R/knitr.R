@@ -81,13 +81,19 @@ knitr_json_engine <- function() {
     out <- if (options$eval && knitr::is_html_output(excludes = 'markdown')) {
       label <- gsub("[^a-zA-Z0-9_.]", "_", options$label)
       code <- paste(options$code, collapse = "\n")
+      if (substring(code, 1) == '"') {
+        code <- glue("JSON.parse({code})")
+      }
+      view_json <- options$json_view %||% TRUE
       paste(
         glue('<div id="json-{label}"></div>'),
         "<script>",
         glue("let data_{label} = {code}"),
-        'document.addEventListener("DOMContentLoaded", function() {',
-        glue('  window.jsonView.format(data_{label}, "#json-{label}")'),
-        "})",
+        if (view_json) {
+          glue("document.addEventListener('DOMContentLoaded', function() {
+                  window.jsonView.format(data_{label}, '#json-{label}')
+                })")
+        },
         "</script>",
         sep = "\n"
       )
