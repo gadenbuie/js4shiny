@@ -1,0 +1,54 @@
+---
+pagetitle: Convert Strings to Title Case
+example:
+  title: Convert Strings to Title Case
+  instructions: |-
+    Our list of `badHeadlines` also has bad formatting.
+    Write a set of nested for loops to transform the headlines to title case.
+    The first for loop should loop over the strings in the `badHeadlines` array,
+    and the second for loop will loop over the individual letters of each string
+  hint: A classic `for` loop may work best in this case.
+  runtime: repl_js
+  initial:
+    js: |-
+      let badHeadlines = [
+        'COMPLAINTS ABOUT NBA REFEREES GROWING UGLY',
+        'shark attacks puzzle experts',
+        'Stolen painting found by tree',
+        'Lack of Brains Hinders Research'
+      ];
+      
+      for (/* headline from badHeadlines */) {
+        for (/* letter in that headline */) {
+          // capitalize or lowercase the letter
+        }
+      }
+      
+      console.log(badHeadlines)
+  solution:
+    js: |-
+      let badHeadlines = [
+        'COMPLAINTS ABOUT NBA REFEREES GROWING UGLY',
+        'shark attacks puzzle experts',
+        'Stolen painting found by tree',
+        'Lack of Brains Hinders Research'
+      ];
+
+      for (let i = 0; i < badHeadlines.length; i++) {
+        let headline = badHeadlines[i]
+        let newHeadline = ''
+        for (let j = 0; j < headline.length; j++) {
+          if (j === 0 || headline[j - 1] === ' ') {
+            newHeadline += headline[j].toUpperCase()
+          } else {
+            newHeadline += headline[j].toLowerCase()
+          }
+        }
+        badHeadlines[i] = newHeadline
+      }
+
+      console.log(badHeadlines)
+output: js4shiny::html_document_plain
+
+---
+

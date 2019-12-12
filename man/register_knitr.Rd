@@ -11,11 +11,11 @@ register_knitr_output_hooks(set = TRUE)
 register_knitr_js_engine(set = TRUE)
 }
 \arguments{
-\item{set}{If `FALSE` the output hook or JS engine are returned rather than
+\item{set}{If \code{FALSE} the output hook or JS engine are returned rather than
 setting via knitr directly.}
 }
 \description{
 Register the js4shiny knitr JavaScript engine or the output hooks. Generally,
-you will not need to use these. Instead, see [html_document_js()] or
-[html_setup()] for methods that cover most use-cases.
+you will not need to use these. Instead, see \code{\link[=html_document_js]{html_document_js()}} or
+\code{\link[=html_setup]{html_setup()}} for methods that cover most use-cases.
 }

@@ -25,21 +25,27 @@ html_dependency_js4shiny <- function(
     several.ok = TRUE
   )
 
-  htmltools::htmlDependency(
+  deps <- htmltools::htmlDependency(
     name = "js4shiny",
     package = "js4shiny",
     version = utils::packageVersion("js4shiny"),
     src = "template-html",
     script = c(
-      if (redirectConsole) "js/redirectConsoleLog.js",
       if (jsonview) "jsonview/jsonview.min.js"
     ),
     stylesheet = c(
       if (!"none" %in% stylize) stylize_bundle(stylize),
-      if (redirectConsole) "jslog.css",
       if (jsonview) 'jsonview/jsonview.css'
-    )
+    ),
+    all_files = FALSE
   )
+  deps <- list(deps)
+
+  if (redirectConsole) {
+    deps <- c(deps, list(html_dependency_redirectConsoleLog()))
+  }
+
+  deps
 }
 
 stylize_bundle <- function(
@@ -83,12 +89,13 @@ stylize_bundle <- function(
 #' @export
 html_dependency_redirectConsoleLog <- function() {
   htmltools::htmlDependency(
-    name = "js4shiny",
+    name = "js4shiny-redirectConsoleLog",
     package = "js4shiny",
     version = utils::packageVersion("js4shiny"),
-    src = "template-html",
+    src = "redirect",
     script = "redirectConsoleLog.js",
-    stylesheet = "jslog.css"
+    stylesheet = "jslog.css",
+    all_files = FALSE
   )
 }
 
@@ -98,11 +105,12 @@ html_dependency_redirectConsoleLog <- function() {
 #' @export
 html_dependency_stylize <- function(...) {
   htmltools::htmlDependency(
-    name = "js4shiny",
+    name = "js4shiny-stylize",
     package = "js4shiny",
     version = utils::packageVersion("js4shiny"),
     src = "template-html",
-    stylesheet = stylize_bundle(..., bundle = FALSE)
+    stylesheet = stylize_bundle(..., bundle = FALSE),
+    all_files = FALSE
   )
 }
 

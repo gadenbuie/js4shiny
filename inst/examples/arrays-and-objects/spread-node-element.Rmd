@@ -1,0 +1,42 @@
+---
+pagetitle: Spreading HTML Elements
+example:
+  title: Spreading HTML Elements
+  instructions: |-
+    The first line of this script uses the browser's API to find all of the HTML `<h2>` elements. These elements contain the level 2 headers, and `document.querySelectorAll('h2')` finds all of these headers but it doesn't return an _array_.
+
+    Use `...spread` syntax to convert `headers` to an array, and then write a `for` loop that outputs the `.textContent` of each header.
+  hint: ~
+  initial:
+    js: |-
+      let headers = document.querySelectorAll('h2')
+      
+      // convert headers to an array
+      
+      // write a for loop to print header.textContent to the console
+  solution:
+    js: |-
+      let headers = document.querySelectorAll('h2')
+
+      headers = [...headers]
+
+      for (let header of headers) {
+        console.log('## ' + header.textContent)
+      }
+output: js4shiny::html_document_plain
+
+---
+
+# My Fancy Webpage
+
+## Introduction
+
+I just want to demonstrate something.
+
+## About Me
+
+I'm learning JavaScript!
+
+## Contact
+
+Find me on Twitter.

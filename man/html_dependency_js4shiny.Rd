@@ -15,7 +15,7 @@ html_dependency_stylize(...)
 }
 \arguments{
 \item{redirectConsole}{Include JS and CSS assets to enable literate
-programming with JavaScript by redirecting `console.log()` to a chunk-
+programming with JavaScript by redirecting \code{console.log()} to a chunk-
 specific output div.}
 
 \item{jsonview}{Include JS and CSS assets to enable tree view display of
@@ -25,7 +25,7 @@ JSON objects for the \pkg{knitr} json engine.}
 "utility", "code", "pandoc-line-numbers" to include the CSS styles
 developed for \pkg{js4shiny}.}
 
-\item{...}{Arguments passed to `html_dependency_js4shiny()`.}
+\item{...}{Arguments passed to \code{html_dependency_js4shiny()}.}
 }
 \description{
 Include the various HTML JavaScript and CSS assets created for

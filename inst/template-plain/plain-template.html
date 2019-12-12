@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+$for(author-meta)$
+    <meta name="author" content="$author-meta$" />
+$endfor$
+$if(date-meta)$
+    <meta name="dcterms.date" content="$date-meta$" />
+$endif$
+$if(keywords)$
+    <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$" />
+$endif$
+    <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+    </style>
+$for(script-head)$
+    <script src="$script-head$"></script>
+$endfor$
+$for(css)$
+    <link rel="stylesheet" href="$css$" />
+$endfor$
+$for(header-includes)$
+    $header-includes$
+$endfor$
+  </head>
+  <body>
+$for(include-before)$
+    $include-before$
+$endfor$
+$for(script-before)$
+    <script src="$script-before$"></script>
+$endfor$
+
+$body$
+
+$for(script-after)$
+    <script src="$script-after$"></script>
+$endfor$
+$for(include-after)$
+    $include-after$
+$endfor$
+  </body>
+</html>

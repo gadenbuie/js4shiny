@@ -12,3 +12,18 @@ Name: Live Preview (External)
 Description: Starts a live preview in the directory of the current source document
 Binding: live_preview_external_addin
 Interactive: false
+
+Name: Open Example
+Description: Pick an example and launch js4shiny::repl()
+Binding: repl_example
+Interactive: true
+
+Name: Launch REPL
+Description: Launch the js4shiny web dev REPL
+Binding: repl
+Interactive: true
+
+Name: Launch REPL (JavaScript Only)
+Description: Launch the js4shiny JavaScript REPL
+Binding: repl_js
+Interactive: true

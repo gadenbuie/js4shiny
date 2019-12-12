@@ -1,0 +1,42 @@
+---
+example:
+  title: 'Test: Initial and Solution Rules'
+  instructions: ~
+  hint: ~
+  initial:
+    js: console.log("I'm the opener")
+    css: |-
+      .firebrick {
+        color: firebrick;
+      }
+  solution:
+    js: console.log("I'm the closer")
+    css: ~
+output: js4shiny::html_document_plain
+
+---
+
+## Test State
+
+This document has:
+
+- initial CSS
+- initial JS
+- solution JS
+
+<p class="firebrick">This text is should be red.</p>
+
+Show the solution. The text should stay red, the console should change.
+
+Add to the css and change the JS and show the solution again.
+
+```css
+.teal {
+  color: teal;
+}
+```
+
+The JS should be ovewritten, the <span class="teal">CSS should stay</span>.
+
+Delete the CSS, the red should disappear.
+Show the solution, it should come back.

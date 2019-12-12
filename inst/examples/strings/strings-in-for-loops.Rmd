@@ -1,0 +1,46 @@
+---
+pagetitle: Strings in For Loops
+example:
+  title: Strings in For Loops
+  instructions: |-
+    How do each of the three styles of `for` loop work with strings?
+    Write a for loop in each style to loop over the string stored in `praise`
+    and print the element in the loop to the console.
+  hint: |-
+    Follow up: what type is the iterator in the `for ... in` loop?
+    (Meaning, what type is `x` in `for (const x in ...)`?)
+    Add a check to the loop you wrote to confirm or disprove your intuition.
+  runtime: repl_js
+  initial:
+    js: |-
+      let praise = 'dazzling!'
+
+      // for ... of
+
+      // for ... in
+
+      // classic for loop
+      
+  solution:
+    js: |-
+      let praise = 'dazzling!'
+
+      for (const letter of praise) {
+        console.log(letter)
+      }
+
+      for (const idx in praise) {
+        console.log(idx)
+      }
+
+      for (let i = 0; i < praise.length; i++) {
+        console.log(`praise[${i}] - ${praise[i]}`)
+      }
+
+      for (const idx of praise.substring(0, 1)) {
+        console.log(typeof idx)
+      }
+output: js4shiny::html_document_plain
+
+---
+

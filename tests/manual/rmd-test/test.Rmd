@@ -45,6 +45,19 @@ And some "standard" JavaScript code
 console.log("named chunk")
 ```
 
+The last statement in a chunk doesn't need `console.log()` to be output.
+This makes it easier to show results of code
+without requiring numerous `console.log()` statements.
+
+```{js}
+const x = 10
+x * 4 + 2
+```
+
+```{js}
+true && false
+```
+
 ```{js, js_live = FALSE}
 let x = 10
 console.log(x * 20)
@@ -66,7 +79,7 @@ console.log(x * 20)
 
 ```{js}
 // data declared in a json chunk become global as data_<chunk_name>
-console.log(data_json_example)
+data_json_example
 ```
 
 
@@ -81,6 +94,17 @@ output: js4shiny::html_document_js
 ```
 
 ---
+
+JavaScript chunks are redirected into closures 
+where `console.log()` has been redefined.
+In other words, each chunk is isolated.
+
+But you can use the `js_redirect = FALSE` chunk option
+to treat the JavaScript chunk like a normal JS chunk.
+The JS is then embedded in `<script>` tags 
+in the HTML document's global environment,
+so `console.log()` goes to the browser console and 
+any declared variables are globally available.
 
 ```{js, js_redirect = FALSE}
 const globalVariable = 'this is a global variable'
@@ -103,4 +127,47 @@ console.log(2.0)
 console.log('test')
 console.log([1, 2, 3])
 console.log({apple: 1, banana: 2})
+```
+
+---
+
+### Output `<div>`
+
+The new knitr js engine adds a `<div>` above the live `<script>` tag containing
+the JavaScript code in the chunk.
+This `<div>` has the id `#out-{chunk-name}`.
+Spaces or non alpha-numeric characters in the chunk name are converted to `"_"`.
+This allows you to write into the `<div>` if needed,
+and it makes inserting 
+[data visualizations like this](https://livefreeordichotomize.com/2017/01/24/custom-javascript-visualizations-in-rmarkdown/)
+much easier.
+
+```{js write-my-own-content}
+// chunk name is "write-my-own-content"
+const outDiv = document.getElementById('out-write-my-own-content')
+outDiv.innerHTML = `<p>I added this text myself at runtime.</p>`
+outDiv.style.background = "var(--red)"
+outDiv.style.color = "white"
+outDiv.style.borderRadius = "5px"
+outDiv.style.padding = "0.5em"
+```
+
+But this js chunk won't output anything, 
+so there shouldn't be visible output.
+
+```{js write-nothing}
+const x = 42
+const meaning = 'life'
+```
+
+---
+
+```{css}
+.red-text {
+  color: var(--red);
+}
+```
+
+```{html}
+<p class="red-text">Is this text red?</p>
 ```

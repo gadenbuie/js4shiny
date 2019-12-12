@@ -2,3 +2,8 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^data-raw$
+^_tmp$
+^package\.json$
+^package-lock\.json$
+^node_modules$
+^\.eslintrc$

@@ -21,7 +21,9 @@ function escapeHTML (string) {
 }
 
 const redirectLogger = (function(origConsole) {
-  return function (logDiv) {
+  const consoleEvent = new Event('consoleLog');
+  return function (logDiv, returnConsole = false) {
+    if (!logDiv) return origConsole;
     let console = {
       log: function () {
         // https://stackoverflow.com/a/45387558/2022615
@@ -41,7 +43,7 @@ const redirectLogger = (function(origConsole) {
           } else if (
             arg instanceof Error
           ) {
-            output += arg.message;
+            output += `[${arg.name}] ${arg.message}`;
           } else if (
             typeof arg === "object" &&
             typeof JSON === "object" &&
@@ -61,6 +63,7 @@ const redirectLogger = (function(origConsole) {
         }
 
         logDiv.innerHTML += output + "<br>";
+        logDiv.dispatchEvent(consoleEvent);
         //origConsole.log.apply(undefined, arguments);
       },
       clear: function() {
@@ -68,9 +71,14 @@ const redirectLogger = (function(origConsole) {
       }
     };
 
+    if (returnConsole) {
+      return(console)
+    };
+
     return function(code) {
       try {
-        eval(code);
+        let ret = eval(code);
+        if (typeof ret !== 'undefined') console.log(ret);
       }
       catch (error) {
         console.log(error);

@@ -44,12 +44,7 @@ html_document_js <- function(
     warning("theme is ignored in html_document_js()", call. = FALSE)
   }
 
-  deps <- c(
-    list(
-      html_dependency_js4shiny()
-    ),
-    extra_dependencies
-  )
+  deps <- c(html_dependency_js4shiny(), extra_dependencies)
 
   # disable fontawesome if !use_fontawesome
   # add to pandoc_args rmarkdown::pandoc_toc_args(toc, toc_depth)

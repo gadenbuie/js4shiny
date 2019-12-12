@@ -1,0 +1,55 @@
+---
+pagetitle: Compare Two Objects
+example:
+  title: Compare Two Objects
+  instructions: > 
+    Katya and Leo both took notes about a pizza order and they think they
+    talked to the same person. Compare `katya`'s pizza order notes with `leo`'s.
+  hint: > 
+    To reference the property of an object `obj` using a variable `key`, 
+    use the `obj[key]` syntax.
+  runtime: repl_js
+  initial:
+    js: |-
+      const katya = {
+        toppings: 'pepperoni',
+        price: 15.99,
+        size: 'medium'
+      }
+      const leo = {
+        size: 'medium',
+        toppings: 'pepperoni',
+        price: 15.99
+      }
+    
+      let same = true
+      for (const key __ katya) {
+        if (____  ___  ____) {
+          same = false
+        }
+      }
+    
+      console.log({ same })
+  solution:
+    js: |-
+      const katya = {
+        toppings: 'pepperoni',
+        price: 15.99,
+        size: 'medium'
+      }
+      const leo = {
+        size: 'medium',
+        toppings: 'pepperoni',
+        price: 15.99
+      }
+
+      let same = true
+      for (const key in katya) {
+        if (katya[key] !== leo[key]) {
+          same = false
+        }
+      }
+
+      console.log({ same })
+output: js4shiny::html_document_plain
+---

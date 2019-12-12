@@ -3,13 +3,6 @@
 #' @export
 knitr_js_engine <- function() {
   function(options) {
-    js_escape <- function(x) {
-      x <- gsub('([`$])', '\\\\\\1', x)
-      x <- gsub("\\\\n", "\\\\\\\\n", x)
-      x <- gsub("\\\\t", "\\\\\\\\t", x)
-      x <- gsub("\\\\r", "\\\\\\\\r", x)
-      paste0("`", paste(x, collapse = "\n"), "`")
-    }
 
     browser(expr = getOption("js4shiny.js_engine_debug", FALSE))
     redirect <- is.null(options$js_redirect) || isTRUE(options$js_redirect)
@@ -23,9 +16,9 @@ knitr_js_engine <- function() {
       out_logger <- glue('log_{gsub("[^a-zA-Z0-9]", "_", out_id)}')
       js_code <- js_escape(options$code)
       paste(c(
-        glue('<div><pre id="{out_id}"></pre></div>'),
+        glue('<div id="{out_id}"><pre></pre></div>'),
         '<script type="text/javascript">',
-        glue('const {out_logger} = redirectLogger(document.getElementById("{out_id}"))'),
+        glue('const {out_logger} = redirectLogger(document.querySelector("#{out_id} > pre"))'),
         paste0(
           'document.addEventListener("DOMContentLoaded", function() {\n',
           out_logger, "(", js_code, ")\n",
@@ -33,7 +26,7 @@ knitr_js_engine <- function() {
         ),
         '</script>\n'
       ), sep = "\n", collapse = "\n")
-    } else if (has_node()) {
+    } else if (options$eval && has_node()) {
       paste(
         "```",
         paste(run_node(options$code), collapse = "\n"),
@@ -45,6 +38,14 @@ knitr_js_engine <- function() {
     options$results <- 'asis'
     knitr::engine_output(options, options$code, out)
   }
+}
+
+js_escape <- function(x) {
+  x <- gsub('([`$])', '\\\\\\1', x)
+  x <- gsub("\\\\n", "\\\\\\\\n", x)
+  x <- gsub("\\\\t", "\\\\\\\\t", x)
+  x <- gsub("\\\\r", "\\\\\\\\r", x)
+  paste0("`", paste(x, collapse = "\n"), "`")
 }
 
 default_js_engine <- function(options) {
@@ -78,16 +79,22 @@ run_node <- function(code) {
 knitr_json_engine <- function() {
   function(options) {
 
-    out <- if (knitr::is_html_output(excludes = 'markdown')) {
+    out <- if (options$eval && knitr::is_html_output(excludes = 'markdown')) {
       label <- gsub("[^a-zA-Z0-9_.]", "_", options$label)
       code <- paste(options$code, collapse = "\n")
+      if (substring(code, 1) == '"') {
+        code <- glue("JSON.parse({code})")
+      }
+      view_json <- options$json_view %||% TRUE
       paste(
         glue('<div id="json-{label}"></div>'),
         "<script>",
         glue("let data_{label} = {code}"),
-        'document.addEventListener("DOMContentLoaded", function() {',
-        glue('  window.jsonView.format(data_{label}, "#json-{label}")'),
-        "})",
+        if (view_json) {
+          glue("document.addEventListener('DOMContentLoaded', function() {
+                  window.jsonView.format(data_{label}, '#json-{label}')
+                })")
+        },
         "</script>",
         sep = "\n"
       )
@@ -95,6 +102,20 @@ knitr_json_engine <- function() {
 
     options$results <- "asis"
     knitr::engine_output(options, options$code, htmltools::HTML(out))
+  }
+}
+
+knitr_html_engine <- function() {
+  function(options) {
+    out <- if (options$eval && knitr::is_html_output()) {
+      paste0(
+        '\n```{=html}\n',
+        options$code,
+        "\n```"
+      )
+    }
+    options$results <- "asis"
+    knitr::engine_output(options, options$code, out)
   }
 }
 
@@ -132,4 +153,5 @@ register_knitr_js_engine <- function(set = TRUE) {
   if (!set) return(knitr_js_engine)
   knitr::knit_engines$set(js = knitr_js_engine())
   knitr::knit_engines$set(json = knitr_json_engine())
+  knitr::knit_engines$set(html = knitr_html_engine())
 }
