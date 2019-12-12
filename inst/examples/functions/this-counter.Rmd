@@ -1,0 +1,61 @@
+---
+pagetitle: Use this
+example:
+  title: Use this
+  instructions: >
+    Add a method to `counter` called `setIncrement()`
+    that takes a single argument and updates the `.by` property
+    of the counter.
+  runtime: repl_js
+  initial:
+    js: |-
+      const counter = {
+        value: 0,
+        by: 1,
+        inc: function() {
+          this.value += this.by
+          return this
+        },
+        dec: function() {
+          this.value -= this.by
+          return this
+        }
+      }
+
+      counter.inc()
+        .setIncrement(2)
+        .dec()
+        .setIncrement(4)
+        .inc()
+        
+      console.log(counter.value === 3)
+  solution:
+    js: |-
+      const counter = {
+        value: 0,
+        by: 1,
+        inc: function() {
+          this.value += this.by
+          return this
+        },
+        dec: function() {
+          this.value -= this.by
+          return this
+        },
+        setIncrement: function(by) {
+          this.by = by
+          return this
+        }
+      }
+
+      counter.inc()
+        .setIncrement(2)
+        .dec()
+        .setIncrement(4)
+        .inc()
+        
+      console.log(counter.value === 3)
+output: js4shiny::html_document_plain
+
+---
+

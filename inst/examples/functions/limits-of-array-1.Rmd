@@ -1,0 +1,48 @@
+---
+pagetitle: Limits of an Array of Numbers
+example:
+  title: Limits of an Array of Numbers
+  instructions: 
+    Write a function that takes an array of numbers and returns the
+    limits of the array as an array containing the `[low, high]` values 
+    (i.e. min and max). I've sketched out the function for you below.
+    Adapted from [JavaScript for Data Science](http://js4ds.org/#s:basics-functions).
+  runtime: repl_js
+  initial:
+    js: |-
+      let limits = (values) => {
+        // if values has length 0 or doesn't have a .length property
+        // then return [undefined, undefined]
+        
+        // initialize low and high values
+        
+        // for each value in values
+        // .. if the value is less than the current low, then update low
+        // .. if the value is greater than the current high, then update high
+        
+        return [low, high]
+      }
+      
+      const numbers = [1, 3, 5, 8, 13, 21]
+      console.log(limits(numbers))
+  solution:
+    js: |-
+      let limits = (values) => {
+        if (!values.length) {
+          return [undefined, undefined]
+        }
+        let low = values[0]
+        let high = values[0]
+        for (let v of values) {
+          if (v < low) low = v
+          if (v > high) high = v
+        }
+        return [low, high]
+      }
+
+      const numbers = [1, 3, 5, 8, 13, 21]
+      console.log(limits(numbers))
+output: js4shiny::html_document_plain
+
+---
+

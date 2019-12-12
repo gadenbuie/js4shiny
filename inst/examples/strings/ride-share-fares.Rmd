@@ -1,0 +1,56 @@
+---
+pagetitle: Ride Share Fare Estimates
+example:
+  title: Ride Share Fare Estimates
+  instructions: >
+    Use `.split()` and `.trim()` to parse the CSV
+    of ride share fare estimates.
+  hint: A new line character is `'\n'`.
+  runtime: repl_js
+  initial:
+    js: |-
+      // ride fare estimates to airport
+      const csv = `type, fare
+              Lyft, 28.42
+            Uber X, 28.64
+      Lyft Premier, 48.11
+       Uber Select, 48.39
+              Taxi, 50.23`
+      
+      const lines = _____
+      
+      let data = []
+      for (_______) {
+        line = ______
+        let row = []
+        for (__________) {
+          row.push(_____)
+        }
+        data.push(_____)
+      }
+      console.log(data)
+  solution:
+    js: |-
+      // ride fare estimates to airport
+      const csv = `type, fare
+              Lyft, 28.42
+            Uber X, 28.64
+      Lyft Premier, 48.11
+       Uber Select, 48.39
+              Taxi, 50.23`
+      
+      const lines = csv.split('\n')
+      
+      let data = []
+      for (let line of lines) {
+        line = line.split(',')
+        let row = []
+        for (let item of line) {
+          row.push(item.trim())
+        }
+        data.push(row)
+      }
+      console.log(data)
+output: js4shiny::html_document_plain
+---
+

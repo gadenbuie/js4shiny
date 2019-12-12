@@ -1,0 +1,47 @@
+---
+pagetitle: Limits of an Array of Numbers
+example:
+  title: Limits of an Array of Numbers Part 2
+  instructions: >
+    Change only one line so that the function takes an arbitrary number of
+    numbers instead of an array of numbers so that the following gives the
+    same answer as in part one.
+  runtime: repl_js
+  initial:
+    js: |-
+      let limits = (values) => {
+        if (!values.length) {
+          return [undefined, undefined]
+        }
+        let low = values[0]
+        let high = values[0]
+        for (let v of values) {
+          if (v < low) low = v
+          if (v > high) high = v
+        }
+        return [low, high]
+      }
+
+      const numbers = [1, 3, 5, 8, 13, 21]
+      console.log(limits(numbers))
+  solution:
+    js: |-
+      let limits = (...values) => {
+        if (!values.length) {
+          return [undefined, undefined]
+        }
+        let low = values[0]
+        let high = values[0]
+        for (let v of values) {
+          if (v < low) low = v
+          if (v > high) high = v
+        }
+        return [low, high]
+      }
+
+      const numbers = [1, 3, 5, 8, 13, 21]
+      console.log(limits(numbers))
+output: js4shiny::html_document_plain
+
+---
+

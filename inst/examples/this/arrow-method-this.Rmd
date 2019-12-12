@@ -1,0 +1,73 @@
+---
+pagetitle: Methods and Arrow Functions with this
+example:
+  title: Methods and Arrow Functions with this
+  instructions: >
+    Redefine `scrabble.score` using an arrow function.
+    What result do you expect from `scrabble.score()`?
+
+    Why were you or were you not correct? Add `console.log(this)`
+    at strategic locations to explore the value of `this`.
+  runtime: repl_js
+  initial:
+    js: |-
+      const scrabble = {
+        words: [],
+        points: 3,
+        add: function(word) {
+          this.words.push(word)
+          return this
+        },
+        score: function() {
+          const wordScore = (word) => word.length * this.points
+
+          score = 0
+          for (let word of this.words) {
+            score += wordScore(word)
+          }
+
+          return score
+        }
+      }
+
+      scrabble
+        .add('caziques')
+        .add('chutzpah')
+        .add('jukebox')
+        .add('phpht')
+
+      console.log(scrabble.score())
+    css: ~
+  solution:
+    js: |-
+      const scrabble = {
+        words: [],
+        points: 3,
+        add: function(word) {
+          this.words.push(word)
+          return this
+        },
+        score: () => {
+          const wordScore = (word) => word.length * this.points
+
+          score = 0
+          for (let word of this.words) {
+            score += wordScore(word)
+          }
+
+          return score
+        }
+      }
+
+      scrabble
+        .add('caziques')
+        .add('chutzpah')
+        .add('jukebox')
+        .add('phpht')
+
+      console.log(scrabble.score())
+    css: ~
+output: js4shiny::html_document_plain
+
+---
+
