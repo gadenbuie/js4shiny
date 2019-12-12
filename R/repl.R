@@ -513,7 +513,7 @@ repl_server <- function(render_dir) {
         rmarkdown::render(
           input = rmd_file,
           output_file = html_out_file_abs,
-          quiet = getOption("js4shiny.debug.repl", FALSE),
+          quiet = !getOption("js4shiny.debug.repl", FALSE),
           output_options = list(
             script = include_script(
               head = extra_js$head,
