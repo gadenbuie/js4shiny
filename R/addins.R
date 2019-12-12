@@ -269,7 +269,7 @@ choose_examples <- function(
       shiny::stopApp(choice)
     })
 
-    shiny::observeEvent(input$cancel, stopApp(NULL))
+    shiny::observeEvent(input$cancel, shiny::stopApp(NULL))
   }
 
   shiny::runGadget(ui, server, viewer = viewer, ...)

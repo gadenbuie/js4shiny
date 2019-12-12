@@ -476,7 +476,7 @@ repl_server <- function(render_dir) {
         resources = extra_resources()$files
       )
 
-      example_title <- isolate(example_yaml()$title) %||% "js4shiny Repl Preview"
+      example_title <- shiny::isolate(example_yaml()$title) %||% "js4shiny Repl Preview"
 
       # create rmd_file from input md
       rmd_file <- tempfile(fileext = ".Rmd")
@@ -1238,7 +1238,7 @@ includeExtrasModule <- function(input, output, session, files = list(), ...) {
   trigger_file_update <- shiny::reactiveVal(0)
 
   if (isTRUE(getOption("js4shiny.debug.includeExtras", FALSE))) {
-    output$debug <- shiny::renderPrint(str(rv$files))
+    output$debug <- shiny::renderPrint(utils::str(rv$files))
   }
 
   discard_class <- function(ll, keep = NULL, keep_class = "file--moved") {
