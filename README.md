@@ -38,16 +38,17 @@ x * 20
 ```
 ````
 
-Each JavaScript chunk is evaluated in its own block scope 
-and the return value of the block is automatically printed to the output chunk,
-unless the value is `undefined`.
+When the document is viewed in a browser, 
+each JavaScript chunk is evaluated in its own block scope 
+and the return value of the block is automatically printed to the chunk's output `<div>`,
+unless that value is `undefined`.
 
 Because each chunk is block-scoped,
 variables created in one block may not be available to other chunks.
 However, you can create global chunks by temporarily disabling the console redirect
 by adding the `js_redirect = FALSE` to the chunk that you would like to be evaluated in the global scope.
 This option disables the `console.log()` redirect 
-and uses the standard JavaScript engine included in the \pkg{knitr} package. 
+and uses the standard JavaScript engine included in the `knitr` package. 
 Logged statements will still be available in the browser's developer tools console, 
 and variables created in the global scope are thereafter available to all chunks.
 
