@@ -33,28 +33,48 @@ js4shiny::register_knitr_output_hooks()
 
 ```{js}
 let x = 10
-console.log(x * 20)
+console.log("multiplying x times 10...")
+x * 20
 ```
 ````
 
-A similar effect can be achieved by using the `js_live = FALSE` chunk option to instead run the JavaScript code using `node` at compile time. In this setting, the results printed by the `node` process are captured and stored in the document, resulting in a non-dynamic output that captures the results of the JavaScript runtime code. 
+Each JavaScript chunk is evaluated in its own block scope 
+and the return value of the block is automatically printed to the output chunk,
+unless the value is `undefined`.
 
-````
-```{js, js_live = FALSE}
-let x = 10
-console.log(x * 20)
-```
-````
-
-In both of the above settings, each code chunk is run separately. You can use the `js_redirect = FALSE` knitr chunk option to disable the `console.log()` redirect and use the standard JavaScript engine included in the \pkg{knitr} package. Logged statements will still be available in the browser's devolper tools console, as this engine is equivalent to having entered the JavaScript code directly into the HTML source within a `<script>` tag.
+Because each chunk is block-scoped,
+variables created in one block may not be available to other chunks.
+However, you can create global chunks by temporarily disabling the console redirect
+by adding the `js_redirect = FALSE` to the chunk that you would like to be evaluated in the global scope.
+This option disables the `console.log()` redirect 
+and uses the standard JavaScript engine included in the \pkg{knitr} package. 
+Logged statements will still be available in the browser's developer tools console, 
+and variables created in the global scope are thereafter available to all chunks.
 
 ````
 ```{js, js_redirect = FALSE}
-const globalVariable = 'this is a global variable'
+let globalVariable = 'this is a global variable'
 console.log(globalVariable) // goes to browser console
 ```
 
 ```{js}
 console.log(globalVariable) // outputs in document
+```
+````
+
+Within the document, 
+it may not be clear which chunks are evaluated globally,
+so I recommend declaring global variables with `let` instead of `const`.
+
+It's also possible to send the JavaScript code to `node` by setting the `js_live = FALSE` chunk option. 
+The JavaScript code is then run using `node` at compile time 
+and each chunk evaluated in a separate process.
+In this setting, the results printed by the `node` process are captured and stored in the document, 
+resulting in a static output that captures the results of the JavaScript run-time code.
+
+````
+```{js, js_live = FALSE}
+let x = 10
+console.log(x * 20)
 ```
 ````
