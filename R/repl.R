@@ -592,7 +592,7 @@ repl_server <- function(render_dir) {
 
     shiny::observe({
       I("Show/Hide Btn: Show Solution")
-      state <- !is.null(solution())
+      state <- !is.null(example_yaml()$solution)
       session$sendCustomMessage("showSolutionButton", state)
     })
 
