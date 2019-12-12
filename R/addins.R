@@ -92,6 +92,10 @@ ask_where_to_launch <- function() {
   }
 }
 
+#' @describeIn repl Launch a \pkg{js4shiny} exercise or example using the
+#'   example slug, or the full filename. If none provided, `repl_example()`
+#'   launches an interactive example browser.
+#' @export
 repl_example <- function(example = NULL) {
   if (is.null(example)) {
     example <- choose_examples()

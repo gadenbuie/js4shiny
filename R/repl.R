@@ -11,9 +11,11 @@
 #' used to load examples for practicing and learning JavaScript and web
 #' development concepts.
 #'
-#' TODO: include details on how to load examples.
-#'
-#' @param example Path to folder containing example or to an example Rmd file.
+#' @param example The short name of the exercise or example, e.g.
+#'   `ride-share-fares`. Alternatively, the path to a folder containing examples
+#'   or the path to an example file directly. `repl_example(example = NULL)`
+#'   opens an interactive browser to select an example, otherwise `repl()` and
+#'   `repl_js()` will open with blank editors.
 #' @param render_dir Where to render temporary files, defaults to `tempdir()`
 #' @param js_repl_only When `TRUE`, the app is simplified to contain only a
 #'   JavaScript source editor and a console output. `repl_js()` is an alias to
