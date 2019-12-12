@@ -43,7 +43,7 @@ const redirectLogger = (function(origConsole) {
           } else if (
             arg instanceof Error
           ) {
-            output += arg.message;
+            output += `[${arg.name}] ${arg.message}`;
           } else if (
             typeof arg === "object" &&
             typeof JSON === "object" &&
