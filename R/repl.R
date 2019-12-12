@@ -39,6 +39,15 @@ repl <- function(
     render_dir <- file.path(tempdir(), "repl_render")
   }
   if (!js_repl_only) repl_show_disclaimer()
+  if (!is.null(example)) {
+    if (!file.exists(example)) {
+      ex_slug <- example
+      example <- search_for_example(example)
+      if (is.null(example)) {
+        warning('"', ex_slug, '" does not exist or is not the name of an example')
+      }
+    }
+  }
   shiny::shinyApp(
     ui = repl_ui(example, js_repl_only, theme_app = theme_app, theme_editor = theme_editor),
     server = repl_server(render_dir),
