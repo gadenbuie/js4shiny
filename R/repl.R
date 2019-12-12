@@ -477,8 +477,17 @@ repl_server <- function(render_dir) {
       ), file = rmd_file)
 
       # create js file from input code
+      js_code <- glue(
+        'try {{
+          let ret = eval({js_escape(js)});
+          if (typeof ret !== "undefined") console.log(ret);
+        }} catch (error) {{
+          console.log(error);
+        }}
+        '
+      )
       js_file <- file.path(render_dir, paste0("script_", session$token, ".js"))
-      cat(js, file = js_file, sep = "\n")
+      cat(js_code, file = js_file, sep = "\n")
 
       # create css file from input css
       if (!is.null(css)) {
