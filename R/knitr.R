@@ -91,9 +91,9 @@ knitr_json_engine <- function() {
         "<script>",
         glue("let data_{label} = {code}"),
         if (view_json) {
-          glue("document.addEventListener('DOMContentLoaded', function() {
+          glue("document.addEventListener('DOMContentLoaded', function() {{
                   window.jsonView.format(data_{label}, '#json-{label}')
-                })")
+                }})")
         },
         "</script>",
         sep = "\n"
