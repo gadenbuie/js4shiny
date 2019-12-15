@@ -106,7 +106,7 @@ html_document_js <- function(
       to = "html5",
       from = "markdown+ascii_identifiers+tex_math_single_backslash",
       args = c(
-        if (!is.null(css)) paste("--css", css),
+        if (!is.null(css)) purrr::map(css, ~c("--css", .x)) %>% purrr::flatten_chr(),
         pandoc_args,
         "--template",
         js4shiny_file("template-html", "js4shiny.html")
