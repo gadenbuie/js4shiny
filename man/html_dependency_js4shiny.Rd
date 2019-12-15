@@ -7,7 +7,7 @@
 \title{js4shiny HTML Dependencies}
 \usage{
 html_dependency_js4shiny(redirectConsole = TRUE, jsonview = TRUE,
-  stylize = "all")
+  stylize = "all", use_google_fonts = FALSE)
 
 html_dependency_redirectConsoleLog()
 
@@ -24,6 +24,9 @@ JSON objects for the \pkg{knitr} json engine.}
 \item{stylize}{One of "none", "all", "fonts", "variables", "table",
 "utility", "code", "pandoc-line-numbers" to include the CSS styles
 developed for \pkg{js4shiny}.}
+
+\item{use_google_fonts}{Should fonts hosted on Google Fonts be included?
+Default is \code{FALSE}, where only system fonts will be used.}
 
 \item{...}{Arguments passed to \code{html_dependency_js4shiny()}.}
 }

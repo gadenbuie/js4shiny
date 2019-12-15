@@ -11,17 +11,19 @@
 #' @param stylize One of "none", "all", "fonts", "variables", "table",
 #'   "utility", "code", "pandoc-line-numbers" to include the CSS styles
 #'   developed for \pkg{js4shiny}.
+#' @inheritParams html_document_js
 #' @family js4shiny HTML dependencies
 #' @export
 html_dependency_js4shiny <- function(
   redirectConsole = TRUE,
   jsonview = TRUE,
-  stylize = "all"
+  stylize = "all",
+  use_google_fonts = FALSE
 ) {
   stylize <- match.arg(
     stylize,
     choices = c("none", "all", "fonts", "variables", "table", "utility", "code",
-                "pandoc-line-numbers"),
+                "stylize", "pandoc-line-numbers"),
     several.ok = TRUE
   )
 
@@ -45,12 +47,16 @@ html_dependency_js4shiny <- function(
     deps <- c(deps, list(html_dependency_redirectConsoleLog()))
   }
 
+  if (use_google_fonts) {
+    deps <- c(list(html_dependency_google_fonts()), deps)
+  }
+
   deps
 }
 
 stylize_bundle <- function(
   include= c("all", "fonts", "variables", "table", "utility", "code",
-             "pandoc-line-numbers"),
+             "stylize", "pandoc-line-numbers"),
   bundle = FALSE,
   rel = TRUE
 ) {
@@ -110,6 +116,17 @@ html_dependency_stylize <- function(...) {
     version = utils::packageVersion("js4shiny"),
     src = "template-html",
     stylesheet = stylize_bundle(..., bundle = FALSE),
+    all_files = FALSE
+  )
+}
+
+html_dependency_google_fonts <- function() {
+  htmltools::htmlDependency(
+    name = "js4shiny-google-fonts",
+    version = utils::packageVersion("js4shiny"),
+    package = "js4shiny",
+    src = "template-html",
+    stylesheet = "css/_google-fonts.css",
     all_files = FALSE
   )
 }

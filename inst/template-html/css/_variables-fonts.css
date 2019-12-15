@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono%7CLato:400,400i,700,700i%7CNeuton:400i%7CNunito+Sans:800,800i%7CPermanent+Marker&display=swap');
-
 :root {
   --font-monospace: 'Source Code Pro', 'Fira Code', 'Consolas', 'Monaco', monospace;
   --font-body: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;

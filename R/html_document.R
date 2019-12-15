@@ -21,6 +21,9 @@
 #'
 #' @param highlight One of the pandoc highlight styles.
 #' @param use_fontawesome Should FontAwesome be included? Default is `FALSE`.
+#' @param use_google_fonts Should fonts hosted on Google Fonts be included?
+#'   Default is `FALSE`, where only system fonts will be used.
+#' @param theme Ignored
 #' @inheritParams rmarkdown::html_document
 #' @export
 html_document_js <- function(
@@ -31,6 +34,7 @@ html_document_js <- function(
   toc_depth = 3,
   mathjax = NULL,
   use_fontawesome = FALSE,
+  use_google_fonts = FALSE,
   highlight = "haddock",
   fig_width = 10,
   fig_height = 7,
@@ -44,7 +48,10 @@ html_document_js <- function(
     warning("theme is ignored in html_document_js()", call. = FALSE)
   }
 
-  deps <- c(html_dependency_js4shiny(), extra_dependencies)
+  deps <- c(
+    html_dependency_js4shiny(stylize = "all", use_google_fonts = use_google_fonts),
+    extra_dependencies
+  )
 
   # disable fontawesome if !use_fontawesome
   # add to pandoc_args rmarkdown::pandoc_toc_args(toc, toc_depth)

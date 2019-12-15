@@ -6,7 +6,7 @@
 \alias{register_knitr_js_engine}
 \title{Register js4shiny knitr components}
 \usage{
-register_knitr_output_hooks(set = TRUE)
+register_knitr_output_hooks(set = TRUE, chunk_hook = NULL)
 
 register_knitr_js_engine(set = TRUE)
 }

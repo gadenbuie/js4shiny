@@ -6,18 +6,15 @@
 \usage{
 html_document_js(..., theme = NULL, css = NULL, toc = FALSE,
   toc_depth = 3, mathjax = NULL, use_fontawesome = FALSE,
-  highlight = "haddock", fig_width = 10, fig_height = 7,
-  fig_retina = 2, keep_md = FALSE, dev = "png", pandoc_args = NULL,
-  extra_dependencies = NULL)
+  use_google_fonts = FALSE, highlight = "haddock", fig_width = 10,
+  fig_height = 7, fig_retina = 2, keep_md = FALSE, dev = "png",
+  pandoc_args = NULL, extra_dependencies = NULL)
 }
 \arguments{
 \item{...}{Additional function arguments to pass to the
 base R Markdown HTML output formatter \code{\link{html_document_base}}}
 
-\item{theme}{Visual theme ("default", "cerulean", "journal", "flatly",
-"darkly", "readable", "spacelab", "united", "cosmo", "lumen", "paper",
-"sandstone", "simplex", or "yeti"). Pass \code{NULL} for no theme (in this
-case you can use the \code{css} parameter to add your own styles).}
+\item{theme}{Ignored}
 
 \item{css}{One or more css files to include}
 
@@ -31,6 +28,9 @@ copied into the output directory). You can pass an alternate URL or pass
 \code{NULL} to exclude MathJax entirely.}
 
 \item{use_fontawesome}{Should FontAwesome be included? Default is \code{FALSE}.}
+
+\item{use_google_fonts}{Should fonts hosted on Google Fonts be included?
+Default is \code{FALSE}, where only system fonts will be used.}
 
 \item{highlight}{One of the pandoc highlight styles.}
 
