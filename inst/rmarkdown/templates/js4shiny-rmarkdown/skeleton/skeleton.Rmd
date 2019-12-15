@@ -4,8 +4,6 @@ output: js4shiny::html_document_js
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-js4shiny::register_knitr_output_hooks()
 ```
 
 ## R Markdown
@@ -23,21 +21,12 @@ summary(cars)
 The `js4shiny::html_document_js()` format enables **literate programming** with JavaScript.
 All `console.log()` outputs are evaluated in the browser and returned within the document when viewed,
 just like the R code above.
+Note that the final line doesn't require an explicit `console.log()`.
 
-```{js, name="Tagged Template Literals"}
-function boldMe(strs, ...vals) {
-    let str = strs.map((string, i) => {
-        return `${string}${vals[i] ? `<b>${vals[i]}</b>` : ''}`
-    })
-    return str.join('');
-}
-
-const make = 'Porsche'
-const model = '718 Cayman'
-const sentence = boldMe`My next car is a ${make} ${model}`
-console.log(sentence);
-
-console.log(`My next car is a ${make ? `<b>${make}</b>` : ''}`)
+```{js, name="app.js"}
+let x = 10
+console.log("multiplying x times 10...")
+x * 20
 ```
 
 ## JSON

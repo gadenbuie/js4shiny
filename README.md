@@ -27,10 +27,6 @@ that, when used with the default settings, each JavaScript chunk is run in it's 
 output: js4shiny::html_document_js
 ---
 
-```{r setup, include=FALSE}
-js4shiny::register_knitr_output_hooks()
-```
-
 ```{js}
 let x = 10
 console.log("multiplying x times 10...")

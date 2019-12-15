@@ -135,8 +135,8 @@ NULL
 #' @param set If `FALSE` the output hook or JS engine are returned rather than
 #'   setting via knitr directly.
 #' @export
-register_knitr_output_hooks <- function(set = TRUE) {
-  if (set) chunk_hook <- knitr::knit_hooks$get("chunk")
+register_knitr_output_hooks <- function(set = TRUE, chunk_hook = NULL) {
+  if (set && is.null(chunk_hook)) chunk_hook <- knitr::knit_hooks$get("chunk")
   chunk_name_hook <- function(x, options) {
     is_html <- knitr::is_html_output(excludes = "markdown")
     has_name <- !is.null(options$name)

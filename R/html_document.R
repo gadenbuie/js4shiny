@@ -84,11 +84,8 @@ html_document_js <- function(
     )
   }
 
-  # knit_hooks <- knitr::knit_hooks$get()
-  # knit_hooks$chunk <- register_knitr_output_hooks(set = FALSE)
-  register_knitr_js_engine()
 
-  rmarkdown::output_format(
+  output_format <- rmarkdown::output_format(
     knitr = rmarkdown::knitr_options(
       opts_chunk = list(
         fig_width = fig_width,
@@ -96,8 +93,7 @@ html_document_js <- function(
         fig_retina = fig_retina,
         keep_md = keep_md,
         dev = dev
-      ) #,
-        # knit_hooks = knit_hooks
+      )
     ),
     pandoc = rmarkdown::pandoc_options(
       to = "html5",
@@ -118,5 +114,14 @@ html_document_js <- function(
       ...
     )
   )
+
+  # Customize knitr engines and output hooks
+  register_knitr_js_engine()
+  output_format$knitr$knit_hooks$chunk <- register_knitr_output_hooks(
+    set = FALSE,
+    chunk_hook = output_format$knitr$knit_hooks$chunk
+  )
+
+  output_format
 }
 
