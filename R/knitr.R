@@ -110,8 +110,11 @@ knitr_html_engine <- function() {
     out <- if (options$eval && knitr::is_html_output()) {
       paste0(
         '\n```{=html}\n',
-        options$code,
-        "\n```"
+        if (!is.null(options$class.output)) paste0(
+          '<div class="', options$class.output, '">\n'
+        ) else '<div>\n',
+        paste(options$code, collapse = "\n"),
+        "\n</div>\n```"
       )
     }
     options$results <- "asis"
