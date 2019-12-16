@@ -97,8 +97,10 @@ ask_where_to_launch <- function() {
 #'   launches an interactive example browser.
 #' @export
 repl_example <- function(example = NULL) {
+  chose_example <- FALSE
   if (is.null(example)) {
     example <- choose_examples()
+    chose_example <- TRUE
   } else {
     if (!file.exists(example)) {
       example <- search_for_example(example)
@@ -110,24 +112,49 @@ repl_example <- function(example = NULL) {
   }
 
   # Choose runtime for example (repl() or repl_js())
-  if (!fs::is_dir(example)) {
-    info <- extract_yaml(example)
-    run_fn <- info$example$runtime %||% "repl"
-    if (!run_fn %in% c("repl", "repl_js")) {
-      warning(glue("Unkown runtime in example yaml: '{run_fn}'"))
+  run_fn <- choose_runtime(example)
+
+  run_cmd <- glue('js4shiny::{run_fn}(example = "{example}")')
+  if (!chose_example) {
+    eval(parse(text = run_cmd))
+  } else {
+    # Can't launch a Shiny app from a running Shiny gadget. Instead, we send the
+    # repl() command to console to launch.
+    # Thanks to Joris Meys: https://stackoverflow.com/a/44891545
+    rstudioapi::sendToConsole(run_cmd, execute = TRUE)
+  }
+}
+
+choose_runtime <- function(example) {
+  if (basename(example) == "app.R") {
+    run_fn <- ":open_app_example"
+  } else if (basename(example) == "index.html") {
+    run_fn <- ":open_html_example"
+  } else {
+    if (!fs::is_dir(example)) {
+      info <- extract_yaml(example)
+      run_fn <- info$example$runtime %||% "repl"
+      if (!run_fn %in% c("repl", "repl_js")) {
+        warning(glue("Unkown runtime in example yaml: '{run_fn}'"))
+        run_fn <- "repl"
+      }
+    } else {
       run_fn <- "repl"
     }
-  } else {
-    run_fn <- "repl"
   }
+  run_fn
+}
 
-  # Can't launch a Shiny app from a running Shiny gadget. Instead, we send the
-  # repl() command to console to launch.
-  # Thanks to Joris Meys: https://stackoverflow.com/a/44891545
-  rstudioapi::sendToConsole(
-    glue('js4shiny::{run_fn}(example = "{example}")'),
-    execute = TRUE
+open_app_example <- function(example) {
+  rstudioapi::documentNew(
+    text = paste(readLines(example, warn = FALSE), collapse = "\n"),
+    type = "r",
+    execute = FALSE
   )
+}
+
+open_html_example <- function(example) {
+  stop("not yet implemented")
 }
 
 search_for_example <- function(example) {
@@ -139,6 +166,23 @@ search_for_example <- function(example) {
     recursive = TRUE
   )
   all_example_slugs <- sub("(.+)[.][Rr]md", "\\1", basename(all_examples))
+
+  example_found <- all_examples[which(example == all_example_slugs)]
+  if (length(example_found)) {
+    example_found[1]
+  } else {
+    search_for_example_dir(example)
+  }
+}
+
+search_for_example_dir <- function(example) {
+  all_examples <- dir(
+    js4shiny_file("examples"),
+    pattern = "app[.][rR]|index[.]html?",
+    full.names = TRUE,
+    recursive = TRUE
+  )
+  all_example_slugs <- basename(dirname(all_examples))
 
   example <- all_examples[which(example == all_example_slugs)]
   if (length(example)) example[1] else NULL
