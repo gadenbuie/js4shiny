@@ -1,6 +1,7 @@
 test_that("resources loaded in correct order", {
   rmd <- '
 ---
+pagetitle: test html document plain
 output:
   js4shiny::html_document_plain:
     self_contained: false
