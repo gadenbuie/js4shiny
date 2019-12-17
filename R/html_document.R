@@ -128,6 +128,7 @@ html_document_js <- function(
     set = FALSE,
     chunk_hook = output_format$knitr$knit_hooks$chunk
   )
+  options("js4shiny.knitr_chunk_hook" = TRUE)
 
   output_format
 }

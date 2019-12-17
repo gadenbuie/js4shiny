@@ -136,7 +136,13 @@ NULL
 #'   setting via knitr directly.
 #' @export
 register_knitr_output_hooks <- function(set = TRUE, chunk_hook = NULL) {
-  if (set && is.null(chunk_hook)) chunk_hook <- knitr::knit_hooks$get("chunk")
+  was_registered <- getOption("js4shiny.knitr_chunk_hook", FALSE)
+  if (set && was_registered) {
+    return()
+  }
+  if (set && is.null(chunk_hook)) {
+    chunk_hook <- knitr::knit_hooks$get("chunk")
+  }
   chunk_name_hook <- function(x, options) {
     is_html <- knitr::is_html_output(excludes = "markdown")
     has_name <- !is.null(options$name)
@@ -146,6 +152,9 @@ register_knitr_output_hooks <- function(set = TRUE, chunk_hook = NULL) {
     if (!set) x else chunk_hook(x, options)
   }
   if (!set) return(chunk_name_hook)
+  if (!was_registered) {
+    options("js4shiny.knitr_chunk_hook" = TRUE)
+  }
   knitr::knit_hooks$set(chunk = chunk_name_hook)
 }
 
