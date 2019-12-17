@@ -13,6 +13,10 @@ register_knitr_js_engine(set = TRUE)
 \arguments{
 \item{set}{If \code{FALSE} the output hook or JS engine are returned rather than
 setting via knitr directly.}
+
+\item{chunk_hook}{Chunk hook to be applied \emph{after} the js4shiny chunk hook
+is applied to the chunk output. If \code{NULL}, then the current chunk hook
+is used. Only applies when \code{set = TRUE}.}
 }
 \description{
 Register the js4shiny knitr JavaScript engine or the output hooks. Generally,

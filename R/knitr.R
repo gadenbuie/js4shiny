@@ -134,6 +134,9 @@ NULL
 #' @rdname register_knitr
 #' @param set If `FALSE` the output hook or JS engine are returned rather than
 #'   setting via knitr directly.
+#' @param chunk_hook Chunk hook to be applied _after_ the js4shiny chunk hook
+#'   is applied to the chunk output. If `NULL`, then the current chunk hook
+#'   is used. Only applies when `set = TRUE`.
 #' @export
 register_knitr_output_hooks <- function(set = TRUE, chunk_hook = NULL) {
   was_registered <- getOption("js4shiny.knitr_chunk_hook", FALSE)
