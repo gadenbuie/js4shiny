@@ -1258,7 +1258,7 @@ includeExtrasModule <- function(input, output, session, files = list(), ...) {
     if (is.null(resource)) {
       # doesn't exist on unpkg?
       shiny::showNotification(
-        glue("Could not locate {url} on unpkg"),
+        glue("Could not locate {input$file_url} on unpkg"),
         type = "warning"
       )
     } else {
