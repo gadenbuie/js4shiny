@@ -473,6 +473,7 @@ repl_server <- function(render_dir) {
         js = input$code_js,
         css = input$code_css,
         md = input$code_md,
+        md_format = input$md_format,
         resources = extra_resources()$files
       )
 
@@ -640,6 +641,13 @@ repl_server <- function(render_dir) {
           collapse = "\n"
         )
       )
+
+      shiny::updateSelectInput(
+        session,
+        inputId = "md_format",
+        selected = cache$md_format %||% example_yaml()$mode %||% "md"
+      )
+
       example_resources$files <- cache$resources %||%
         extract_resources(this_example %||% return(NULL))
       skip_compile(TRUE)
