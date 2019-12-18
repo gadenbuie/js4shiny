@@ -1,0 +1,75 @@
+---
+pagetitle: Pseudo-Classes
+example:
+  title: Pseudo-Classes
+  instructions: ~
+  hint: ~
+  initial:
+    js: ~
+    css: |-
+      html {
+        font-size: 32px;
+        --red: #d33f49;
+        --green: #44bc96;
+        --blue: #4d8dc9;
+        --light-red: #e3848b;
+        --lightest-blue: #bad4ed;
+      }
+
+      .btn-do {
+        background-color: white;
+        border: 0.5em solid black;
+        padding: 0.5em;
+        margin: 1em;
+      }
+
+      .btn-do:hover {
+        border-color: var(--blue);
+        background-color: var(--lightest-blue);
+      }
+
+      .btn-do:focus {
+        border-color: var(--green);
+        outline: none;
+      }
+
+      .btn-do:active {
+        border-color: var(--red);
+      }
+  solution:
+    js: ~
+    css: |-
+      html {
+        font-size: 32px;
+        --red: #d33f49;
+        --green: #44bc96;
+        --blue: #4d8dc9;
+        --light-red: #e3848b;
+        --lightest-blue: #bad4ed;
+      }
+
+      .btn-do {
+        background-color: white;
+        border: 0.5em solid black;
+        padding: 0.5em;
+        margin: 1em;
+      }
+
+      .btn-do:hover {
+        border-color: var(--blue);
+        background-color: var(--lightest-blue);
+      }
+
+      .btn-do:focus {
+        border-color: var(--green);
+        outline: none;
+      }
+
+      .btn-do:active {
+        border-color: var(--red);
+      }
+output: js4shiny::html_document_plain
+
+---
+
+<button class="btn-do">Do the thing</button>

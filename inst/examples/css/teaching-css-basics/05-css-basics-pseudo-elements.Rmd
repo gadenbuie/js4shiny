@@ -1,0 +1,27 @@
+---
+pagetitle: Pseudo-Elements
+example:
+  title: Pseudo-Elements
+  instructions: ~
+  hint: '&ldquo;'
+  initial:
+    js: ~
+    css: |-
+      .big-quote::before {
+
+      }
+  solution:
+    js: ~
+    css: |-
+      .big-quote::before {
+        content: '“';
+        font-size: 4em;
+        font-family: serif;
+        font-style: italic;
+        color: #ddd;
+      }
+output: js4shiny::html_document_plain
+
+---
+
+<blockquote class="big-quote">It was a dark and stormy night.</blockquote>

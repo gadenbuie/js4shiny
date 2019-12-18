@@ -1,0 +1,124 @@
+---
+pagetitle: CSS Basics - Appearance
+example:
+  title: CSS Basics - Appearance
+  instructions: ~
+  hint: ~
+  initial:
+    css: |-
+      :root {
+        --red: #d33f49;
+        --orange: #ff6300;
+        --purple: #993d70;
+        --green: #44bc96;
+        --dark-blue: #466683;
+        --blue: #4d8dc9;
+        --shiny-logo: url('https://git.io/Je7D2');
+      }
+
+      /* ---- color ---- */
+      .shiny {
+        color: #4d8dc9;
+      }
+
+      /* ---- size ---- */
+      .big-square {
+        /* green 100x100 */
+      }
+
+      .small-square {
+        /* blue 20x20 */
+      }
+
+      /* ---- border ---- */
+      .big-square {
+        /* thick red border */
+      }
+
+      .small-square {
+        /* 2px purple border */
+      }
+
+      /* ---- background ---- */
+      .shiny-logo {
+        width: 150px;
+        height: 150px;
+        /* blue background */
+        /* with shiny logo */
+      }
+
+      .shiny-logo2 {
+        width: 150px;
+        height: 150px;
+        /* shiny-logo single-line background */
+      }
+  solution:
+    css: |-
+      :root {
+        --red: #d33f49;
+        --orange: #ff6300;
+        --purple: #993d70;
+        --green: #44bc96;
+        --dark-blue: #466683;
+        --blue: #4d8dc9;
+        --shiny-logo: url('https://git.io/Je7D2');
+      }
+
+      /* ---- color ---- */
+      .shiny {
+        color: #4d8dc9;
+      }
+
+      /* ---- size ---- */
+      .big-square {
+        width: 100px;
+        height: 100px;
+        background: #44bc96;
+      }
+
+      .small-square {
+        width: 20px;
+        height: 20px;
+        background: #4d8dc9;
+      }
+
+      /* ---- border ---- */
+      .big-square {
+        border: solid thick #d33f49;
+      }
+
+      .small-square {
+        border: 2px solid #993d70;
+      }
+
+      /* ---- background ---- */
+      .shiny-logo {
+        width: 150px;
+        height: 150px;
+        background-color: #4d8dc9;
+        background-image: url('https://git.io/Je7D2');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .shiny-logo2 {
+        width: 150px;
+        height: 150px;
+        background: #4d8dc9 center / contain no-repeat url('https://git.io/Je7D2');
+      }
+output: js4shiny::html_document_plain
+---
+
+<p class="shiny">All of this text is Shiny blue</p>
+
+<div class="big-square"></div>
+<div class="small-square"></div>
+
+<p>
+  This text also has a
+  <span class="small-square"></span>
+  small square.
+</p>
+
+<div class='shiny-logo'></div>
