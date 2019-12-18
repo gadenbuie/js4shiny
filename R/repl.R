@@ -480,13 +480,14 @@ repl_server <- function(render_dir) {
 
       # create rmd_file from input md
       rmd_file <- tempfile(fileext = ".Rmd")
+      md_insert <- if (input$md_format == "html") "<!--HTML PLACEHOLDER-->" else md
       cat(glue("
         ---
         pagetitle: {example_title}
         output: js4shiny::html_document_plain
         ---
 
-        {md}
+        {md_insert}
         "
       ), file = rmd_file)
 
@@ -549,6 +550,10 @@ repl_server <- function(render_dir) {
         res$error <<- e$message
       }
       )
+
+      if (file.exists(html_out_file_abs) && input$md_format == "html") {
+        replace_placeholder(html_out_file_abs, md)
+      }
 
       if (!file.exists(html_out_file_abs)) {
         res$file <- NULL
@@ -771,6 +776,7 @@ repl_server <- function(render_dir) {
             js = input$code_js,
             css = input$code_css,
             md = input$code_md,
+            raw_html = input$md_format == "html",
             token = session$token,
             resources = extra_resources(),
             out_file = file
@@ -890,6 +896,17 @@ repl_save <- function(example_yaml, has_extra_resources = FALSE) {
   )
 }
 
+replace_placeholder <- function(
+  path,
+  replacement,
+  placeholder = "<!--HTML PLACEHOLDER-->"
+) {
+  text <- readLines(path)
+  replace_idx <- which(text == placeholder)
+  text <- c(text[1:(replace_idx - 1)], replacement, text[-(1:(replace_idx + 1))])
+  writeLines(text, path)
+}
+
 write_temp_files <- function(
   js = "",
   css = "",
@@ -924,6 +941,7 @@ create_project_zip <- function(
   js = "",
   css = "",
   md = "",
+  raw_html = FALSE,
   token = NULL,
   resources = NULL,
   out_file = "project.zip"
@@ -934,7 +952,9 @@ create_project_zip <- function(
     tempfile()
   }
 
-  write_temp_files(js, css, md, destdir)
+  md_text <- if (raw_html) "<!--HTML PLACEHOLDER-->" else md
+
+  write_temp_files(js, css, md_text, destdir)
 
   md_file <- file.path(destdir, "index.md")
   html_file <- file.path(destdir, "index.html")
@@ -966,6 +986,10 @@ create_project_zip <- function(
       css = includes$css
     )
   )
+
+  if (raw_html) {
+    replace_placeholder(html_file, md)
+  }
 
   # zip up!
   old_wd <- setwd(destdir)
