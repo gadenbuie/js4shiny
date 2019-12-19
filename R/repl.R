@@ -211,7 +211,7 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
     ),
     if (include_css) shiny::tabPanel(
       "CSS",
-      value = "css",
+      value = "styles",
       shinyAce::aceEditor(
         "code_css",
         value = if (is.character(css)) css else "",
@@ -222,12 +222,12 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
       )
     ),
     if (include_md) shiny::tabPanel(
-      "R Markdown",
-      value = "md",
+      "HTML",
+      value = "document",
       shinyAce::aceEditor(
         "code_md",
         value = if (is.character(md)) md else "",
-        mode = "markdown",
+        mode = "html",
         debounce = 1000,
         height = "100%",
         ...
@@ -746,7 +746,7 @@ repl_server <- function(render_dir) {
       fmt_mode <- switch(input$mode_document, md = "markdown", html = "html")
       session$sendCustomMessage("updateTabName", list(
         id = "panel-code-tabset",
-        value = "md",
+        value = "document",
         replacement = fmt_label
       ))
       shinyAce::updateAceEditor(
