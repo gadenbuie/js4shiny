@@ -101,10 +101,10 @@ repl_example <- function(example = NULL) {
   if (is.null(example)) {
     example <- choose_examples()
     chose_example <- TRUE
-  } else {
-    if (!file.exists(example)) {
-      example <- search_for_example(example)
-    }
+  }
+  is_dir <- dir.exists(example)
+  if (is_dir || !file.exists(example)) {
+    example <- search_for_example(basename(example))
   }
 
   if (is.null(example)) {
