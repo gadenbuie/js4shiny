@@ -168,7 +168,7 @@ choose_runtime <- function(example) {
 
 open_app_example <- function(example) {
   rstudioapi::documentNew(
-    text = paste(readLines(example, warn = FALSE), collapse = "\n"),
+    text = paste(read_lines(example), collapse = "\n"),
     type = "r",
     execute = FALSE
   )

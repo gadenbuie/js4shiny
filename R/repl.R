@@ -89,7 +89,7 @@ get_hint <- function(path) {
 }
 
 extract_yaml <- function(path) {
-  x <- readLines(path)
+  x <- read_lines(path)
   if (!sum(grepl("^---", x)) >= 2) return()
   yaml_between <- grep("^---\\s*", x)[1:2] # assume first two ---
   yaml::yaml.load(x[(yaml_between[1] + 1):(yaml_between[2] - 1)])
@@ -101,7 +101,7 @@ strip_pandoc_wrapper_divs <- function(text) {
 
 remove_yaml <- function(text) {
   if (length(text) == 1 || !grepl('\n', text)) {
-    text <- readLines(text)
+    text <- read_lines(text)
   }
   yaml_between <- grep("^---\\s*", text)[1:2]
   strip_pandoc_wrapper_divs(text[-(yaml_between[1]:yaml_between[2])])
@@ -929,7 +929,7 @@ replace_placeholder <- function(
   replacement,
   placeholder = "<!--HTML PLACEHOLDER-->"
 ) {
-  text <- readLines(path)
+  text <- read_lines(path)
   replace_idx <- which(text == placeholder)
   text <- c(text[1:(replace_idx - 1)], replacement, text[-(1:(replace_idx + 1))])
   writeLines(text, path)

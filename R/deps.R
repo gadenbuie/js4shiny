@@ -85,7 +85,7 @@ stylize_bundle <- function(
   }
 
   js4shiny_file("template-html", "css", stylize_components) %>%
-    purrr::map(readLines, warn = FALSE) %>%
+    purrr::map(read_lines, warn = FALSE) %>%
     purrr::map_chr(paste, collapse = "\n") %>%
     paste(collapse = "\n")
 }

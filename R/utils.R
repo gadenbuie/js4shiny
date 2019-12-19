@@ -12,3 +12,5 @@ requires_pkg <- function(pkg) {
 
 collapse <- function(..., sep_c = '\n') paste(..., collapse = sep_c)
 collapse0 <- function(..., sep_c = "\n") paste(..., sep = "", collapse = sep_c)
+
+read_lines <- function(path, ...) readLines(path, warn = FALSE, ...)

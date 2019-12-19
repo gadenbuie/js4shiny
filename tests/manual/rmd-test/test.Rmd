@@ -3,6 +3,7 @@ output: js4shiny::html_document_js
 ---
 
 ```{r setup, include=FALSE}
+knitr::opts_chunk$set(js_lint = TRUE)
 js4shiny::register_knitr_output_hooks()
 ```
 
@@ -16,7 +17,7 @@ Toggle the opacity of this paragraph with a button and some Javascript.
 <!-- <div class="pre-name">myScript.js</div> -->
 
 ```{js, name="myScript.js"}
-const btn = document.getElementById('toggle-paragraph')
+const btn = document.getElementById("toggle-paragraph")
 btn.addEventListener('click', () => {
     const p = document.querySelector('p')
     if (!p.style.transition) {

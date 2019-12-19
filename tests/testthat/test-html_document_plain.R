@@ -22,7 +22,7 @@ output:
   tmpout <- tempfile(fileext = ".html")
   rmarkdown::render(tmprmd, output_file = tmpout, quiet = TRUE)
 
-  rendered <- readLines(tmpout)
+  rendered <- read_lines(tmpout)
   expect_true(
     which(grepl("script-head-1", rendered)) <
       which(grepl("script-head-2", rendered))
