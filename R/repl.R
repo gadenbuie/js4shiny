@@ -811,6 +811,7 @@ repl_server <- function(render_dir) {
               }
             ),
             md = input$code_md,
+            runtime = input$save_example_runtime,
             resources = extra_resources(),
             output_file = file
           )
@@ -883,7 +884,7 @@ repl_save <- function(example_yaml, has_extra_resources = FALSE) {
         ),
         shiny::fluidRow(
           shiny::div(
-            class = "col-xs-6",
+            class = "col-xs-4",
             shiny::selectInput(
               inputId = "save_example_location_js",
               label = "Include JavaScript as",
@@ -893,12 +894,22 @@ repl_save <- function(example_yaml, has_extra_resources = FALSE) {
             )
           ),
           shiny::div(
-            class = "col-xs-6",
+            class = "col-xs-4",
             shiny::selectInput(
               inputId = "save_example_location_css",
               label = "Include CSS as",
               choices = save_example_location_choices,
               selected = "both",
+              selectize = FALSE
+            )
+          ),
+          shiny::div(
+            class = "col-xs-4",
+            shiny::selectInput(
+              inputId = "save_example_runtime",
+              label = "Run Example In",
+              choices = c("Full REPL" = "repl", "JavaScript Only" = "repl_js"),
+              selected = "repl",
               selectize = FALSE
             )
           )
@@ -1031,6 +1042,7 @@ create_example_rmd <- function(
   solution = NULL,
   md = NULL,
   mode = NULL,
+  runtime = NULL,
   resources = NULL,
   output_file = "example.Rmd"
 ) {
@@ -1039,6 +1051,7 @@ create_example_rmd <- function(
     title = title,
     instructions = default_example_value(instructions),
     hint = default_example_value(hint),
+    runtime = default_example_value(runtime, "repl"),
     mode = mode,
     initial = list(
       js = default_example_value(initial$js),
