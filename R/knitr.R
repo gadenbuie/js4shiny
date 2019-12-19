@@ -11,6 +11,17 @@ knitr_js_engine <- function() {
 
     eval_live <- options$eval && (is.null(options$js_live) || options$js_live)
 
+    if (isTRUE(options$js_lint) || options$js_lint == "standard") {
+      res_lint <- js_lint(options$code, "standard", options$label)
+      if (!is.null(res_lint$warnings)) {
+        purrr::walk(res_lint$warnings, ~ {
+          tmpd <- normalizePath(tempdir())
+          message(sub(tmpd, "", suppressWarnings(.x), fixed = TRUE))
+        })
+      }
+      options$code <- res_lint$code
+    }
+
     out <- if (eval_live && knitr::is_html_output(excludes = 'markdown')) {
       out_id <- glue("out-{options$label}")
       out_logger <- glue('log_{gsub("[^a-zA-Z0-9]", "_", out_id)}')
@@ -37,6 +48,40 @@ knitr_js_engine <- function() {
 
     options$results <- 'asis'
     knitr::engine_output(options, options$code, out)
+  }
+}
+
+js_lint <- function(code, linter, chunk_name = "unnamed-chunk") {
+  if (linter != "standard") {
+    return(code)
+  }
+  if (js_lint_has_standard()) {
+    tmpf <- file.path(tempdir(), glue("{chunk_name}.js"))
+    on.exit(unlink(tmpf))
+    writeLines(code, tmpf)
+    res <- suppressWarnings(
+      system(
+        glue("(cd {dirname(tmpf)} && standard --fix {basename(tmpf)})"),
+        intern = TRUE
+      )
+    )
+    code <- readLines(tmpf, warn = FALSE)
+  }
+  list(code = code, warnings = res)
+}
+
+js_lint_has_standard <- function() {
+  has_standard_opt <- getOption("js4shiny.js_lint.has_standard", NULL)
+  if (is.null(has_standard_opt)) {
+    has_standard <- FALSE
+    try({
+      system("standard --version", intern = TRUE)
+      has_standard <- TRUE
+    })
+    options(js4shiny.js_lint.has_standard = has_standard)
+    has_standard
+  } else {
+    has_standard_opt
   }
 }
 
