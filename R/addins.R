@@ -66,7 +66,9 @@ lint_addin <- function() {
     if (length(res$warnings)) msgs <- res$warnings
     rstudioapi::modifyRange(ctx$selection[[1]]$range, collapse(res$code), id = ctx$id)
   }
-  if (!is.null(msgs) && length(msgs)) purrr::walk(msgs, message)
+  if (!is.null(msgs) && length(msgs)) purrr::walk(msgs, message) else {
+    message('\u2714 JavaScript Standard Style')
+  }
 }
 
 #' Choose Launch Location for Shiny Apps
