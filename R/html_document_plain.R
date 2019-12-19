@@ -93,9 +93,15 @@ include_script <- function(head = NULL, before = NULL, after = NULL) {
 
 args_scripts <- function(script) {
   args <- c()
+  sort <- function(x) {
+    if (rmarkdown::pandoc_version() < package_version("2.8.0")) {
+      return(rev(x))
+    }
+    x
+  }
   for (item in c("head", "before", "after")) {
     if (is.null(script[[item]])) next
-    for (src in script[[item]]) {
+    for (src in sort(script[[item]])) {
       args <- c(args, "-V", paste0("script-", item, "=", src))
     }
   }
