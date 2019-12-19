@@ -51,5 +51,5 @@ example:
       }
 
       console.log({ same })
-output: js4shiny::html_document_plain
+output: js4shiny::html_document_js4shiny
 ---

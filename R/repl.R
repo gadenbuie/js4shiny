@@ -95,13 +95,18 @@ extract_yaml <- function(path) {
   yaml::yaml.load(x[(yaml_between[1] + 1):(yaml_between[2] - 1)])
 }
 
+strip_pandoc_wrapper_divs <- function(text) {
+  text[-which(grepl("</?div><!--for pandoc-->", text))]
+}
+
 remove_yaml <- function(text) {
   if (length(text) == 1 || !grepl('\n', text)) {
     text <- readLines(text)
   }
   yaml_between <- grep("^---\\s*", text)[1:2]
-  text[-(yaml_between[1]:yaml_between[2])]
+  strip_pandoc_wrapper_divs(text[-(yaml_between[1]:yaml_between[2])])
 }
+
 
 extract_resources <- function(path) {
   # path is a file path or previously processed yaml list
@@ -211,7 +216,7 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
     ),
     if (include_css) shiny::tabPanel(
       "CSS",
-      value = "css",
+      value = "styles",
       shinyAce::aceEditor(
         "code_css",
         value = if (is.character(css)) css else "",
@@ -222,12 +227,12 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
       )
     ),
     if (include_md) shiny::tabPanel(
-      "R Markdown",
-      value = "md",
+      "HTML",
+      value = "document",
       shinyAce::aceEditor(
         "code_md",
         value = if (is.character(md)) md else "",
-        mode = "markdown",
+        mode = "html",
         debounce = 1000,
         height = "100%",
         ...
@@ -241,8 +246,8 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
         class = "tab-settings",
         shiny::div(
           class = "scale--smaller",
-          shiny::selectInput("md_format", "Document Mode", choices = c("R Markdown" = "md", "HTML" = "html")),
-          # shiny::selectInput("css_format", "Styles", choices = c("CSS" = "css", "Sass" = "sass")),
+          shiny::selectInput("mode_document", "Document Mode", choices = c("HTML" = "html", "R Markdown" = "md")),
+          # shiny::selectInput("mode_styles", "Styles", choices = c("CSS" = "css", "Sass" = "sass")),
           shiny::tags$div(
             class = "col-xs-12",
             includeExtrasUI("extras")
@@ -473,6 +478,7 @@ repl_server <- function(render_dir) {
         js = input$code_js,
         css = input$code_css,
         md = input$code_md,
+        mode_document = input$mode_document,
         resources = extra_resources()$files
       )
 
@@ -480,13 +486,14 @@ repl_server <- function(render_dir) {
 
       # create rmd_file from input md
       rmd_file <- tempfile(fileext = ".Rmd")
+      md_insert <- if (input$mode_document == "html") "<!--HTML PLACEHOLDER-->" else md
       cat(glue("
         ---
         pagetitle: {example_title}
         output: js4shiny::html_document_plain
         ---
 
-        {md}
+        {md_insert}
         "
       ), file = rmd_file)
 
@@ -550,6 +557,10 @@ repl_server <- function(render_dir) {
       }
       )
 
+      if (file.exists(html_out_file_abs) && input$mode_document == "html") {
+        replace_placeholder(html_out_file_abs, md)
+      }
+
       if (!file.exists(html_out_file_abs)) {
         res$file <- NULL
       } else {
@@ -598,10 +609,9 @@ repl_server <- function(render_dir) {
       session$sendCustomMessage("showSolutionButton", state)
     })
 
+    # ---- Load Example ----
     shiny::observe({
-      I("Update Editors to Selected Example")
       shiny::req(example_yaml())
-      # str(example_yaml())
 
       this_example <- shiny::isolate(input$example)
 
@@ -635,6 +645,13 @@ repl_server <- function(render_dir) {
           collapse = "\n"
         )
       )
+
+      shiny::updateSelectInput(
+        session,
+        inputId = "mode_document",
+        selected = cache$mode_document %||% example_yaml()$mode$document %||% "html"
+      )
+
       example_resources$files <- cache$resources %||%
         extract_resources(this_example %||% return(NULL))
       skip_compile(TRUE)
@@ -729,12 +746,12 @@ repl_server <- function(render_dir) {
 
     # ---- Settings ----
     shiny::observe({
-      shiny::req(input$md_format)
-      fmt_label <- switch(input$md_format, md = "R Markdown", html = "HTML")
-      fmt_mode <- switch(input$md_format, md = "markdown", html = "html")
+      shiny::req(input$mode_document)
+      fmt_label <- switch(input$mode_document, md = "R Markdown", html = "HTML")
+      fmt_mode <- switch(input$mode_document, md = "markdown", html = "html")
       session$sendCustomMessage("updateTabName", list(
         id = "panel-code-tabset",
-        value = "md",
+        value = "document",
         replacement = fmt_label
       ))
       shinyAce::updateAceEditor(
@@ -771,6 +788,7 @@ repl_server <- function(render_dir) {
             js = input$code_js,
             css = input$code_css,
             md = input$code_md,
+            raw_html = input$mode_document == "html",
             token = session$token,
             resources = extra_resources(),
             out_file = file
@@ -780,6 +798,7 @@ repl_server <- function(render_dir) {
             title = input$save_example_title,
             instructions = input$save_example_instructions,
             hint = input$save_example_hint,
+            mode = list(document = input$mode_document),
             initial = list(
               js = if (input$save_example_location_js %in% c("both", "initial")) {
                 input$code_js
@@ -797,6 +816,7 @@ repl_server <- function(render_dir) {
               }
             ),
             md = input$code_md,
+            runtime = input$save_example_runtime,
             resources = extra_resources(),
             output_file = file
           )
@@ -815,9 +835,13 @@ repl_server <- function(render_dir) {
 }
 
 repl_save <- function(example_yaml, has_extra_resources = FALSE) {
+  save_example_location_choices <- c(
+    "Initial" = "initial", "Solution" = "solution", "Both" = "both", "None" = "none"
+  )
   shiny::showModal(
     shiny::modalDialog(
       title = "Save Project",
+      size = "l",
       footer = shiny::tagList(
         shiny::modalButton("Cancel"),
         shiny::downloadButton("download_project", "Save")
@@ -865,22 +889,32 @@ repl_save <- function(example_yaml, has_extra_resources = FALSE) {
         ),
         shiny::fluidRow(
           shiny::div(
-            class = "col-xs-6",
+            class = "col-xs-4",
             shiny::selectInput(
               inputId = "save_example_location_js",
               label = "Include JavaScript as",
-              choices = c("Initial" = "initial", "Solution" = "solution", "Both" = "both"),
-              selected = "solution",
+              choices = save_example_location_choices,
+              selected = "both",
               selectize = FALSE
             )
           ),
           shiny::div(
-            class = "col-xs-6",
+            class = "col-xs-4",
             shiny::selectInput(
               inputId = "save_example_location_css",
               label = "Include CSS as",
-              choices = c("Initial" = "initial", "Solution" = "solution", "Both" = "both"),
-              selected = "solution",
+              choices = save_example_location_choices,
+              selected = "both",
+              selectize = FALSE
+            )
+          ),
+          shiny::div(
+            class = "col-xs-4",
+            shiny::selectInput(
+              inputId = "save_example_runtime",
+              label = "Run Example In",
+              choices = c("Full REPL" = "repl", "JavaScript Only" = "repl_js"),
+              selected = "repl",
               selectize = FALSE
             )
           )
@@ -888,6 +922,17 @@ repl_save <- function(example_yaml, has_extra_resources = FALSE) {
       )
     )
   )
+}
+
+replace_placeholder <- function(
+  path,
+  replacement,
+  placeholder = "<!--HTML PLACEHOLDER-->"
+) {
+  text <- readLines(path)
+  replace_idx <- which(text == placeholder)
+  text <- c(text[1:(replace_idx - 1)], replacement, text[-(1:(replace_idx + 1))])
+  writeLines(text, path)
 }
 
 write_temp_files <- function(
@@ -924,6 +969,7 @@ create_project_zip <- function(
   js = "",
   css = "",
   md = "",
+  raw_html = FALSE,
   token = NULL,
   resources = NULL,
   out_file = "project.zip"
@@ -934,7 +980,9 @@ create_project_zip <- function(
     tempfile()
   }
 
-  write_temp_files(js, css, md, destdir)
+  md_text <- if (raw_html) "<!--HTML PLACEHOLDER-->" else md
+
+  write_temp_files(js, css, md_text, destdir)
 
   md_file <- file.path(destdir, "index.md")
   html_file <- file.path(destdir, "index.html")
@@ -967,6 +1015,10 @@ create_project_zip <- function(
     )
   )
 
+  if (raw_html) {
+    replace_placeholder(html_file, md)
+  }
+
   # zip up!
   old_wd <- setwd(destdir)
   zip::zipr(
@@ -994,6 +1046,8 @@ create_example_rmd <- function(
   initial = NULL,
   solution = NULL,
   md = NULL,
+  mode = NULL,
+  runtime = NULL,
   resources = NULL,
   output_file = "example.Rmd"
 ) {
@@ -1002,6 +1056,8 @@ create_example_rmd <- function(
     title = title,
     instructions = default_example_value(instructions),
     hint = default_example_value(hint),
+    runtime = default_example_value(runtime, "repl"),
+    mode = mode,
     initial = list(
       js = default_example_value(initial$js),
       css = default_example_value(initial$css)
@@ -1016,22 +1072,25 @@ create_example_rmd <- function(
     pagetitle = title,
     example = example,
     output = if (is.null(resources) || !length(purrr::compact(resources))) {
-      "js4shiny::html_document_plain"
+      "js4shiny::html_document_js4shiny"
     } else {
       list(
-        "js4shiny::html_document_plain" = resources %>%
-          purrr::compact() %>%
+        "js4shiny::html_document_js4shiny" = purrr::compact(resources) %>%
           resource_to_js4shiny_yaml()
       )
     }
   )
 
+  md_text <- default_example_value(md, '')
+  if (identical(mode$document, "html")) {
+    md_text <- paste("<div><!--for pandoc-->", md_text, "</div><!--for pandoc-->", sep = "\n")
+  }
+  if (!grepl("\n$", md_text)) paste0(md_text, "\n")
   md <- glue("
     ---
     {yaml::as.yaml(yaml_header)}
     ---
-
-    {default_example_value(md, '')}
+    {md_text}
     "
   )
 

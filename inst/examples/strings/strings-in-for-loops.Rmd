@@ -40,7 +40,7 @@ example:
       for (const idx of praise.substring(0, 1)) {
         console.log(typeof idx)
       }
-output: js4shiny::html_document_plain
+output: js4shiny::html_document_js4shiny
 
 ---
 

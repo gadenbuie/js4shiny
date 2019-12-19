@@ -4,6 +4,8 @@ example:
   title: Pseudo-Classes
   instructions: ~
   hint: ~
+  mode: 
+    document: html
   initial:
     js: ~
     css: |-
@@ -68,7 +70,7 @@ example:
       .btn-do:active {
         border-color: var(--red);
       }
-output: js4shiny::html_document_plain
+output: js4shiny::html_document_js4shiny
 
 ---
 
