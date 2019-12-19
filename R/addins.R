@@ -64,7 +64,7 @@ lint_addin <- function() {
   } else {
     res <- js_lint(code, "standard", fs::path_ext_remove(fs::path_file(ctx$path)))
     if (length(res$warnings)) msgs <- res$warnings
-    rstudioapi::modifyRange(ctx$selection[[1]]$range, collapse(res$code))
+    rstudioapi::modifyRange(ctx$selection[[1]]$range, collapse(res$code), id = ctx$id)
   }
   if (!is.null(msgs) && length(msgs)) purrr::walk(msgs, message)
 }
