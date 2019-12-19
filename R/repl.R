@@ -1067,11 +1067,10 @@ create_example_rmd <- function(
     pagetitle = title,
     example = example,
     output = if (is.null(resources) || !length(purrr::compact(resources))) {
-      "js4shiny::html_document_plain"
+      "js4shiny::html_document_js4shiny"
     } else {
       list(
-        "js4shiny::html_document_plain" = resources %>%
-          purrr::compact() %>%
+        "js4shiny::html_document_js4shiny" = purrr::compact(resources) %>%
           resource_to_js4shiny_yaml()
       )
     }

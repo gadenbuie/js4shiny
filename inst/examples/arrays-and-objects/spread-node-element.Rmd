@@ -23,7 +23,7 @@ example:
       for (let header of headers) {
         console.log('## ' + header.textContent)
       }
-output: js4shiny::html_document_plain
+output: js4shiny::html_document_js4shiny
 
 ---
 

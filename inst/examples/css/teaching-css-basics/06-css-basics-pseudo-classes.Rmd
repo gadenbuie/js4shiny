@@ -70,7 +70,7 @@ example:
       .btn-do:active {
         border-color: var(--red);
       }
-output: js4shiny::html_document_plain
+output: js4shiny::html_document_js4shiny
 
 ---
 
