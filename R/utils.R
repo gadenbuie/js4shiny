@@ -1,4 +1,8 @@
-`%||%` <- function(x, y) if(is.null(x)) y else x
+`%||%` <- function(x, y) if (is.null(x)) y else x
+
+null_if_nothing <- function(x) {
+  if (is.null(x) || x == "") NULL else x
+}
 
 js4shiny_file <- function(...) {
   system.file(..., package = "js4shiny", mustWork = TRUE)

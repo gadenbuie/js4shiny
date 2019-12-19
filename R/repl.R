@@ -1051,22 +1051,25 @@ create_example_rmd <- function(
   resources = NULL,
   output_file = "example.Rmd"
 ) {
-  title <- default_example_value(title, "Example", single = TRUE)
+  title <- title %||% "Example"
   example <- list(
     title = title,
-    instructions = default_example_value(instructions),
-    hint = default_example_value(hint),
-    runtime = default_example_value(runtime, "repl"),
+    instructions = instructions,
+    hint = hint,
+    runtime = runtime %||% "repl",
     mode = mode,
     initial = list(
-      js = default_example_value(initial$js),
-      css = default_example_value(initial$css)
+      js  = null_if_nothing(initial$js),
+      css = null_if_nothing(initial$css)
     ),
     solution = list(
-      js   = default_example_value(solution$js),
-      css  = default_example_value(solution$css)
+      js   = null_if_nothing(solution$js),
+      css  = null_if_nothing(solution$css)
     )
   )
+
+  example <- purrr::map(example, null_if_nothing)
+  example <- purrr::compact(example)
 
   yaml_header <- list(
     pagetitle = title,
