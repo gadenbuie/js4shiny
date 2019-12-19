@@ -1,0 +1,4 @@
+title: Default Shiny App
+type: shiny
+description: |
+  The default Shiny app when creating a new app in RStudio
