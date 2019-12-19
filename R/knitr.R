@@ -66,8 +66,10 @@ js_lint <- function(code, linter, chunk_name = "unnamed-chunk") {
 }
 
 js_lint_file <- function(file) {
+  owd <- setwd(dirname(file))
+  on.exit(setwd(owd))
   res <- suppressWarnings(system(
-    glue("(cd {dirname(file)} && standard --fix {basename(file)})"),
+    glue("standard --fix {basename(file)}"),
     intern = TRUE
   ))
   drnm <- normalizePath(dirname(file))
