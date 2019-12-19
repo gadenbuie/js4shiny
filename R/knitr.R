@@ -60,7 +60,7 @@ js_lint <- function(code, linter, chunk_name = "unnamed-chunk") {
     on.exit(unlink(tmpf))
     writeLines(code, tmpf)
     res <- js_lint_file(tmpf)
-    code <- read_lines(tmpf, warn = FALSE)
+    code <- read_lines(tmpf)
   }
   list(code = code, warnings = res)
 }
