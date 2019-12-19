@@ -829,6 +829,9 @@ repl_server <- function(render_dir) {
 }
 
 repl_save <- function(example_yaml, has_extra_resources = FALSE) {
+  save_example_location_choices <- c(
+    "Initial" = "initial", "Solution" = "solution", "Both" = "both", "None" = "none"
+  )
   shiny::showModal(
     shiny::modalDialog(
       title = "Save Project",
@@ -883,8 +886,8 @@ repl_save <- function(example_yaml, has_extra_resources = FALSE) {
             shiny::selectInput(
               inputId = "save_example_location_js",
               label = "Include JavaScript as",
-              choices = c("Initial" = "initial", "Solution" = "solution", "Both" = "both"),
-              selected = "solution",
+              choices = save_example_location_choices,
+              selected = "both",
               selectize = FALSE
             )
           ),
@@ -893,8 +896,8 @@ repl_save <- function(example_yaml, has_extra_resources = FALSE) {
             shiny::selectInput(
               inputId = "save_example_location_css",
               label = "Include CSS as",
-              choices = c("Initial" = "initial", "Solution" = "solution", "Both" = "both"),
-              selected = "solution",
+              choices = save_example_location_choices,
+              selected = "both",
               selectize = FALSE
             )
           )
