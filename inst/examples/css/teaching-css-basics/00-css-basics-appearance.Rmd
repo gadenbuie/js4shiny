@@ -107,7 +107,7 @@ example:
         height: 150px;
         background: #4d8dc9 center / contain no-repeat url('https://git.io/Je7D2');
       }
-output: js4shiny::html_document_plain
+output: js4shiny::html_document_js4shiny
 ---
 
 <p class="shiny">All of this text is Shiny blue</p>
