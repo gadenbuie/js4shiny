@@ -241,8 +241,8 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
         class = "tab-settings",
         shiny::div(
           class = "scale--smaller",
-          shiny::selectInput("md_format", "Document Mode", choices = c("R Markdown" = "md", "HTML" = "html")),
-          # shiny::selectInput("css_format", "Styles", choices = c("CSS" = "css", "Sass" = "sass")),
+          shiny::selectInput("mode_document", "Document Mode", choices = c("HTML" = "html", "R Markdown" = "md")),
+          # shiny::selectInput("mode_styles", "Styles", choices = c("CSS" = "css", "Sass" = "sass")),
           shiny::tags$div(
             class = "col-xs-12",
             includeExtrasUI("extras")
@@ -473,7 +473,7 @@ repl_server <- function(render_dir) {
         js = input$code_js,
         css = input$code_css,
         md = input$code_md,
-        md_format = input$md_format,
+        mode_document = input$mode_document,
         resources = extra_resources()$files
       )
 
@@ -481,7 +481,7 @@ repl_server <- function(render_dir) {
 
       # create rmd_file from input md
       rmd_file <- tempfile(fileext = ".Rmd")
-      md_insert <- if (input$md_format == "html") "<!--HTML PLACEHOLDER-->" else md
+      md_insert <- if (input$mode_document == "html") "<!--HTML PLACEHOLDER-->" else md
       cat(glue("
         ---
         pagetitle: {example_title}
@@ -552,7 +552,7 @@ repl_server <- function(render_dir) {
       }
       )
 
-      if (file.exists(html_out_file_abs) && input$md_format == "html") {
+      if (file.exists(html_out_file_abs) && input$mode_document == "html") {
         replace_placeholder(html_out_file_abs, md)
       }
 
@@ -604,10 +604,9 @@ repl_server <- function(render_dir) {
       session$sendCustomMessage("showSolutionButton", state)
     })
 
+    # ---- Load Example ----
     shiny::observe({
-      I("Update Editors to Selected Example")
       shiny::req(example_yaml())
-      # str(example_yaml())
 
       this_example <- shiny::isolate(input$example)
 
@@ -644,8 +643,8 @@ repl_server <- function(render_dir) {
 
       shiny::updateSelectInput(
         session,
-        inputId = "md_format",
-        selected = cache$md_format %||% example_yaml()$mode %||% "md"
+        inputId = "mode_document",
+        selected = cache$mode_document %||% example_yaml()$mode$document %||% "html"
       )
 
       example_resources$files <- cache$resources %||%
@@ -742,9 +741,9 @@ repl_server <- function(render_dir) {
 
     # ---- Settings ----
     shiny::observe({
-      shiny::req(input$md_format)
-      fmt_label <- switch(input$md_format, md = "R Markdown", html = "HTML")
-      fmt_mode <- switch(input$md_format, md = "markdown", html = "html")
+      shiny::req(input$mode_document)
+      fmt_label <- switch(input$mode_document, md = "R Markdown", html = "HTML")
+      fmt_mode <- switch(input$mode_document, md = "markdown", html = "html")
       session$sendCustomMessage("updateTabName", list(
         id = "panel-code-tabset",
         value = "md",
@@ -784,7 +783,7 @@ repl_server <- function(render_dir) {
             js = input$code_js,
             css = input$code_css,
             md = input$code_md,
-            raw_html = input$md_format == "html",
+            raw_html = input$mode_document == "html",
             token = session$token,
             resources = extra_resources(),
             out_file = file
@@ -794,6 +793,7 @@ repl_server <- function(render_dir) {
             title = input$save_example_title,
             instructions = input$save_example_instructions,
             hint = input$save_example_hint,
+            mode = list(document = input$mode_document),
             initial = list(
               js = if (input$save_example_location_js %in% c("both", "initial")) {
                 input$code_js
@@ -1026,6 +1026,7 @@ create_example_rmd <- function(
   initial = NULL,
   solution = NULL,
   md = NULL,
+  mode = NULL,
   resources = NULL,
   output_file = "example.Rmd"
 ) {
@@ -1034,6 +1035,7 @@ create_example_rmd <- function(
     title = title,
     instructions = default_example_value(instructions),
     hint = default_example_value(hint),
+    mode = mode,
     initial = list(
       js = default_example_value(initial$js),
       css = default_example_value(initial$css)

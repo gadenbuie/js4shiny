@@ -4,7 +4,8 @@ example:
   title: Pseudo-Classes
   instructions: ~
   hint: ~
-  mode: html
+  mode: 
+    document: html
   initial:
     js: ~
     css: |-
