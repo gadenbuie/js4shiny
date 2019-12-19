@@ -835,6 +835,7 @@ repl_save <- function(example_yaml, has_extra_resources = FALSE) {
   shiny::showModal(
     shiny::modalDialog(
       title = "Save Project",
+      size = "l",
       footer = shiny::tagList(
         shiny::modalButton("Cancel"),
         shiny::downloadButton("download_project", "Save")
