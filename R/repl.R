@@ -486,7 +486,7 @@ repl_server <- function(render_dir) {
 
       # create rmd_file from input md
       rmd_file <- tempfile(fileext = ".Rmd")
-      md_insert <- if (input$mode_document == "html") "<!--HTML PLACEHOLDER-->" else md
+      md_insert <- if (identical(input$mode_document, "html")) "<!--HTML PLACEHOLDER-->" else md
       cat(glue("
         ---
         pagetitle: {example_title}
@@ -557,7 +557,7 @@ repl_server <- function(render_dir) {
       }
       )
 
-      if (file.exists(html_out_file_abs) && input$mode_document == "html") {
+      if (file.exists(html_out_file_abs) && identical(input$mode_document, "html")) {
         replace_placeholder(html_out_file_abs, md)
       }
 
@@ -788,7 +788,7 @@ repl_server <- function(render_dir) {
             js = input$code_js,
             css = input$code_css,
             md = input$code_md,
-            raw_html = input$mode_document == "html",
+            raw_html = identical(input$mode_document, "html"),
             token = session$token,
             resources = extra_resources(),
             out_file = file

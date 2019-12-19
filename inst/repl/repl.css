@@ -29,6 +29,7 @@ html * {
   display: flex;
   width: 50%;
   min-width: 200px;
+  height: 100%;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -50,13 +51,8 @@ html * {
 }
 
 .panel-code-js {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-rows: 1fr 1em auto;
-  grid-template-rows: 1fr auto;
-  grid-row-gap: 1em;
   width: 100%;
-  height: 50%;
+  height: 66%;
   min-height: 200px;
 }
 
@@ -75,8 +71,6 @@ html * {
 
 .panel-code-js-console {
   position: relative;
-  height: min-content;
-  flex-grow: 1;
 }
 
 .hide-html-preview .panel-code-js-console {
@@ -95,6 +89,8 @@ html * {
 
 .full-height-container:not(.hide-html-preview) .panel-code-js-console {
   min-height: 100px;
+  flex-basis: 100px;
+  flex-grow: 1;
 }
 
 .panel-code.console--minimized .panel-code-js-console {
@@ -332,6 +328,7 @@ iframe {
 /* Make Code Editor Fill Code Pane when Tabbed */
 .tabbable {
   position: relative;
+  height: 100%;
 }
 
 .tab-content {
@@ -339,7 +336,6 @@ iframe {
   width: 100%;
   top: 41px;
   bottom: 0;
-  height: calc(100% - 24px);
 }
 
 .tab-content > .active {
