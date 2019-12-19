@@ -59,15 +59,20 @@ js_lint <- function(code, linter, chunk_name = "unnamed-chunk") {
     tmpf <- file.path(tempdir(), glue("{chunk_name}.js"))
     on.exit(unlink(tmpf))
     writeLines(code, tmpf)
-    res <- suppressWarnings(
-      system(
-        glue("(cd {dirname(tmpf)} && standard --fix {basename(tmpf)})"),
-        intern = TRUE
-      )
-    )
+    res <- js_lint_file(tmpf)
     code <- readLines(tmpf, warn = FALSE)
   }
   list(code = code, warnings = res)
+}
+
+js_lint_file <- function(file) {
+  res <- suppressWarnings(system(
+    glue("(cd {dirname(file)} && standard --fix {basename(file)})"),
+    intern = TRUE
+  ))
+  drnm <- normalizePath(dirname(file))
+  res <- sub(drnm, "", res, fixed = TRUE)
+  sub("(\\s*)/", "\\1", res)
 }
 
 js_lint_has_standard <- function() {
@@ -83,6 +88,16 @@ js_lint_has_standard <- function() {
   } else {
     has_standard_opt
   }
+}
+
+# TODO: document js_lint options and how to install standard
+js_lint_requires_standard <- function() {
+  stop(paste0(
+    "JavaSript linting requires the standardjs library. To install standard, run:\n",
+    "  npm install -g standard\n",
+    "For more information about installing npm, visit:\n",
+    "  https://docs.npmjs.com/downloading-and-installing-node-js-and-npm"
+  ))
 }
 
 js_escape <- function(x) {

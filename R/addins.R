@@ -50,6 +50,25 @@ get_source_context <- function(error_msg = "Requires RStudio") {
   rstudioapi::getSourceEditorContext()
 }
 
+lint_addin <- function() {
+  ctx <- get_source_context("The linter addin only works in RStudio.")
+  if (!js_lint_has_standard()) {
+    js_lint_requires_standard()
+  }
+  code <- ctx$selection[[1]]$text
+  msgs <- NULL
+  if (code == "") {
+    rstudioapi::documentSave(ctx$id)
+    msgs <- js_lint_file(ctx$path)
+    rstudioapi::navigateToFile(ctx$path)
+  } else {
+    res <- js_lint(code, "standard", fs::path_ext_remove(fs::path_file(ctx$path)))
+    if (length(res$warnings)) msgs <- res$warnings
+    rstudioapi::modifyRange(ctx$selection[[1]]$range, collapse(res$code))
+  }
+  if (!is.null(msgs) && length(msgs)) purrr::walk(msgs, message)
+}
+
 #' Choose Launch Location for Shiny Apps
 #'
 #' This function sets the `shiny.launch.browser` option to launch Shiny apps in

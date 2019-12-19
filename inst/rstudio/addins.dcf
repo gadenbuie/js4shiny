@@ -27,3 +27,8 @@ Name: Launch REPL (JavaScript Only)
 Description: Launch the js4shiny JavaScript REPL
 Binding: repl_js
 Interactive: true
+
+Name: Lint File or Selection
+Description: Lint and fix using Standard JavaScript Code Style
+Binding: lint_addin
+Interactive: false
