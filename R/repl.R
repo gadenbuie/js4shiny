@@ -95,13 +95,18 @@ extract_yaml <- function(path) {
   yaml::yaml.load(x[(yaml_between[1] + 1):(yaml_between[2] - 1)])
 }
 
+strip_pandoc_wrapper_divs <- function(text) {
+  text[-which(grepl("</?div><!--for pandoc-->", text))]
+}
+
 remove_yaml <- function(text) {
   if (length(text) == 1 || !grepl('\n', text)) {
     text <- readLines(text)
   }
   yaml_between <- grep("^---\\s*", text)[1:2]
-  text[-(yaml_between[1]:yaml_between[2])]
+  strip_pandoc_wrapper_divs(text[-(yaml_between[1]:yaml_between[2])])
 }
+
 
 extract_resources <- function(path) {
   # path is a file path or previously processed yaml list
@@ -1076,12 +1081,16 @@ create_example_rmd <- function(
     }
   )
 
+  md_text <- default_example_value(md, '')
+  if (identical(mode$document, "html")) {
+    md_text <- paste("<div><!--for pandoc-->", md_text, "</div><!--for pandoc-->", sep = "\n")
+  }
+  if (!grepl("\n$", md_text)) paste0(md_text, "\n")
   md <- glue("
     ---
     {yaml::as.yaml(yaml_header)}
     ---
-
-    {default_example_value(md, '')}
+    {md_text}
     "
   )
 
