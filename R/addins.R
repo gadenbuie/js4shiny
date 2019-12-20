@@ -281,7 +281,7 @@ choose_examples <- function(
     examples <- shiny::reactive({
       shiny::req(input$category)
       exs <- if (!is.null(input$group) && input$group != "") {
-        list_examples(input$group)
+        list_examples(input$group, recurse = 1)
       } else {
         list_examples(input$category)
       }
@@ -313,20 +313,30 @@ choose_examples <- function(
     output$ui_example <- shiny::renderUI({
       shiny::req(examples())
 
-      ex_files <- examples()$files %>%
-        purrr::map(~ extract_yaml(.x)$example$title %||% fs::path_file(.x))
+      ex_files <- examples()$files %>% purrr::map(read_file_info)
+
+      is_shiny_group <- identical(examples()$info$type, "shiny-apps")
+
+      default_choice <- if(!is_shiny_group) c("All" = "all")
 
       shiny::tagList(
         shiny::selectInput(
           "examples",
           "Examples",
           choices = c(
-            "All" = "all",
+            default_choice,
             purrr::set_names(examples()$files, ex_files)
           ),
           width = "100%"
         ),
-        shiny::p(class = "description", "Choose all examples or a specific example.")
+        shiny::p(
+          class = "description",
+          paste(
+            "Choose",
+            if (!is_shiny_group) "all examples or",
+            "a specific example."
+          )
+        )
       )
     })
 
@@ -359,7 +369,7 @@ list_examples <- function(path, recurse = 0L) {
   list(
     path = path,
     info = registry_info,
-    files = as.character(fs::dir_ls(path, regexp = ".[Rr][Mm][Dd]$", recurse = recurse)),
+    files = as.character(fs::dir_ls(path, regexp = "((app[.]R)|(.[Rr][Mm][Dd]))$", recurse = recurse)),
     dirs = if (has_subdir && recurse < 2) {
       unname(purrr::map(
         as.character(fs::dir_ls(path, type = "dir")),
@@ -368,6 +378,14 @@ list_examples <- function(path, recurse = 0L) {
       ))
     }
   )
+}
+
+read_file_info <- function(path) {
+  if (grepl("rmd$", tolower(path))) {
+    extract_yaml(path)$title %||% fs::path_file(path)
+  } else if (grepl("app.r", tolower(path), fixed = TRUE)) {
+    read_registry_yaml(fs::path_dir(path))$title %||% fs::path_dir(path)
+  }
 }
 
 example_path_info <- function(x) {
@@ -393,6 +411,5 @@ read_registry_yaml <- function(path) {
   path <- find_registry_yaml(path)
   if (!length(path)) return()
   x <- yaml::yaml.load_file(path)
-  x <- x[c("title", "description", "type")]
   if (length(x)) x
 }
