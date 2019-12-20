@@ -123,8 +123,7 @@ repl_example <- function(example = NULL) {
     example <- choose_examples()
     chose_example <- TRUE
   }
-  is_dir <- dir.exists(example)
-  if (is_dir || !file.exists(example)) {
+  if (!file.exists(example)) {
     example <- search_for_example(basename(example))
   }
 
@@ -160,18 +159,31 @@ choose_runtime <- function(example) {
         run_fn <- "repl"
       }
     } else {
-      run_fn <- "repl"
+      # get info from registry in directory
+      info <- read_registry_yaml(example)
+      run_fn <- switch(
+        info$type %||% "repl",
+        shiny = ":open_app_example",
+        html = ":open_html_example",
+        "repl"
+      )
     }
   }
   run_fn
 }
 
 open_app_example <- function(example) {
-  rstudioapi::documentNew(
-    text = paste(read_lines(example), collapse = "\n"),
-    type = "r",
-    execute = FALSE
-  )
+  if (fs::is_dir(example)) {
+    example <- fs::path(example, "app.R")
+    stopifnot(fs::file_exists(example))
+  }
+  message(glue(
+    "Opening {basename(dirname(example))} as new R script, ",
+    "save the file as app.R"
+  ))
+  text <- collapse(read_lines(example))
+  text <- paste0(glue("# {basename(dirname(example))}/app.R"), "\n\n", text)
+  rstudioapi::documentNew(text = text, type = "r", execute = FALSE)
 }
 
 open_html_example <- function(example) {
@@ -381,6 +393,6 @@ read_registry_yaml <- function(path) {
   path <- find_registry_yaml(path)
   if (!length(path)) return()
   x <- yaml::yaml.load_file(path)
-  x <- x[c("title", "description")]
+  x <- x[c("title", "description", "type")]
   if (length(x)) x
 }
