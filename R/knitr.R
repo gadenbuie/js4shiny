@@ -81,10 +81,10 @@ js_lint_has_standard <- function() {
   has_standard_opt <- getOption("js4shiny.js_lint.has_standard", NULL)
   if (is.null(has_standard_opt)) {
     has_standard <- FALSE
-    try({
+    tryCatch({
       system("standard --version", intern = TRUE)
       has_standard <- TRUE
-    })
+    }, error = function(e) NULL)
     options(js4shiny.js_lint.has_standard = has_standard)
     has_standard
   } else {
@@ -99,7 +99,7 @@ js_lint_requires_standard <- function() {
     "  npm install -g standard\n",
     "For more information about installing npm, visit:\n",
     "  https://docs.npmjs.com/downloading-and-installing-node-js-and-npm"
-  ))
+  ), call. = FALSE)
 }
 
 js_escape <- function(x) {
