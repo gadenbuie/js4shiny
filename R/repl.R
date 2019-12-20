@@ -300,27 +300,42 @@ repl_ui <- function(
               class = "navbar-brand",
               "js4shiny::repl()",
               shiny::span(class = "loader")
+            ),
+            shiny::tags$button(
+              type="button",
+              class = "navbar-toggle collapsed",
+              `data-toggle` = "collapse",
+              `data-target` = "#repl-navbar-controls",
+              `aria-expanded` = "false",
+              shiny::span(class="sr-only", "Toggle navigation"),
+              shiny::span(class="icon-bar"),
+              shiny::span(class="icon-bar"),
+              shiny::span(class="icon-bar")
             )
           ),
-          shiny::tags$form(
-            class = "navbar-form navbar-right",
-            shiny::div(
-              class = "form-group",
-              if (!js_repl_only) btn_show_solution,
-              shiny::selectInput(
-                inputId = "example",
-                label = NULL,
-                choices = example_file_choices,
-                selected = example_file_choices[min(length(example_file_choices), 2)],
-                selectize = FALSE,
-                width = "250px"
-              ),
-              shiny::tags$button(
-                id = "do_save",
-                class = "btn btn-default action-button shiny-bound-input",
-                `aria-label` = "Save Project",
-                title = "Save Project",
-                shiny::icon("floppy-o")
+          shiny::tags$div(
+            class = "collapse navbar-collapse",
+            id = "repl-navbar-controls",
+            shiny::tags$form(
+              class = "navbar-form navbar-right",
+              shiny::div(
+                class = "form-group",
+                if (!js_repl_only) btn_show_solution,
+                shiny::selectInput(
+                  inputId = "example",
+                  label = NULL,
+                  choices = example_file_choices,
+                  selected = example_file_choices[min(length(example_file_choices), 2)],
+                  selectize = FALSE,
+                  width = "250px"
+                ),
+                shiny::tags$button(
+                  id = "do_save",
+                  class = "btn btn-default action-button shiny-bound-input",
+                  `aria-label` = "Save Project",
+                  title = "Save Project",
+                  shiny::icon("floppy-o")
+                )
               )
             )
           )

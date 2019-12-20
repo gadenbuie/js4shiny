@@ -469,3 +469,19 @@ html.shiny-busy .loader {
   -o-transition: opacity 0.5s ease-in-out;
   transition: opacity 0.5s ease-in-out;
 }
+
+/* navbar */
+
+#repl-navbar-controls.in > .navbar-form > .form-group > *,
+#repl-navbar-controls.collapsing > .navbar-form > .form-group > * {
+  display: inline-block;
+}
+
+#repl-navbar-controls.in > .navbar-form > .form-group,
+#repl-navbar-controls.collapsing > .navbar-form > .form-group {
+  text-align: right;
+}
+
+#repl-navbar-controls .navbar-form {
+  border: none;
+}
