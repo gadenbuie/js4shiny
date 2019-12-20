@@ -111,7 +111,8 @@ html * {
 }
 
 .panel-code-js-console #show_solution {
-	margin-bottom: 0.5em;
+  margin-bottom: 0.5em;
+  min-height: min-content;
 }
 
 .console--minimized #log {
