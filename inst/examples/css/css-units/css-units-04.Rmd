@@ -1,0 +1,52 @@
+---
+pagetitle: CSS Units - Step 4
+example:
+  title: CSS Units - Step 4
+  instructions: |-
+    Set the font size of `.big-words` to use `vw` or `vh`. How does the font change when you change the dimensions of the preview window?
+
+    Then give `.big-box` a height and width using `vh` and `vw`? Change the size of the preview window and compare to the behavior of a fixed unit.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    css: |-
+      body {
+        margin: 0;
+      }
+
+      .big-words {
+        text-align: center;
+      }
+
+      .big-box {
+        background: red;
+        margin: 3em auto;
+      }
+  solution:
+    css: |-
+      body {
+        margin: 0;
+      }
+
+      .big-words {
+        text-align: center;
+        font-size: 40vw;
+      }
+
+      .big-box {
+        background: red;
+        margin: 3em auto;
+        height: 20vh;
+        width: 100vw;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<div class="big-words">
+  abcd
+</div>
+
+<div class="big-box"></div>
+</div><!--for pandoc-->

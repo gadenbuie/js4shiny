@@ -1,0 +1,95 @@
+---
+pagetitle: CSS Units - Step 2
+example:
+  title: CSS Units - Step 2
+  instructions: |-
+    Set the `font-size` of the various components on the page. Try using absolute units, like `px`, `cm`, and `in`.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |-
+      outer {
+        font-size: 16px;
+      }
+      .inner {
+
+      }
+      .outer p {
+
+      }
+      .inner p {
+
+      }
+      .paragraph-two {
+
+      }
+      .outer h2 {
+
+      }
+      .outer .inner h2 {
+
+      }
+  solution:
+    js: ~
+    css: |-
+      outer {
+        font-size: 16px;
+      }
+      .inner {
+        font-size: 18px;
+      }
+      .outer p {
+        font-size: 20px;
+      }
+      .inner p {
+        font-size: 0.5cm;
+      }
+      .outer .paragraph-three {
+        font-size: 0.25in;
+      }
+      .outer h2 {
+        font-size: 18px;
+      }
+      .outer .inner h2 {
+        font-size: 24px;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<div class="outer">
+
+  <h1>Lorem Title</h1>
+
+  <div class="inner">
+
+    <h2>Section One</h2>
+
+    <p class="paragraph-one">
+      Ipsum hendrerit natoque ultricies vitae egestas cras condimentum quis.
+      Condimentum semper cursus venenatis sodales quis magnis commodo posuere!
+      Nisl inceptos quis nunc arcu nostra quam eros dui posuere dictumst mus conubia ad netus!
+    </p>
+
+    <p class="paragraph-two">
+      Dolor fringilla dis penatibus consequat montes in maecenas pharetra et donec.
+      Nascetur purus justo rutrum ultricies sollicitudin ac bibendum phasellus cubilia vestibulum!
+      Metus turpis mattis hac sodales leo laoreet.
+      Nascetur erat integer volutpat sapien venenatis himenaeos ridiculus nascetur arcu pretium.
+    </p>
+
+  </div>
+
+  <h2>Section Two</h2>
+
+  <p class="paragraph-three">
+    Sit sollicitudin fusce torquent vivamus donec scelerisque odio etiam arcu facilisi non cum velit massa!
+    <span class="p-three-sentence">Fermentum gravida integer auctor molestie quis dignissim tincidunt gravida!</span>
+    Tellus quis tempor habitasse curae sem integer tellus tempor pulvinar?
+    In natoque suscipit ultrices etiam ridiculus eu etiam commodo enim porta neque.
+    A a quisque montes habitant tristique habitant!
+  </p>
+</div>
+</div><!--for pandoc-->
