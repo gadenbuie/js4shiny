@@ -474,9 +474,13 @@ repl_server <- function(render_dir) {
       res <- list(file = html_out_file)
 
       if (shiny::isolate(skip_compile())) {
+        if (getOption("js4shiny.debug.repl", FALSE)) message(
+          "compile triggered, but skipping..."
+        )
         skip_compile(FALSE)
         return(res)
       }
+      if (getOption("js4shiny.debug.repl", FALSE)) message("recompiling")
 
       extra_css <- extra_resources() %>%
         purrr::keep(~ .$type == "css") %>%
@@ -581,6 +585,10 @@ repl_server <- function(render_dir) {
       } else {
         session$sendCustomMessage("clearElementById", "log")
       }
+      res$timestamp <- as.integer(Sys.time())
+      if (getOption("js4shiny.debug.repl", FALSE)) message(
+        "recompiled (", res$timestamp, ")"
+      )
       res
     })
 
@@ -715,7 +723,11 @@ repl_server <- function(render_dir) {
     )
 
     output$example_html <- shiny::renderUI({
-      out_html <- compiled_html()
+      out_html <- debounce(compiled_html, 1000)()
+      if (getOption("js4shiny.debug.repl", FALSE)) message(
+        "updating html preview: ", out_html$timestamp,
+        "\n         html file   : ", out_html$file
+      )
       html_path() # poll file in case compiled_html() misses an update
 
       shiny::tagList(
