@@ -195,7 +195,7 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
   repl_js <- shinyAce::aceEditor(
     "code_js",
     mode = "javascript",
-    debounce = 1000,
+    debounce = 1500,
     height = "100%",
     ...
   )
