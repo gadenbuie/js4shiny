@@ -96,7 +96,9 @@ extract_yaml <- function(path) {
 }
 
 strip_pandoc_wrapper_divs <- function(text) {
-  text[-which(grepl("</?div><!--for pandoc-->", text))]
+  pattern <- "^\\s*</?div><!--for pandoc-->\\s*$"
+  if (!any(grepl(pattern, text))) return(text)
+  text[-which(grepl(pattern, text))]
 }
 
 remove_yaml <- function(text) {
