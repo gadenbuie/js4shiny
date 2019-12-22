@@ -5,7 +5,7 @@ example:
   instructions: |-
     Set the font size of `.big-words` to use `vw` or `vh`. How does the font change when you change the dimensions of the preview window?
 
-    Then give `.big-box` a height and width using `vh` and `vw`? Change the size of the preview window and compare to the behavior of a fixed unit.
+    Then give `.big-box` a height and width using `vh` and `vw`? Change the size of the preview window and compare to the behavior of a fixed or other relative unit.
   runtime: repl
   mode:
     document: html
@@ -13,6 +13,8 @@ example:
     css: |-
       body {
         margin: 0;
+        width: 100%;
+        max-width: 100%;
       }
 
       .big-words {
@@ -27,6 +29,8 @@ example:
     css: |-
       body {
         margin: 0;
+        width: 100%;
+        max-width: 100%;
       }
 
       .big-words {
@@ -38,7 +42,7 @@ example:
         background: red;
         margin: 3em auto;
         height: 20vh;
-        width: 100vw;
+        width: 80vw;
       }
 output: js4shiny::html_document_js4shiny
 
