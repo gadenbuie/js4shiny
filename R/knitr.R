@@ -172,9 +172,12 @@ knitr_html_engine <- function() {
     out <- if (options$eval && knitr::is_html_output()) {
       paste0(
         '\n```{=html}\n',
+        '<div',
+        paste0(' id="out-', gsub("[^a-zA-Z0-9_.]", "-", options$label), '"'),
         if (!is.null(options$class.output)) paste0(
-          '<div class="', options$class.output, '">\n'
-        ) else '<div>\n',
+          ' class="', options$class.output, '"'
+        ),
+        '>\n',
         paste(options$code, collapse = "\n"),
         "\n</div>\n```"
       )
