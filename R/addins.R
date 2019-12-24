@@ -163,8 +163,8 @@ choose_runtime <- function(example) {
       info <- read_registry_yaml(example)
       run_fn <- switch(
         info$type %||% "repl",
-        shiny = ":open_app_example",
-        html = ":open_html_example",
+        shiny=,"shiny-starter"=,"shiny-run" = ":open_app_example",
+        html=,"html-external" = ":open_html_example",
         "repl"
       )
     }
@@ -177,17 +177,34 @@ open_app_example <- function(example) {
     example <- fs::path(example, "app.R")
     stopifnot(fs::file_exists(example))
   }
-  message(glue(
-    "Opening {basename(dirname(example))} as new R script, ",
-    "save the file as app.R"
-  ))
-  text <- collapse(read_lines(example))
-  text <- paste0(glue("# {basename(dirname(example))}/app.R"), "\n\n", text)
-  rstudioapi::documentNew(text = text, type = "r", execute = FALSE)
+  info <- read_registry_yaml(dirname(example))
+  type <- info$type %||% "shiny-run"
+  type <- match.arg(type, c("shiny", "shiny-starter", "shiny-run"))
+  if (type %in% c("shiny", "shiny-starter")) {
+    message(glue(
+      "Opening {basename(dirname(example))} as new R script, ",
+      "save the file as app.R"
+    ))
+    text <- collapse(read_lines(example))
+    text <- paste0(glue("# {basename(dirname(example))}/app.R"), "\n\n", text)
+    rstudioapi::documentNew(text = text, type = "r", execute = FALSE)
+  } else {
+    shiny::runApp(example)
+  }
 }
 
 open_html_example <- function(example) {
-  stop("not yet implemented")
+  if (fs::is_dir(example)) {
+    example <- fs::path(example, "index.html")
+  }
+  if (grepl("index[.]html$", example)) {
+    stopifnot(file.exists(example))
+    info <- read_registry_yaml(dirname(example))
+    external <- grepl("external", info$type %||% "")
+    js4shiny:::live_preview(dirname(example), external = external)
+  } else {
+    stop("Not sure how to open example: ", example)
+  }
 }
 
 search_for_example <- function(example) {
