@@ -1,22 +1,15 @@
 ---
-pagetitle: CSS Units - Step 3
+pagetitle: CSS Units - Absolute Units
 example:
-  title: CSS Units - Step 3
+  title: CSS Units - Absolute Units
   instructions: |-
-    Then modify the CSS rules so that a few elements use relative units: `em`, `rem`, `vw`, `vh`, `vmin`, `vmax`. 
-    
-    What do each of these units represent?
-
-    How do the font sizes of elements higher in the HTML tree affect the font size of their children?
+    Set the `font-size` of the various components on the page. Try using absolute units, like `px`, `cm`, and `in`.
   runtime: repl
   mode:
     document: html
   initial:
     js: ~
     css: |-
-      html {
-        /* font-size: 16px; */
-      }
       .outer {
         font-size: 16px;
       }
@@ -27,44 +20,34 @@ example:
       .inner p {
       }
       .paragraph-two {
-        /* why doesn't this do anything? */
       }
       .outer h2 {
       }
-      .outer .inner h2 {}
+      .outer .inner h2 {
+      }
   solution:
     js: ~
     css: |-
-      html {
-        font-size: 16px;
-      }
       .outer {
         font-size: 16px;
       }
       .inner {
-        font-size: 1em;
+        font-size: 18px;
       }
       .outer p {
-        font-size: 100%;
+        font-size: 20px;
       }
       .inner p {
-        font-size: 25px;
-        font-size: 1.5em;
+        font-size: 0.5cm;
       }
-      .paragraph-two {
-        /* why doesn't this do anything? */
-        /* hint: add element or class to selector */
-        /* try: p.paragraph-two */
-        /* try: move this rule up */
-        font-size: 2em;
+      .outer .paragraph-three {
+        font-size: 0.25in;
       }
       .outer h2 {
-        font-size: 28px;
-        /*color: blue;*/
+        font-size: 18px;
       }
       .outer .inner h2 {
-        /* change .outer font-size */
-        font-size: 1.66em;
+        font-size: 24px;
       }
 output: js4shiny::html_document_js4shiny
 
@@ -80,7 +63,7 @@ output: js4shiny::html_document_js4shiny
 
     <p class="paragraph-one">
       Ipsum hendrerit natoque ultricies vitae egestas cras condimentum quis.
-      Condimentum semper cursus venenatis sodales quis magnis commodo posuere!
+      <span class="highlighted">Condimentum semper cursus venenatis sodales quis magnis commodo posuere!</span>
       Nisl inceptos quis nunc arcu nostra quam eros dui posuere dictumst mus conubia ad netus!
     </p>
 
@@ -97,10 +80,11 @@ output: js4shiny::html_document_js4shiny
 
   <p class="paragraph-three">
     Sit sollicitudin fusce torquent vivamus donec scelerisque odio etiam arcu facilisi non cum velit massa!
-    <span class="p-three-sentence">Fermentum gravida integer auctor molestie quis dignissim tincidunt gravida!</span>
+    <span class="highlighted">Fermentum gravida integer auctor molestie quis dignissim tincidunt gravida!</span>
     Tellus quis tempor habitasse curae sem integer tellus tempor pulvinar?
     In natoque suscipit ultrices etiam ridiculus eu etiam commodo enim porta neque.
     A a quisque montes habitant tristique habitant!
   </p>
 </div>
 </div><!--for pandoc-->
+

@@ -1,0 +1,99 @@
+---
+pagetitle: CSS Position - Absolutely Sure
+example:
+  title: CSS Position - Absolutely Sure
+  instructions: |-
+    Notice that, when you scroll down, the `absolute`ly positioned element scrolls with the document. 
+    Once it found its position, it stays in the same place relative to the _document_.
+
+    I added a `.spacer` element to the HTML, but it doesn't take up any space yet. 
+    Give it `height: 900px`. 
+    Where will the `.box` be?
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |-
+      .box {
+        position: absolute;
+        bottom: 25px;
+        right: 25px;
+      }
+
+      .container {
+        width: 400px;
+        margin: 1em auto;
+        border: 2px solid #eaecee;
+        padding: 10px;
+      }
+
+      .box {
+        height: 100px;
+        width: 100px;
+        background: #44bc96;
+        border: 4px solid white;
+      }
+
+      .other {
+        height: 100px;
+        width: 100%;
+        background: #eaecee;
+        border: 4px solid white;
+      }
+      html * {
+        box-sizing: border-box;
+      }
+      body {
+        height: 900px;
+      }
+  solution:
+    js: ~
+    css: |-
+      .box {
+        position: absolute;
+        bottom: 25px;
+        right: 25px;
+      }
+
+      .spacer {
+        height: 900px;
+      }
+
+      .container {
+        width: 400px;
+        margin: 1em auto;
+        border: 2px solid #eaecee;
+        padding: 10px;
+      }
+
+      .box {
+        height: 100px;
+        width: 100px;
+        background: #44bc96;
+        border: 4px solid white;
+      }
+
+      .other {
+        height: 100px;
+        width: 100%;
+        background: #eaecee;
+        border: 4px solid white;
+      }
+      html * {
+        box-sizing: border-box;
+      }
+      body {
+        height: 900px;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<div class="spacer"></div>
+<div class="container">
+  <div class="box"></div>
+  <div class="other"></div>
+  <div class="other"></div>
+</div>
+</div><!--for pandoc-->

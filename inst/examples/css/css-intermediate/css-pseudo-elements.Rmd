@@ -2,20 +2,22 @@
 pagetitle: Pseudo-Elements
 example:
   title: Pseudo-Elements
-  instructions: ~
+  instructions: >
+    Add a fancy opening quote to the `.big-quote` `<blockquote>` element.
+    Using the `::before` pseudo-element and the `content` property.
   hint: '&ldquo;'
+  runtime: repl
+  mode:
+    document: html
   initial:
     js: ~
-    css: |-
-      .big-quote::before {
-
-      }
+    css: ~
   solution:
     js: ~
     css: |-
       .big-quote::before {
         content: '“';
-        font-size: 4em;
+        font-size: 2.5em;
         font-family: serif;
         font-style: italic;
         color: #ddd;
@@ -23,5 +25,6 @@ example:
 output: js4shiny::html_document_js4shiny
 
 ---
-
+<div><!--for pandoc-->
 <blockquote class="big-quote">It was a dark and stormy night.</blockquote>
+</div><!--for pandoc-->

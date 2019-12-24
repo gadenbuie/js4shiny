@@ -1,0 +1,106 @@
+---
+pagetitle: Blank
+example:
+  title: Blank
+  instructions: |-
+    In both examples, the boxes are sized to be `200px` tall and `50%` of a `400px` container.
+
+    Try increasing the border width of the `.box-1` and `.box-2`. What happens to our careful `width` calculation?
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |-
+      .box-1, .box-2 {
+        border: 0px solid;
+        width: 50%;
+        height: 200px;
+      }
+
+      .box-container > div {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+      }
+
+      .box-container {
+        width: 400px;
+        margin: 1em auto;
+        border: 2px solid #2f4858;
+        box-sizing: content-box;
+        padding: 2em;
+      }
+
+
+      .content-box-sizing > div {
+        box-sizing: content-box;
+      }
+
+      .border-box-sizing > div {
+        box-sizing: border-box;
+      }
+
+      .box-1 {
+        border-color: #9a2e36;
+        background-color: #e3848b;
+      }
+
+      .box-2 {
+        border-color: #466683;
+        background-color: #bad4ed;
+      }
+  solution:
+    js: ~
+    css: |-
+      .box-1, .box-2 {
+        border: 10px solid;
+        width: 50%;
+        height: 200px;
+      }
+
+      .box-container > div {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+      }
+
+      .box-container {
+        width: 400px;
+        margin: 1em auto;
+        border: 2px solid #2f4858;
+        box-sizing: content-box;
+        padding: 2em;
+      }
+
+
+      .content-box-sizing > div {
+        box-sizing: content-box;
+      }
+
+      .border-box-sizing > div {
+        box-sizing: border-box;
+      }
+
+      .box-1 {
+        border-color: #9a2e36;
+        background-color: #e3848b;
+      }
+
+      .box-2 {
+        border-color: #466683;
+        background-color: #bad4ed;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<h4>Border-Box Sizing</h4>
+<div class="box-container border-box-sizing">
+<div class="box-1"></div><div class="box-2"></div>
+</div>
+<h4>Content-Box Sizing</h4>
+<div class="box-container content-box-sizing">
+<div class="box-1"></div><div class="box-2"></div>
+</div>
+</div><!--for pandoc-->

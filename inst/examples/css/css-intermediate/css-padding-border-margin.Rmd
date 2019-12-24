@@ -1,0 +1,33 @@
+---
+pagetitle: CSS Box Sizing - Padding, Border, Margin
+example:
+  title: CSS Box Sizing - Padding, Border, Margin
+  instructions: Update the `padding`, `border`, and `margin` of the `.box` container
+    to see how the three areas interact.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: ".box {\n  width: 100px;\n  height: 100px;\n  margin: 0em;\n  padding: 0px;\n
+      \ border: 0px solid;\n}\n \n.box { \n  border-color: #466683;\n  display: inline-block;\n
+      \ background-color: #bad4ed;\n}\n\n.box-inner {\n  background-color: #FFF;\n
+      \ width: 100%;\n  height: 100%;\n  opacity: 0.5;\n}\n\n.box-container {\n  background:
+      #c0c8cc;\n  width: max-content;\n  margin: 1em auto;\n}"
+  solution:
+    js: ~
+    css: ".box {\n  width: 100px;\n  height: 100px;\n  margin: 0em;\n  padding: 0px;\n
+      \ border: 0px solid;\n}\n \n.box { \n  border-color: #466683;\n  display: inline-block;\n
+      \ background-color: #bad4ed;\n}\n\n.box-inner {\n  background-color: #FFF;\n
+      \ width: 100%;\n  height: 100%;\n  opacity: 0.5;\n}\n\n.box-container {\n  background:
+      #c0c8cc;\n  width: max-content;\n  margin: 1em auto;\n}"
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<div class="box-container">
+  <div class="box"><div class="box-inner"></div></div>
+  <div class="box"><div class="box-inner"></div></div>
+  <div class="box"><div class="box-inner"></div></div>
+</div>
+</div><!--for pandoc-->

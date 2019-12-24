@@ -1,56 +1,107 @@
 ---
-pagetitle: CSS Units - Step 4
+pagetitle: CSS Units - Relative Units
 example:
-  title: CSS Units - Step 4
+  title: CSS Units - Relative Units
   instructions: |-
-    Set the font size of `.big-words` to use `vw` or `vh`. How does the font change when you change the dimensions of the preview window?
+    Then modify the CSS rules so that a few elements use relative units: `%`, `em`, `rem`, `vw`, `vh`, `vmin`, `vmax`. 
+    
+    What do each of these units represent?
 
-    Then give `.big-box` a height and width using `vh` and `vw`? Change the size of the preview window and compare to the behavior of a fixed or other relative unit.
+    How do the font sizes of elements higher in the HTML tree affect the font size of their children? If you set `.inner` to `80%`, why isn't each child element smaller and smaller?
   runtime: repl
   mode:
     document: html
   initial:
+    js: ~
     css: |-
-      body {
-        margin: 0;
-        width: 100%;
-        max-width: 100%;
+      html {
+        /* font-size: 16px; */
       }
-
-      .big-words {
-        text-align: center;
+      .outer {
+        font-size: 16px;
       }
-
-      .big-box {
-        background: red;
-        margin: 3em auto;
+      .inner {
       }
+      .outer p {
+      }
+      .inner p {
+      }
+      .paragraph-two {
+        /* why doesn't this do anything? */
+      }
+      .outer h2 {
+      }
+      .outer .inner h2 {}
   solution:
+    js: ~
     css: |-
-      body {
-        margin: 0;
-        width: 100%;
-        max-width: 100%;
+      html {
+        font-size: 16px;
       }
-
-      .big-words {
-        text-align: center;
-        font-size: 40vw;
+      .outer {
+        font-size: 16px;
       }
-
-      .big-box {
-        background: red;
-        margin: 3em auto;
-        height: 20vh;
-        width: 80vw;
+      .inner {
+        font-size: 1em;
+      }
+      .outer p {
+        font-size: 100%;
+      }
+      .inner p {
+        font-size: 25px;
+        font-size: 1.5em;
+      }
+      .paragraph-two {
+        /* why doesn't this do anything? */
+        /* hint: add element or class to selector */
+        /* try: p.paragraph-two */
+        /* try: move this rule up */
+        font-size: 2em;
+      }
+      .outer h2 {
+        font-size: 28px;
+        /*color: blue;*/
+      }
+      .outer .inner h2 {
+        /* change .outer font-size */
+        font-size: 1.66em;
       }
 output: js4shiny::html_document_js4shiny
 
 ---
 <div><!--for pandoc-->
-<div class="big-words">
-  abcd
-</div>
+<div class="outer">
 
-<div class="big-box"></div>
+  <h1>Lorem Title</h1>
+
+  <div class="inner">
+
+    <h2>Section One</h2>
+
+    <p class="paragraph-one">
+      Ipsum hendrerit natoque ultricies vitae egestas cras condimentum quis.
+      <span class="highlighted">Condimentum semper cursus venenatis sodales quis magnis commodo posuere!</span>
+      Nisl inceptos quis nunc arcu nostra quam eros dui posuere dictumst mus conubia ad netus!
+    </p>
+
+    <p class="paragraph-two">
+      Dolor fringilla dis penatibus consequat montes in maecenas pharetra et donec.
+      Nascetur purus justo rutrum ultricies sollicitudin ac bibendum phasellus cubilia vestibulum!
+      Metus turpis mattis hac sodales leo laoreet.
+      Nascetur erat integer volutpat sapien venenatis himenaeos ridiculus nascetur arcu pretium.
+    </p>
+
+  </div>
+
+  <h2>Section Two</h2>
+
+  <p class="paragraph-three">
+    Sit sollicitudin fusce torquent vivamus donec scelerisque odio etiam arcu facilisi non cum velit massa!
+    <span class="highlighted">Fermentum gravida integer auctor molestie quis dignissim tincidunt gravida!</span>
+    Tellus quis tempor habitasse curae sem integer tellus tempor pulvinar?
+    In natoque suscipit ultrices etiam ridiculus eu etiam commodo enim porta neque.
+    A a quisque montes habitant tristique habitant!
+  </p>
+</div>
 </div><!--for pandoc-->
+

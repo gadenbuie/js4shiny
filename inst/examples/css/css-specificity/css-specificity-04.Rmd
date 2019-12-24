@@ -1,0 +1,43 @@
+---
+pagetitle: CSS Specificity - Same Element
+example:
+  title: CSS Specificity - Same Element
+  instructions: What color will the header be when you add the following css?
+  hint: |-
+    ```
+    h2 {
+      color: #d33f49; /* red */
+    }
+    .special h2 {
+      color: #44bc96; /* green */
+    }
+    h2#fancy {
+      color: #ff41b4; /* hot pink */
+    }
+    ```
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: ~
+  solution:
+    js: ~
+    css: |-
+      h2 {
+        color: #d33f49; /* red */
+      }
+      .special h2 {
+        color: #44bc96; /* green */
+      }
+      h2#fancy {
+        color: #ff41b4; /* hot pink */
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<div class="special">
+  <h2 class="fancy">A special, fancy header</h2>
+</div>
+</div><!--for pandoc-->

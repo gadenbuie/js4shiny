@@ -1,0 +1,188 @@
+---
+pagetitle: CSS Variables
+example:
+  title: CSS Variables
+  instructions: |
+    Modify the values of the variables on the `:root` element and notice
+    how the page changes. Look through the CSS source to see where each variable is
+    being applied. 
+    
+    Try values of `0px` through `15px` for the border radius.
+    
+    Here are a few colors for testing: 
+    <span style="color:white;background-color:#d33f49;">#d33f49</span>
+    <span style="color:white;background-color:#ff6300;">#ff6300</span> 
+    <span style="color:white;background-color:#f0db4f;">#f0db4f</span>
+    <span style="color:white;background-color:#993d70;">#993d70</span> 
+    <span style="color:white;background-color:#ff70a3;">#ff70a3</span>
+    <span style="color:white;background-color:#44bc96;">#44bc96</span> 
+    <span style="color:white;background-color:#466683;">#466683</span>
+    <span style="color:white;background-color:#2f4858;">#2f4858</span> 
+    <span style="color:white;background-color:#6d7e8a;">#6d7e8a</span>
+    <span style="color:white;background-color:#c0c8cc;">#c0c8cc</span>
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |-
+      :root {
+        --primary: #4d8dc9;
+        --secondary: #44bc96;
+        --border-radius: 5px;
+        --text-dark: #222;
+        --text-light: #999;
+      }
+
+      /* --- Base styles for this document ---- */
+
+      html {
+        background: var(--primary);
+        color: var(--text-dark);
+        margin-top: 5vh;
+      }
+      .box {
+        padding: 1em;
+        background: white;
+        border: 1px solid var(--text-light);
+        border-radius: var(--border-radius);
+        box-shadow: 0 5px 7px rgba(0, 0, 0, 0.2);
+      }
+      h1, h2, h3 {
+        color: var(--primary);
+      }
+      hr {
+        height: 2px;
+        background-color: var(--primary);
+        border: none;
+      }
+      strong {
+        color: var(--primary);
+      }
+      a, a:active, a:focus {
+        color: var(--secondary);
+      }
+      a:hover {
+        color: var(--primary);
+      }
+      cite {
+        display: block;
+        text-align: right;
+        color: var(--text-light);
+      }
+      button {
+        border-width: 1px;
+        border-radius: var(--border-radius);
+        padding: 0.5em 1em;
+      }
+      .btn-primary {
+        color: var(--primary);
+        border-color: var(--primary);
+      }
+      .btn-primary:hover {
+        color: white;
+        background-color: var(--primary);
+      }
+      .btn-secondary {
+        color: var(--secondary);
+        border-color: var(--secondary);
+      }
+      .btn-secondary:hover {
+        color: white;
+        background-color: var(--secondary);
+      }
+      footer {
+        text-align: right;
+      }
+  solution:
+    js: ~
+    css: |-
+      :root {
+        --primary: #e3848b;
+        --secondary: #b7779a;
+        --border-radius: 5px;
+        --text-dark: #222;
+        --text-light: #999;
+      }
+
+      /* --- Base styles for this document ---- */
+
+      html {
+        background: var(--primary);
+        color: var(--text-dark);
+        margin-top: 5vh;
+      }
+      .box {
+        padding: 1em;
+        background: white;
+        border: 1px solid var(--text-light);
+        border-radius: var(--border-radius);
+        box-shadow: 0 5px 7px rgba(0, 0, 0, 0.2);
+      }
+      h1, h2, h3 {
+        color: var(--primary);
+      }
+      hr {
+        height: 2px;
+        background-color: var(--primary);
+        border: none;
+      }
+      strong {
+        color: var(--primary);
+      }
+      a, a:active, a:focus {
+        color: var(--secondary);
+      }
+      a:hover {
+        color: var(--primary);
+      }
+      cite {
+        display: block;
+        text-align: right;
+        color: var(--text-light);
+      }
+      button {
+        border-width: 1px;
+        border-radius: var(--border-radius);
+        padding: 0.5em 1em;
+      }
+      .btn-primary {
+        color: var(--primary);
+        border-color: var(--primary);
+      }
+      .btn-primary:hover {
+        color: white;
+        background-color: var(--primary);
+      }
+      .btn-secondary {
+        color: var(--secondary);
+        border-color: var(--secondary);
+      }
+      .btn-secondary:hover {
+        color: white;
+        background-color: var(--secondary);
+      }
+      footer {
+        text-align: right;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<section class="box">
+  <h2>The First Sentence</h2>
+  <p>
+    "When 
+    <strong>Mr. Bilbo Baggins</strong> 
+    of 
+    <a href="https://lotr.fandom.com/wiki/Bag_End">Bag End</a>
+    announced that he would shortly be celebrating his eleventy-first birthday with a party of special magnificence, there was much talk and excitement in Hobbiton."
+  </p>
+  <cite>— J.R.R. Tolkien</cite>
+  <hr />
+  <footer>
+    <button class="btn-secondary">Random</button>
+    <button class="btn-primary">Next Quote</button>
+  </footer>
+</section>
+</div><!--for pandoc-->

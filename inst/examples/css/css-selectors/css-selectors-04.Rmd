@@ -1,0 +1,44 @@
+---
+pagetitle: CSS Selectors - Direct Descendent
+example:
+  title: CSS Selectors - Direct Descendent
+  instructions: |-
+    Change the background color of paragraphs that are **direct descendents** of `.shiny` to blue:
+
+    ```
+    background-color: #4d8dc9;
+    ```
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: ~
+  solution:
+    js: ~
+    css: |-
+      .shiny > p {
+        background-color: #4d8dc9;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<section class="shiny">
+  <h1>Shiny Header</h1>
+  <p>
+    Shiny paragraph text.
+  </p>
+  <div>
+    <h2>A sub-section</h2>
+    <p>
+      Sub-section text.
+      <strong style="color: white;">Whoops, not quite!</strong>
+    </p>
+  </div>
+  <p style="color: white;">
+    Way to go!
+  </p>
+</section>
+
+</div><!--for pandoc-->

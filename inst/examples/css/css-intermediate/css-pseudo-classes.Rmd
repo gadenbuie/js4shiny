@@ -26,17 +26,16 @@ example:
       }
 
       .btn-do:hover {
-        border-color: var(--blue);
-        background-color: var(--lightest-blue);
+        /* blue border */
+        /* lightest blue background */
       }
 
       .btn-do:focus {
-        border-color: var(--green);
-        outline: none;
+        /* green border */
       }
 
       .btn-do:active {
-        border-color: var(--red);
+        /* red border */
       }
   solution:
     js: ~
@@ -73,5 +72,6 @@ example:
 output: js4shiny::html_document_js4shiny
 
 ---
-
+<div><!--for pandoc-->
 <button class="btn-do">Do the thing</button>
+</div><!--for pandoc-->

@@ -1,0 +1,40 @@
+---
+pagetitle: CSS Specificity - Element Match
+example:
+  title: CSS Specificity - Element Match
+  instructions: 'Create two rules: give `.parent` a `red` color and `h2` a blue `color`.
+    What color will the `<h2>` text be?'
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |-
+      .parent {
+      }
+
+      h2 {
+      }
+  solution:
+    js: ~
+    css: |-
+      .parent {
+        color: red;
+      }
+
+      h2 {
+        color: blue;
+      }
+      
+      /* the header text is blue because 
+         the h2 matches the element,
+         otherwise red would be _inherited_ */
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<div class="parent">
+  <h2>Header 2</h2>
+  <p>paragraph text...</p>
+</div>
+</div><!--for pandoc-->

@@ -1,0 +1,37 @@
+---
+pagetitle: CSS Specificity - Position
+example:
+  title: CSS Specificity - Position
+  instructions: Create two rules again. Give `.parent` a `red` color and then create
+    a second `.parent` rule, but this time with a blue `color`. What color will the
+    `.parent` text be?
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |-
+      .parent {
+      }
+  solution:
+    js: ~
+    css: |-
+      .parent {
+        color: red;
+      }
+
+      .parent {
+        color: blue;
+      }
+      
+      /* the text is blue because 
+         the 2nd definition occurs last */
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<div class="parent">
+  <h2>Header 2</h2>
+  <p>paragraph text...</p>
+</div>
+</div><!--for pandoc-->

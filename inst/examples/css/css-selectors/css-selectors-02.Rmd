@@ -1,0 +1,37 @@
+---
+pagetitle: CSS Selectors - ID
+example:
+  title: CSS Selectors - ID
+  instructions: |-
+    Change the background color of the element with `id="shiny"` to blue:
+
+    ```
+    background-color: #4d8dc9;
+    ```
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: ~
+  solution:
+    js: ~
+    css: |-
+      #shiny {
+        background-color: #4d8dc9;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<section id="shiny">
+  <h1>Shiny Header</h1>
+  <p>
+    Shiny paragraph text.
+  </p>
+  <p style="color: white;">
+    Good job!
+  </p>
+</div>
+
+</div><!--for pandoc-->

@@ -1,59 +1,61 @@
 ---
-pagetitle: CSS Units - Step 2
+pagetitle: CSS Units - Inheritance
 example:
-  title: CSS Units - Step 2
-  instructions: |-
-    Set the `font-size` of the various components on the page. Try using absolute units, like `px`, `cm`, and `in`.
+  title: CSS Units - Inheritance
+  instructions: |2-
+
+    I've set the font color of the `.outer` `<div>` to be red. Does it make sense that _all_ of the text is red?
+
+    Move the `color: red;` property up and down with <kbd>Alt</kbd> + <kbd>&uparrow;</kbd>/<kbd>&downarrow;</kbd>. When is the color property passed down from a parent element to its children?
+
+    Add a `border` to `.inner`. How many bordered boxes do you expect to see? What would the page look like if `border` was inherited?
   runtime: repl
   mode:
     document: html
   initial:
-    js: ~
     css: |-
-      outer {
-        font-size: 16px;
+      .outer {
+        color: red;
       }
+
       .inner {
-
       }
-      .outer p {
-
+      
+      .inner h2{
       }
+
       .inner p {
-
       }
+
       .paragraph-two {
-
       }
-      .outer h2 {
 
-      }
-      .outer .inner h2 {
-
+      .highlighted {
       }
   solution:
-    js: ~
     css: |-
-      outer {
-        font-size: 16px;
+      .outer {
       }
+
       .inner {
-        font-size: 18px;
+        color: red;
+        border: 1px solid red;
       }
-      .outer p {
-        font-size: 20px;
+      
+      .inner h2 {
+        border: 1px solid red;
       }
+
       .inner p {
-        font-size: 0.5cm;
+        border: 1px solid red;
       }
-      .outer .paragraph-three {
-        font-size: 0.25in;
+
+      .paragraph-two {
+        border: 1px solid red;
       }
-      .outer h2 {
-        font-size: 18px;
-      }
-      .outer .inner h2 {
-        font-size: 24px;
+
+      .highlighted {
+        border: 1px solid red;
       }
 output: js4shiny::html_document_js4shiny
 
@@ -69,7 +71,7 @@ output: js4shiny::html_document_js4shiny
 
     <p class="paragraph-one">
       Ipsum hendrerit natoque ultricies vitae egestas cras condimentum quis.
-      Condimentum semper cursus venenatis sodales quis magnis commodo posuere!
+      <span class="highlighted">Condimentum semper cursus venenatis sodales quis magnis commodo posuere!</span>
       Nisl inceptos quis nunc arcu nostra quam eros dui posuere dictumst mus conubia ad netus!
     </p>
 
@@ -86,7 +88,7 @@ output: js4shiny::html_document_js4shiny
 
   <p class="paragraph-three">
     Sit sollicitudin fusce torquent vivamus donec scelerisque odio etiam arcu facilisi non cum velit massa!
-    <span class="p-three-sentence">Fermentum gravida integer auctor molestie quis dignissim tincidunt gravida!</span>
+    <span class="highlighted">Fermentum gravida integer auctor molestie quis dignissim tincidunt gravida!</span>
     Tellus quis tempor habitasse curae sem integer tellus tempor pulvinar?
     In natoque suscipit ultrices etiam ridiculus eu etiam commodo enim porta neque.
     A a quisque montes habitant tristique habitant!

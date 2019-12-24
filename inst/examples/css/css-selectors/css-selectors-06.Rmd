@@ -1,0 +1,45 @@
+---
+pagetitle: CSS Selectors - General Sibling
+example:
+  title: CSS Selectors - General Sibling
+  instructions: |-
+    Change the background color of any paragraphs that are **siblings** of the `.shiny` header:
+
+    ```
+    background-color: #4d8dc9;
+    ```
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: ~
+  solution:
+    js: ~
+    css: |-
+      .shiny ~ p {
+        background-color: #4d8dc9;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<section>
+  <h1 class="shiny">Shiny Header</h1>
+  <p>
+    Shiny paragraph text.
+    <strong style="color: white;">Awesome!</strong>
+  </p>
+  <p>
+    Second shiny paragraph text.
+    <strong style="color: white;">You got it!</strong>
+  </p>
+  <div>
+    <h2>A sub-section</h2>
+    <p>
+      Sub-section text.
+    </p>
+  </div>
+</section>
+
+</div><!--for pandoc-->

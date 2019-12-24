@@ -1,0 +1,37 @@
+---
+pagetitle: CSS Selectors - Same Element
+example:
+  title: CSS Selectors - Same Element
+  instructions: |-
+    Change the background color of paragraphs with `class="shiny"` to blue:
+
+    ```
+    background-color: #4d8dc9;
+    ```
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: ~
+  solution:
+    js: ~
+    css: |-
+      p.shiny {
+        background-color: #4d8dc9;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<section>
+  <h1>Shiny Header</h1>
+  <p class="shiny">
+    Shiny paragraph text.
+  </p>
+  <p class="shiny" style="color: white;">
+    You got it!
+  </p>
+</div>
+
+</div><!--for pandoc-->

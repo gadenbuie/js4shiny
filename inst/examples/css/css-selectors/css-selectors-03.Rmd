@@ -1,0 +1,42 @@
+---
+pagetitle: CSS Selectors - Descendent
+example:
+  title: CSS Selectors - Descendent
+  instructions: |-
+    Change the background color of paragraphs that are **descendents** of `.shiny` to blue:
+
+    ```
+    background-color: #4d8dc9;
+    ```
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: ~
+  solution:
+    js: ~
+    css: |-
+      .shiny p {
+        background-color: #4d8dc9;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<section class="shiny">
+  <h1>Shiny Header</h1>
+  <p>
+    Shiny paragraph text.
+    <strong style="color: white;">Lookin good!</strong>
+  </p>
+  <div>
+    <h2>A sub-section</h2>
+    <p>
+      Sub-section text.
+      <strong style="color: white;">Looks good here too!</strong>
+    </p>
+  </div>
+</section>
+
+</div><!--for pandoc-->
