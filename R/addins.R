@@ -123,7 +123,7 @@ repl_example <- function(example = NULL) {
     example <- choose_examples()
     chose_example <- TRUE
   }
-  if (!file.exists(example)) {
+  if (!file.exists(example) && !chose_example) {
     example <- search_for_example(basename(example))
   }
 
@@ -306,7 +306,7 @@ choose_examples <- function(
       exs <- if (!is.null(input$group) && input$group != "") {
         list_examples(input$group, recurse = 1)
       } else {
-        list_examples(input$category)
+        list_examples(input$category, recurse = 1)
       }
     })
 
@@ -405,7 +405,7 @@ list_examples <- function(path, recurse = 0L) {
 
 read_file_info <- function(path) {
   if (grepl("rmd$", tolower(path))) {
-    extract_yaml(path)$title %||% fs::path_file(path)
+    extract_yaml(path)$example$title %||% fs::path_file(path)
   } else if (grepl("app.r", tolower(path), fixed = TRUE)) {
     read_registry_yaml(fs::path_dir(path))$title %||% fs::path_dir(path)
   }

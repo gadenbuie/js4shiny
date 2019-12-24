@@ -69,7 +69,7 @@ get_example_file_paths <- function(path = NULL) {
     stop("Please provide a single path to a directory or file", call. = FALSE)
   }
   if (fs::is_dir(path)) {
-    path_files <- fs::dir_ls(path, regexp = "[.][Rr][Mm][Dd]")
+    path_files <- fs::dir_ls(path, regexp = "[.][Rr][Mm][Dd]", recurse = 1)
   } else {
     path_files <- path
   }
