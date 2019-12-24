@@ -1,0 +1,76 @@
+---
+pagetitle: CSS Specificity - Beat the default
+example:
+  title: CSS Specificity - Beat the default
+  instructions: |-
+    You want to change the default look of the `<h2>` elements,
+    but the default styling is applied with a high-specificity rule.
+
+    Find as many possible ways to modify the `<h2>` color.
+    What are the advantages and disadvantages of each method?
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    css: |-
+      .book .book-body .page-wrapper .page-inner section.normal h2 {
+        color: red;
+      }
+  solution:
+    css: |-
+      .book .book-body .page-wrapper .page-inner section.normal h2 {
+        color: red;
+      }
+
+      /* option 1 */
+      .book .book-body .body-inner .page-wrapper .page-inner section.normal h2 {
+        /*color: red;*/
+      }
+
+      /* option 2 */
+      .book .book-body .page-wrapper .page-inner section.normal .section h2 {
+        /*color: red;*/
+      }
+
+      /* option 3 */
+      .book .book-body .page-wrapper .page-inner section.normal h2:first-child {
+        /*color: red;*/
+      }
+
+      /* option 4 */
+      .book .book-body .page-wrapper .page-inner section.normal .level2 h2 {
+        color: red;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<div class="book">
+  <div class="book-body">
+    <div class="body-inner">
+      <div class="page-wrapper">
+        <div class="page-inner">  
+          <section class="normal">
+            <div id="header-title" class="section level2">
+              <h2>Make this header red.</h2>
+              <p>
+                Elit rutrum facilisi a porta nibh magna purus. 
+                Massa quisque aliquam posuere neque luctus urna purus curae metus? 
+                Mattis tempus fames sodales hac tempus porta pretium montes! 
+                Velit turpis proin dictum montes varius ridiculus et massa euismod risus iaculis fermentum.
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* don't modify this rule, that would be cheating! */
+.book .book-body .page-wrapper .page-inner section.normal h2 {
+  color: black;
+}
+</style>
+</div><!--for pandoc-->
