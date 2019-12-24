@@ -1,4 +1,4 @@
 title: Box Size App
-type: html-external
+type: html
 description: |
   Demonstrates how box-sizing interacts with box size, padding, border and margin.

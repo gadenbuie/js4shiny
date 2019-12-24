@@ -1,0 +1,45 @@
+---
+pagetitle: Package Calendar Component - Part 1
+example:
+  title: Package Calendar Component - Part 1
+  instructions: Replace the `<div>` and `<span>` tags with more descriptive, semantic
+    HTML tags.
+  hint: ~
+  initial:
+    js: ~
+    css: |-
+      .img-placeholder {
+        background: #ddd;
+        width: 100px;
+        height: 100px;
+      }
+  solution:
+    js: ~
+    css: |-
+      .img-placeholder {
+        background: #ddd;
+        width: 100px;
+        height: 100px;
+      }
+output: js4shiny::html_document_plain
+
+---
+
+<div>
+  <div>
+    <div class="img-placeholder"></div>
+    <div>
+      <span>xaringan</span>
+    </div>
+  </div>
+  <div>
+    <div>Day One</div>
+    <div><span>Stars</span> 852</div>
+    <div><span>Forks</span> 172</div>
+  </div>
+  <div>
+    Mountains of examples and excellent documentation makes
+    <span>xaringan</span>
+    a pleasure to work with.
+  </div>
+</div>

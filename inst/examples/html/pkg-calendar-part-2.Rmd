@@ -1,0 +1,41 @@
+---
+pagetitle: Package Calendar Component - Part 2
+example:
+  title: Package Calendar Component - Part 2
+  instructions: ~
+  hint: ~
+  initial:
+    js: ~
+    css: ~
+  solution:
+    js: ~
+    css: |-
+      .img-placeholder {
+        background: #ddd;
+        width: 100px;
+        height: 100px;
+      }
+output: js4shiny::html_document_plain
+
+---
+
+<section>
+  <header>
+    <img
+      src="https://user-images.githubusercontent.com/163582/45438104-ea200600-b67b-11e8-80fa-d9f2a99a03b0.png"
+      alt="xaringan package logo"
+      width="100px"
+    />
+    <h2><a href="https://slides.yihui.org/xaringan/">xaringan</a></h2>
+    <ul>
+      <li>Day One</li>
+      <li><strong>Stars:</strong> 852</li>
+      <li><strong>Forks:</strong> 172</li>
+    </ul>
+  </header>
+  <p>
+    Mountains of examples and excellent documentation makes
+    <code>xaringan</code>
+    a pleasure to work with.
+  </p>
+</section>
