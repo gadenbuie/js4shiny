@@ -1,4 +1,4 @@
-title: Box Size Demo App
-type: shiny-run
+title: Box Size App
+type: html-external
 description: |
   Demonstrates how box-sizing interacts with box size, padding, border and margin.
