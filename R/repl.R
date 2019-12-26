@@ -725,7 +725,7 @@ repl_server <- function(render_dir) {
     )
 
     output$example_html <- shiny::renderUI({
-      out_html <- debounce(compiled_html, 1000)()
+      out_html <- shiny::debounce(compiled_html, 1000)()
       if (getOption("js4shiny.debug.repl", FALSE)) message(
         "updating html preview: ", out_html$timestamp,
         "\n         html file   : ", out_html$file
