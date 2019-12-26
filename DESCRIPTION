@@ -11,6 +11,8 @@ Description: Companion Package for JavaScript for Shiny Users.
 License: MIT + file LICENSE
 URL: https://github.com/gadenbuie/js4shiny
 BugReports: https://github.com/gadenbuie/js4shiny/issues
+Depends:
+    R (>= 2.10)
 Imports: 
     fs,
     glue,
