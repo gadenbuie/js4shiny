@@ -20,7 +20,7 @@ option \code{version}.
 }
 \examples{
 css_ex <- system.file(
-  "examples", "css", "teaching-css-basics", "00-css-basics-appearance.Rmd",
+  "examples", "css", "css-basics", "css-basics-appearance.Rmd",
   package = "js4shiny"
 )
 
