@@ -201,7 +201,7 @@ open_html_example <- function(example) {
     stopifnot(file.exists(example))
     info <- read_registry_yaml(dirname(example))
     external <- grepl("external", info$type %||% "")
-    js4shiny:::live_preview(dirname(example), external = external)
+    live_preview(dirname(example), external = external)
   } else {
     stop("Not sure how to open example: ", example)
   }
