@@ -32,7 +32,7 @@ for (i in 2:4) {
 pages <- pages %>%
   dplyr::mutate_all(~ stringr::str_replace_all(.x, "\\s", " "))
 
-saveRDS(pages, here::here("inst", "data", "first-sentences.rds"), compress = "xz")
+saveRDS(pages, here::here("inst", "data", "first-sentences.rds"), compress = "xz", version = 2)
 jsonlite::write_json(
   pages,
   here::here("inst", "data", "first-sentences.json"),
