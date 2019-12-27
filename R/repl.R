@@ -124,7 +124,15 @@ extract_resources <- function(path) {
   if (is.null(yml)) return()
   if (is.null(yml$output)) return()
   if (is.character(yml$output)) return()
-  resources <- yml$output[['js4shiny::html_document_plain']]
+  output_format <- intersect(
+    paste0("js4shiny::html_document_", c("js4shiny", "plain")),
+    names(yml$output)
+  )
+  if (!length(output_format)) return()
+  if (length(output_format) > 1) {
+    warning("Multiple {js4shiny} output formats detected, using html_document_js4shiny.")
+  }
+  resources <- yml$output[[output_format[1]]]
   if (is.null(resources) || is.character(resources)) return()
   resources <- resources[c("css", "script")]
   names(resources) <- c("css", "javascript")
