@@ -1,0 +1,68 @@
+---
+example:
+  title: JS Operators - Are we there yet?
+  instructions: |-
+    We estimate a task will take **4,321** seconds.
+    **1,234** seconds have already passed.
+    How many _seconds_ are remaining for the task?
+    How many _minutes_ and seconds are remaning?
+
+    Write the estimated time in minutes and seconds in a sentence,
+    filling in the blanks of the template below.
+  hint: >
+    Fill in the `____` with the missing JavaScript code. 
+    The console log below will show `[SyntaxError]...` until you fix them all.
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      const task = 4321
+      const elapsed = 1234
+
+      // Initialize variable with the remaining seconds
+      ____ remaining = ____
+
+      // How many seconds left over if you take out the minutes?
+      ____ remainingSeconds = ____ % ____
+
+      // Take out those seconds from the remaining total
+      remaining = remaining - remainingSeconds
+
+      // Convert remaining seconds to minutes
+      ____ remainingMinutes =
+
+      // console.log with object notation: :sunglasses:
+      console.log({task, elapsed, remaining, remainingSeconds, remainingMinutes})
+
+      const msg = `${___} minutes, ${_____} seconds left in the task`
+
+      msg
+  solution:
+    js: |-
+      const task = 4321
+      const elapsed = 1234
+      
+      // Initialize variable with the remaining seconds
+      let remaining = task - elapsed
+      
+      // How many seconds left over if you take out the minutes?
+      const remainingSeconds = remaining % 60
+      
+      // Take out those seconds from the remaining total
+      remaining = remaining - remainingSeconds
+      
+      // Convert remaining seconds to minutes
+      const remainingMinutes = remaining / 60
+      
+      // console.log with object notation: :sunglasses:
+      console.log({task, elapsed, remaining, remainingSeconds, remainingMinutes})
+      
+      const msg = `${remainingMinutes} minutes, ${remainingSeconds} seconds left in the task`
+      
+      msg
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+</div><!--for pandoc-->
