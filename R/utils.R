@@ -14,7 +14,7 @@ requires_pkg <- function(pkg) {
   }
 }
 
-collapse <- function(..., sep_c = '\n') paste(..., collapse = sep_c)
+collapse <- function(..., sep_c = "\n") paste(..., collapse = sep_c)
 collapse0 <- function(..., sep_c = "\n") paste(..., sep = "", collapse = sep_c)
 
 read_lines <- function(path, ..., warn = FALSE) readLines(path, warn = warn, ...)
@@ -25,4 +25,23 @@ escape_html_example <- function(...) {
   x <- gsub("\n", "<br>", x)
   x <- gsub(" ", "&nbsp;", x)
   collapse(x, sep_c = "")
+}
+
+write_registry_yaml <- function(
+  path,
+  title,
+  description = title,
+  type = c("default", "shiny", "shiny-starter", "shiny-run", "html", "html-external")
+) {
+  if (!fs::is_dir(path)) {
+    stop("`path` should be a directory where 'registry.yml' will be written")
+  }
+  type <- match.arg(type)
+  info <- list(
+    title = title,
+    type = type,
+    description = description
+  )
+  if (type == "default") info$type <- NULL
+  yaml::write_yaml(info, file = fs::path(path, "registry.yml"))
 }
