@@ -1096,17 +1096,18 @@ create_example_rmd <- function(
     runtime = runtime %||% "repl",
     mode = mode,
     initial = list(
-      js  = null_if_nothing(initial$js),
-      css = null_if_nothing(initial$css)
+      js  = initial$js  %>% null_if_nothing() %>% tabs2spaces(),
+      css = initial$css %>% null_if_nothing() %>% tabs2spaces()
     ),
     solution = list(
-      js   = null_if_nothing(solution$js),
-      css  = null_if_nothing(solution$css)
+      js   = solution$js  %>% null_if_nothing() %>% tabs2spaces(),
+      css  = solution$css %>% null_if_nothing() %>% tabs2spaces()
     )
   )
 
-  example <- purrr::map(example, null_if_nothing)
-  example <- purrr::compact(example)
+  example <- example %>%
+    purrr::map(null_if_nothing) %>%
+    purrr::compact()
 
   yaml_header <- list(
     pagetitle = title,

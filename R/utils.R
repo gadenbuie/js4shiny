@@ -4,6 +4,11 @@ null_if_nothing <- function(x) {
   if (is.null(x) || x == "") NULL else x
 }
 
+tabs2spaces <- function(x, spaces = 2) {
+  if (is.null(x)) return(NULL)
+  gsub("\t", strrep(" ", spaces), x)
+}
+
 js4shiny_file <- function(...) {
   system.file(..., package = "js4shiny", mustWork = TRUE)
 }
