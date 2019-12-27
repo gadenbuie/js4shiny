@@ -4,15 +4,28 @@
 \alias{html_document_js}
 \title{An HTML Document with Support for Literate JavaScript Programming}
 \usage{
-html_document_js(..., theme = NULL, css = NULL, toc = FALSE,
-  toc_depth = 3, mathjax = NULL, use_fontawesome = FALSE,
-  use_google_fonts = FALSE, highlight = "haddock", fig_width = 10,
-  fig_height = 7, fig_retina = 2, keep_md = FALSE, dev = "png",
-  pandoc_args = NULL, extra_dependencies = NULL)
+html_document_js(
+  ...,
+  theme = NULL,
+  css = NULL,
+  toc = FALSE,
+  toc_depth = 3,
+  mathjax = NULL,
+  use_fontawesome = FALSE,
+  use_google_fonts = FALSE,
+  highlight = "haddock",
+  fig_width = 10,
+  fig_height = 7,
+  fig_retina = 2,
+  keep_md = FALSE,
+  dev = "png",
+  pandoc_args = NULL,
+  extra_dependencies = NULL
+)
 }
 \arguments{
 \item{...}{Additional function arguments to pass to the
-base R Markdown HTML output formatter \code{\link{html_document_base}}}
+base R Markdown HTML output formatter \code{\link[rmarkdown]{html_document_base}}}
 
 \item{theme}{Ignored}
 
@@ -51,7 +64,7 @@ outputting HTML directly into the markdown document).}
 \item{pandoc_args}{Additional command line options to pass to pandoc}
 
 \item{extra_dependencies}{Additional function arguments to pass to the
-base R Markdown HTML output formatter \code{\link{html_document_base}}}
+base R Markdown HTML output formatter \code{\link[rmarkdown]{html_document_base}}}
 }
 \description{
 An R Markdown format for literate JavaScript programming. With
@@ -71,5 +84,5 @@ the \code{js_redirect = FALSE} knitr chunk option to disable the \code{console.l
 redirect and use the standard JavaScript engine included in the \pkg{knitr}
 package. Logged statements will still be available in the browser's
 devolper tools console, as this engine is equivalent to having entered
-the JavaScript code directly into the HTML source within a \code{<script>} tag.
+the JavaScript code directly into the HTML source within a \verb{<script>} tag.
 }

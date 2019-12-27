@@ -5,8 +5,12 @@
 \alias{mdn_gadget}
 \title{Search the Mozilla Developers Network}
 \usage{
-mdn_search(term, browse = TRUE, topics = c("js", "api", "css", "html",
-  "svg"), locale = "en-US")
+mdn_search(
+  term,
+  browse = TRUE,
+  topics = c("js", "api", "css", "html", "svg"),
+  locale = "en-US"
+)
 
 mdn_gadget(browse = TRUE, locale = NULL)
 }

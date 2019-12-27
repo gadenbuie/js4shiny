@@ -5,18 +5,27 @@
 \alias{include_script}
 \title{Plain (Minimal) HTML Document}
 \usage{
-html_document_plain(..., css = "normalize", script = NULL,
-  highlight = "haddock", fig_width = 10, fig_height = 7,
-  fig_retina = 2, keep_md = FALSE, dev = "png", pandoc_args = NULL,
-  extra_dependencies = NULL)
+html_document_plain(
+  ...,
+  css = "normalize",
+  script = NULL,
+  highlight = "haddock",
+  fig_width = 10,
+  fig_height = 7,
+  fig_retina = 2,
+  keep_md = FALSE,
+  dev = "png",
+  pandoc_args = NULL,
+  extra_dependencies = NULL
+)
 
 include_script(head = NULL, before = NULL, after = NULL)
 }
 \arguments{
 \item{...}{Additional function arguments to pass to the
-base R Markdown HTML output formatter \code{\link{html_document_base}}}
+base R Markdown HTML output formatter \code{\link[rmarkdown]{html_document_base}}}
 
-\item{css}{A list of css files to include in the document's \code{<head>}. Include
+\item{css}{A list of css files to include in the document's \verb{<head>}. Include
 \code{"normalize"} in the list of css files to include \code{normalize.css}, which
 provides basic style resetting.}
 
@@ -43,11 +52,11 @@ outputting HTML directly into the markdown document).}
 \item{pandoc_args}{Additional command line options to pass to pandoc}
 
 \item{extra_dependencies}{Additional function arguments to pass to the
-base R Markdown HTML output formatter \code{\link{html_document_base}}}
+base R Markdown HTML output formatter \code{\link[rmarkdown]{html_document_base}}}
 
 \item{head, before, after}{A character vector of source files, each to be
-included in the \code{<head>}, or \emph{before} or \emph{after} the HTML content in
-\code{<body>}.}
+included in the \verb{<head>}, or \emph{before} or \emph{after} the HTML content in
+\verb{<body>}.}
 }
 \description{
 This RMarkdown output format provides a minimal HTML5 template and minimal

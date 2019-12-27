@@ -8,8 +8,14 @@
 \usage{
 repl_example(example = NULL)
 
-repl(example = NULL, js_repl_only = FALSE, theme_app = NULL,
-  theme_editor = "textmate", render_dir = NULL, ...)
+repl(
+  example = NULL,
+  js_repl_only = FALSE,
+  theme_app = NULL,
+  theme_editor = "textmate",
+  render_dir = NULL,
+  ...
+)
 
 repl_js(..., render_dir = NULL)
 }

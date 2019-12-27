@@ -6,8 +6,12 @@
 \alias{html_dependency_stylize}
 \title{js4shiny HTML Dependencies}
 \usage{
-html_dependency_js4shiny(redirectConsole = TRUE, jsonview = TRUE,
-  stylize = "all", use_google_fonts = FALSE)
+html_dependency_js4shiny(
+  redirectConsole = TRUE,
+  jsonview = TRUE,
+  stylize = "all",
+  use_google_fonts = FALSE
+)
 
 html_dependency_redirectConsoleLog()
 
@@ -44,6 +48,7 @@ dependencies.
 }}
 
 \seealso{
-Other js4shiny HTML dependencies: \code{\link{html_setup}}
+Other js4shiny HTML dependencies: 
+\code{\link{html_setup}()}
 }
 \concept{js4shiny HTML dependencies}

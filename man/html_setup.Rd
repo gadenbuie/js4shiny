@@ -7,8 +7,9 @@
 \usage{
 html_setup(stylize = "none")
 
-html_setup_blogdown(stylize = c("fonts", "variables", "table", "code",
-  "utility"))
+html_setup_blogdown(
+  stylize = c("fonts", "variables", "table", "code", "utility")
+)
 }
 \arguments{
 \item{stylize}{One of "none", "all", "fonts", "variables", "table",
@@ -23,11 +24,12 @@ literate JavaScript code chunks inside R Markdown formats that write to HTML.
 \section{Functions}{
 \itemize{
 \item \code{html_setup_blogdown}: A blogdown-specific HTML setup that includes styles
-for \code{<pre>} code blocks, tables, some utility functions, and the CSS
+for \verb{<pre>} code blocks, tables, some utility functions, and the CSS
 variables declaring the \pkg{js4shiny} colors.
 }}
 
 \seealso{
-Other js4shiny HTML dependencies: \code{\link{html_dependency_js4shiny}}
+Other js4shiny HTML dependencies: 
+\code{\link{html_dependency_js4shiny}()}
 }
 \concept{js4shiny HTML dependencies}
