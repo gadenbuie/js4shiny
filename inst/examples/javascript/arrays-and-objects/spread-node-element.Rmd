@@ -3,6 +3,7 @@ pagetitle: Spreading HTML Elements
 example:
   title: Spreading HTML Elements
   instructions: |-
+    This exercise is a preview of how you will use JavaScript to interact with and manipulate a web page.
     The first line of this script uses the browser's API to find all of the HTML `<h2>` elements. These elements contain the level 2 headers, and `document.querySelectorAll('h2')` finds all of these headers but it doesn't return an _array_.
 
     Use `...spread` syntax to convert `headers` to an array, and then write a `for` loop that outputs the `.textContent` of each header.
