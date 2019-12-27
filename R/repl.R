@@ -1246,8 +1246,14 @@ includeExtrasUI <- function(id) {
         " identifier, like ",
         shiny::tags$code("three"),
         " or ",
-        shiny::tags$code("react@16.7.0"),
-        "."
+        shiny::tags$code("react@16.7.0", .noWS = "after"),
+        ". The",
+        shiny::tags$code("repl()"),
+        "must be open in an external browser. Use the",
+        shiny::HTML(
+          '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAYAAAD7PHgWAAABmUlEQVR42u2XPUvDQBjHO7n4FfwQfhd35wacxdYITraD9aVOitogglS3Rl2UFukggoOCDk7F2pK+BasohZ5y3pPm5HxLm/S8y3B/+JMh3J9fnufyJBeJKCkpKYVP8eXMuL5qxPS0kSVX05d7a2KQ8S9wc2ljMrVj5vO3lnVdQ+imibEfwxpYCxmQxb1yS7tm4cpCXb9g3w0ZkMW1ktAaePph4aghCzL5AZL9E6Stf7f7DZHMA54VNHnBUUMmV8DiXRPzdGBAfc1YIOV/YD2hxTuJzSxmfVy8xF30HtjBAQkQHkAA+fLakQDoVrBSbWAvA2C90RIP6My9la1kP0gArFQtOYAsZK1uhw+Qthn2mm0/hQtwEDhpgF5wPSCJgF5wMAe393NfIIUCesE5gzo6XS6V7nGucP4JKRbQhWvZ7R9w0dlERtOTJ3QoH55dOHB75qm4OfjbcKZw5PbYTGrjiA0H2Mf2s9gvCTucWTjiEQgb5rvL7S2mkFPzi+sUjv7NhALQFUCNUjh3j2q+D0n9D1GaOoYqKSlJ1AeLzYkEiKuzEwAAAABJRU5ErkJggg==" width="20" height="18" class="GD15MCFCPU">'
+        ),
+        "button to open outside of RStudio."
       )
     ),
     shiny::fluidRow(
