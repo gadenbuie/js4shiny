@@ -1,0 +1,34 @@
+---
+example:
+  title: For Loop - Sum of an Array
+  instructions: |-
+    The prices of several items entered into an online shopping cart are stored in an array.
+    Calculate the total price using a `for` loop.
+  hint: What is the purpose of `\$${total}` in the `console.log()` output?
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      _____ cart = [4.99, 10.42, 13.99, 21.55]
+      _____ total = 0
+      for (___ item ___ cart) {
+        total += item
+      }
+
+      console.log(`You owe \$${total}`)
+  solution:
+    js: |-
+      const cart = [4.99, 10.42, 13.99, 21.55]
+      let total = 0
+      for (let item of cart) {
+        total += item
+      }
+      
+      console.log(`You owe \$${total}`)
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->

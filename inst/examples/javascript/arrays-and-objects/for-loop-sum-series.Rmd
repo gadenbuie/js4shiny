@@ -1,0 +1,39 @@
+---
+example:
+  title: For Loop - Sum of Series
+  instructions: |-
+    Use a classic `for` loop to calculate the sum of the fist 100 terms of the alternating series
+
+    ```
+    1 - 1/2 + 1/3 - 1/4 + 1/5 - ...
+    ```
+    
+    Use the remainder operator (`%`) to determine if the denominator is even or odd.
+  hint: |-
+    ```js
+    for (_init_; _until_; _incr_) {
+      // ...
+    }
+    ```
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: ~
+  solution:
+    js: |-
+      let total = 0
+      for (let i = 1; i <= 100; i++) {
+        const sign = i % 2 === 0 ? -1 : 1
+        total += 1/i * sign
+      }
+
+      total
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->

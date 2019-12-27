@@ -1,0 +1,71 @@
+---
+pagetitle: For Loop - Object References
+example:
+  title: For Loop - Object References
+  instructions: |-
+    We have **12** apples, **6** bananas, **2** coconuts, and **13** dragon fruit.
+    
+    We run into a friend who wants to trade us 4 of our apples and all of our coconuts in exchange for 2 more dragon fruit.
+    We're intrigued but not convinced and we have temporary amnesia and forget how to do mental math.
+
+    Use the `for ... in` loop and `if ... else` statements to update `fruits`, but first save a copy of your current fruit inventory so you can remember how much you had originally.
+  hint: |-
+    When you've completed the above example,
+    compare the value of `backupFruits` and `fruits`.
+    Are the the same or did one of them change?
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      const fruits = { /* ... */ }
+      
+      let backupFruits = fruits
+
+      for (____ fruit in ____) {
+        if (fruit === "apple") {
+          ____[fruit] -= 4
+        } else if (fruit === ____) {
+          ____[fruit] = 0
+        } else if (________) {
+          // update dragon fruit
+        }
+      }
+
+      console.log('-- fruits --')
+      console.table(fruits)
+    css: ~
+  solution:
+    js: |-
+      const fruits = {
+        apple: 12,
+        banana: 6,
+        coconut: 2,
+        "dragon fruit": 13
+      }
+      
+      let backupFruits = fruits
+      
+      for (const fruit in fruits) {
+        if (fruit === "apple") {
+         fruits[fruit] -= 4
+        } else if (fruit === 'coconut') {
+          fruits[fruit] = 0
+        } else if (fruit === 'dragon fruit') {
+          fruits[fruit] += 2
+        }
+      }
+      
+      console.log('-- fruits --')
+      console.table(fruits)
+      
+      // what did we have originally?
+      console.log('-- backupFruits --')
+      console.table(backupFruits)
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->
