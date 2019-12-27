@@ -1,39 +1,41 @@
 <script>
-  (function(d) {
-    d.addEventListener("DOMContentLoaded", function() {
-      // find code chunks that get special colors
-      const langSpecial = ['r', 'js', 'yaml', 'json', 'bash'];
-      const codeSpecial = d.querySelectorAll(langSpecial.map(l => 'pre code.' + l));
+(function (d) {
+  d.addEventListener('DOMContentLoaded', function () {
+    // find code chunks that get special colors
+    const langSpecial = ['r', 'js', 'yaml', 'json', 'bash']
+    const codeSpecial = d.querySelectorAll(langSpecial.map(l => 'pre code.' + l))
 
-      // find code chunks with highlighted lines
-      const hlines = d.querySelectorAll('.remark-code-line-highlighted');
-      const preHLParents = [];
+    // find code chunks with highlighted lines
+    const hlines = d.querySelectorAll('.remark-code-line-highlighted')
+    const preHLParents = []
 
-      const findPreParent = function(line, p = 0) {
-        if (p > 1) return null; // traverse up no further than grandparent
-        const el = line.parentElement;
-        if (el.tagName === "PRE") {
-          return el;
-        } else {
-          return findPreParent(el, ++p);
-        }
-      };
-
-      // add the code language to the parent <pre> element
-      for (let code of codeSpecial) {
-        let pre = findPreParent(code);
-        let codeLang = code.className.split(' ').filter(c => langSpecial.includes(c));
-        pre.classList += ` ${codeLang}`;
+    const findPreParent = function (line, p = 0) {
+      if (p > 1) return null // traverse up no further than grandparent
+      const el = line.parentElement
+      if (el.tagName === 'PRE') {
+        return el
+      } else {
+        return findPreParent(el, ++p)
       }
+    }
 
-      // add remark-code-has-line-highlighted to parent <pre> element
-      for (let line of hlines) {
-        let pre = findPreParent(line);
-        if (pre && !preHLParents.includes(pre)) preHLParents.push(pre);
+    // add the code language to the parent <pre> element
+    for (const code of codeSpecial) {
+      const pre = findPreParent(code)
+      const codeLang = code.className.split(' ').filter(c => langSpecial.includes(c))
+      pre.classList += ` ${codeLang}`
+    }
+
+    // add remark-code-has-line-highlighted to parent <pre> element
+    for (const line of hlines) {
+      const pre = findPreParent(line)
+      if (pre && !preHLParents.includes(pre)) {
+        preHLParents.push(pre)
       }
-      preHLParents.forEach(p => p.classList += " remark-code-has-line-highlighted");
-    })
-  })(document);
+    }
+    preHLParents.forEach(p => p.classList.add('remark-code-has-line-highlighted'))
+  })
+})(document)
 </script>
 <style>
   .remark-code-has-line-highlighted .remark-code-line:not(.remark-code-line-highlighted) {
