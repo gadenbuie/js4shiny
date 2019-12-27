@@ -56,13 +56,17 @@ js_lint <- function(code, linter, chunk_name = "unnamed-chunk") {
     return(code)
   }
   if (js_lint_has_standard()) {
-    tmpf <- file.path(tempdir(), glue("{chunk_name}.js"))
+    tmpf <- file.path(tempdir(), sanitize_path(glue("{chunk_name}.js")))
     on.exit(unlink(tmpf))
     writeLines(code, tmpf)
     res <- js_lint_file(tmpf)
     code <- read_lines(tmpf)
   }
   list(code = code, warnings = res)
+}
+
+sanitize_path <- function(x) {
+  fs::path_sanitize(gsub("[^a-zA-Z0-9_.-]", "_", x))
 }
 
 js_lint_file <- function(file) {
