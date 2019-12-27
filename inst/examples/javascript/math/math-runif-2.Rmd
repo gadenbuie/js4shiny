@@ -1,0 +1,60 @@
+---
+example:
+  title: Math - Random Numbers Part 2
+  instructions: |-
+    Our previous function works but makes a few assumptions
+    about how it will be used.
+    
+    What happens if you forget to provide `n`?
+    What happens if you give a string instead of a number?
+    _Why do these work?_
+  hint: |-
+    Check that `n` is provided and is a _single_ number and `return` early if there is an issue.
+    Then try replacing `return` with `throw` to raise an error 
+    for cases where the function shouldn't work.
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      const runif = (n, min = 0, max = 1) => {
+        const rand = []
+        for (let i = 0; i < n; i++) {
+          const range = max - min
+          const x = Math.random() * range + min
+          rand.push(x)
+        }
+      
+        return rand
+      }
+      
+      runif()
+  solution:
+    js: |-
+      const runif = (n, min = 0, max = 1) => {
+        if (typeof n === 'undefined') {
+          throw 'n must be provided'
+        }
+        if (Array.isArray(n) && n.length !== 1) {
+          throw 'n must be a single number'
+        }
+      
+        const rand = []
+        for (let i = 0; i < n; i++) {
+          const range = max - min
+          const x = Math.random() * range + min
+          rand.push(x)
+        }
+        
+        return rand
+      }
+      
+      runif('5')
+      // runif()
+      // runif([5, 10])
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->

@@ -1,0 +1,39 @@
+---
+example:
+  title: Math - Random Numbers Part 1
+  instructions: |-
+    Use `Math.random()` to replicate the R function `runif()`, which returns
+    `n` uniformly-sampled random numbers between `min` (0) and `max` (1).
+  hint: How many random numbers does `Math.random()` return?
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      // define runif() here...
+      
+      runif(5)
+      // runif(5, 0, 10)
+      // runif(5, 20, 30)
+  solution:
+    js: |-
+      const runif = (n, min = 0, max = 1) => {
+        const rand = []
+        for (let i = 0; i < n; i++) {
+          const range = max - min
+          const x = Math.random() * range + min
+          rand.push(x)
+        }
+      
+        return rand
+      }
+      
+      runif(5)
+      // runif(5, 0, 10)
+      // runif(5, 20, 30)
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->
