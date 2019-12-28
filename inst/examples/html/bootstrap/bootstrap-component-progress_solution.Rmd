@@ -1,0 +1,48 @@
+---
+example:
+  title: Bootstrap Component - Progress Panel (Solution)
+  instructions: |-
+    Use the [Bootstrap documentation](https://getbootstrap.com/docs/3.3/components/)
+    to create a [progress bar](https://getbootstrap.com/docs/3.3/components/#progress-label)
+    contained within a [panel with a title](https://getbootstrap.com/docs/3.3/components/#panels-heading).
+
+    Give your panel a title. Change the value of the progress bar to 25%.
+
+    How can you change the color of the panel and progress bar to use the Bootstrap `success` color?
+  hint: >
+    &#x26A0;&#xFE0F; THIS IS THE SOLUTION! &#x26A0;&#xFE0F;
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |2-
+
+
+
+      /* Styles for this example, ignore below */
+
+      body {
+        padding: 2em 1em;
+      }
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script: []
+---
+<div><!--for pandoc-->
+<div class="container-fluid">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">My Task</h3>
+    </div>
+    <div class="panel-body">
+      <div class="progress">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+          25%
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!--for pandoc-->

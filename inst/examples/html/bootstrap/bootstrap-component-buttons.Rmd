@@ -1,0 +1,53 @@
+---
+example:
+  title: Bootstrap - Buttons
+  instructions: |-
+    Consult the [Bootstrap buttons documentation](https://getbootstrap.com/docs/3.3/css/#buttons).
+    What button styles does Bootstrap provide? 
+    What button states are available as classes?
+    
+    Update the buttons to match their descriptions.
+    Pick one button and make it __active__.
+    Pick another button to __disable__.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |2-
+
+
+
+      /* Styles for this example, ignore below */
+
+      body {
+        padding: 2em 1em;
+      }
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+---
+<div><!--for pandoc-->
+<div class="container-fluid">
+  <!-- Standard button -->
+  <button type="button" class="btn btn-default">Default</button>
+  
+  <!-- Primary button-->
+  <button type="button" class="btn">Primary</button>
+  
+  <!-- Success! -->
+  <button type="button" class="btn">Success</button>
+  
+  <!-- Information -->
+  <button type="button" class="btn">Info</button>
+  
+  <!-- Warning! -->
+  <button type="button" class="btn">Warning</button>
+  
+  <!-- Danger Will Robinson -->
+  <button type="button" class="btn">Danger</button>
+  
+  <!-- Act like a link -->
+  <button type="button" class="btn">Link</button>
+</div>
+</div><!--for pandoc-->

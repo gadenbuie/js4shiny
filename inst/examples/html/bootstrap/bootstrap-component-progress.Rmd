@@ -1,0 +1,38 @@
+---
+example:
+  title: Bootstrap Component - Progress Panel
+  instructions: |-
+    Use the [Bootstrap documentation](https://getbootstrap.com/docs/3.3/components/)
+    to create a [progress bar](https://getbootstrap.com/docs/3.3/components/#progress-label)
+    contained within a [panel with a title](https://getbootstrap.com/docs/3.3/components/#panels-heading).
+
+    Give your panel a title. Change the value of the progress bar to 25%.
+
+    How can you change the color of the panel and progress bar to use the Bootstrap `success` color?
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |2-
+
+
+
+      /* Styles for this example, ignore below */
+
+      body {
+        padding: 2em 1em;
+      }
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script: []
+---
+<div><!--for pandoc-->
+<div class="container-fluid">
+  <div> <!-- panel -->
+    <div> <!-- progress bar -->
+    </div>
+  </div>
+</div>
+</div><!--for pandoc-->
