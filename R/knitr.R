@@ -11,7 +11,7 @@ knitr_js_engine <- function() {
 
     eval_live <- options$eval && (is.null(options$js_live) || options$js_live)
 
-    if (isTRUE(options$js_lint) || options$js_lint == "standard") {
+    if (isTRUE(options$js_lint) || identical(options$js_lint, "standard")) {
       res_lint <- js_lint(options$code, "standard", options$label)
       if (!is.null(res_lint$warnings)) {
         purrr::walk(res_lint$warnings, ~ {
