@@ -1,0 +1,190 @@
+---
+example:
+  title: Animation with Transitions
+  runtime: repl
+  instructions: |-
+    Modify the `.one`, `.two`, ..., `.five` classes in the CSS.
+  mode:
+    document: html
+  initial:
+    js: |-
+      const btnRow = document.querySelector('.button-row')
+      const demoEl = document.querySelector('.transitioned')
+      const output = document.getElementById('output')
+
+      btnRow.addEventListener('click', ev => {
+        if (ev.target.tagName !== 'BUTTON') return;
+        demoEl.classList.toggle(ev.target.value)
+        output.innerHTML = '.' + demoEl.className.replace(/ /g, '<br>.')
+      })
+    css: |-
+      .transitioned {
+        transition: all 1s ease; /* <--- This line is important! */
+      }
+
+      .box {
+        height: 250px;
+        width: 250px;
+        background: #4ecdc4;
+        color: white;
+        margin: 50px auto;
+      }
+
+
+
+
+
+      /* ---- Change some properties of the .box element ---- */
+
+      .one {
+        background-color: #ff6b6b;
+      }
+
+      .two {
+        color: #292f36;
+      }
+
+      .three {
+        font-size: 2em;
+      }
+
+      .four {
+        width: 400px;
+      }
+
+      .five {
+        transform: rotate(30deg) scale(0.75);
+      }
+
+
+
+
+
+
+      /* ---- styles below are just for setting up this example ---- */
+
+      body {
+        padding: 2em;
+      }
+
+      .box {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .button-row {
+        margin: 1em auto;
+        width: max-content;
+      }
+
+      .button-row button {
+        width: 6em;
+        padding: 0.5em;
+      }
+
+      #output {
+        margin-top: 50px;
+        text-align: center;
+      }
+  solution:
+    js: |-
+      const btnRow = document.querySelector('.button-row')
+      const demoEl = document.querySelector('.transitioned')
+      const output = document.getElementById('output')
+
+      btnRow.addEventListener('click', ev => {
+        if (ev.target.tagName !== 'BUTTON') return;
+        demoEl.classList.toggle(ev.target.value)
+        output.innerHTML = '.' + demoEl.className.replace(/ /g, '<br>.')
+      })
+    css: |-
+      .transitioned {
+        transition: all 1s ease; /* <--- This line is important! */
+      }
+
+      .box {
+        height: 250px;
+        width: 250px;
+        background: #4ecdc4;
+        color: white;
+        margin: 50px auto;
+      }
+
+
+
+
+
+      /* ---- Change some properties of the .box element ---- */
+
+      .one {
+        background-color: #ff6b6b;
+      }
+
+      .two {
+        color: #292f36;
+      }
+
+      .three {
+        font-size: 2em;
+      }
+
+      .four {
+        width: 400px;
+      }
+
+      .five {
+        transform: rotate(30deg) scale(0.75);
+      }
+
+
+
+
+
+
+      /* ---- styles below are just for setting up this example ---- */
+
+      body {
+        padding: 2em;
+      }
+
+      .transitioned {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .button-row {
+        margin: 1em auto;
+        width: max-content;
+      }
+
+      .button-row button {
+        width: 6em;
+        padding: 0.5em;
+      }
+
+      #output {
+        margin-top: 50px;
+        text-align: center;
+      }
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<div class="button-row">
+  <button value="one">.one</button>
+  <button value="two">.two</button>
+  <button value="three">.three</button>
+  <button value="four">.four</button>
+  <button value="five">.five</button>
+</div>
+
+<div class="transitioned box">
+  <div>Mess with me.</div>
+</div>
+
+<pre id="output">.transitioned<br />.box</pre>
+</div><!--for pandoc-->
