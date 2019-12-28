@@ -37,7 +37,7 @@ html_dependency_js4shiny <- function(
     ),
     stylesheet = c(
       if (!"none" %in% stylize) stylize_bundle(stylize),
-      if (jsonview) 'jsonview/jsonview.css'
+      if (jsonview) "jsonview/jsonview.css"
     ),
     all_files = FALSE
   )
@@ -157,4 +157,3 @@ html_setup_blogdown <- function(
 ) {
   html_setup(stylize)
 }
-

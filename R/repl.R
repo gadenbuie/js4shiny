@@ -312,15 +312,15 @@ repl_ui <- function(
               shiny::span(class = "loader")
             ),
             shiny::tags$button(
-              type="button",
+              type = "button",
               class = "navbar-toggle collapsed",
               `data-toggle` = "collapse",
               `data-target` = "#repl-navbar-controls",
               `aria-expanded` = "false",
-              shiny::span(class="sr-only", "Toggle navigation"),
-              shiny::span(class="icon-bar"),
-              shiny::span(class="icon-bar"),
-              shiny::span(class="icon-bar")
+              shiny::span(class = "sr-only", "Toggle navigation"),
+              shiny::span(class = "icon-bar"),
+              shiny::span(class = "icon-bar"),
+              shiny::span(class = "icon-bar")
             )
           ),
           shiny::tags$div(
@@ -1122,7 +1122,7 @@ create_example_rmd <- function(
     }
   )
 
-  md_text <- default_example_value(md, '')
+  md_text <- default_example_value(md, "")
   if (identical(mode$document, "html")) {
     md_text <- paste("<div><!--for pandoc-->", md_text, "</div><!--for pandoc-->", sep = "\n")
   }

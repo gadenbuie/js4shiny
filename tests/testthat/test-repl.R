@@ -1,4 +1,4 @@
-ex_yaml <- '
+ex_yaml <- "
 ---
 output:
   js4shiny::html_document_plain:
@@ -15,7 +15,7 @@ output:
         - script-after-1.js
         - script-after-2.js
 ---
-'
+"
 
 test_that("resources round trip through yaml with js4shiny::html_document_plain", {
   tmp <- tempfile()

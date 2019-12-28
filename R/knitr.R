@@ -22,7 +22,7 @@ knitr_js_engine <- function() {
       options$code <- res_lint$code
     }
 
-    out <- if (eval_live && knitr::is_html_output(excludes = 'markdown')) {
+    out <- if (eval_live && knitr::is_html_output(excludes = "markdown")) {
       out_id <- glue("out-{options$label}")
       out_logger <- glue('log_{gsub("[^a-zA-Z0-9]", "_", out_id)}')
       js_code <- js_escape(options$code)
@@ -33,9 +33,9 @@ knitr_js_engine <- function() {
         paste0(
           'document.addEventListener("DOMContentLoaded", function() {\n',
           out_logger, "(", js_code, ")\n",
-          '})'
+          "})"
         ),
-        '</script>\n'
+        "</script>\n"
       ), sep = "\n", collapse = "\n")
     } else if (options$eval && has_node()) {
       paste(
@@ -46,7 +46,7 @@ knitr_js_engine <- function() {
       )
     }
 
-    options$results <- 'asis'
+    options$results <- "asis"
     knitr::engine_output(options, options$code, out)
   }
 }
@@ -107,7 +107,7 @@ js_lint_requires_standard <- function() {
 }
 
 js_escape <- function(x) {
-  x <- gsub('([`$])', '\\\\\\1', x)
+  x <- gsub('([`$])', "\\\\\\1", x)
   x <- gsub("\\\\n", "\\\\\\\\n", x)
   x <- gsub("\\\\t", "\\\\\\\\t", x)
   x <- gsub("\\\\r", "\\\\\\\\r", x)
@@ -116,12 +116,12 @@ js_escape <- function(x) {
 
 default_js_engine <- function(options) {
   # From https://github.com/yihui/knitr/blob/master/R/engine.R
-  prefix = '<script type="text/javascript">'
-  postfix = "</script>"
-  out = if (options$eval && knitr::is_html_output(excludes = 'markdown')) {
+  prefix <- '<script type="text/javascript">'
+  postfix <- "</script>"
+  out <- if (options$eval && knitr::is_html_output(excludes = "markdown")) {
     paste(c(prefix, options$code, postfix), collapse = "\n", sep = "\n")
   }
-  options$results = 'asis'
+  options$results <- "asis"
   knitr::engine_output(options, options$code, out)
 }
 
@@ -137,15 +137,13 @@ run_node <- function(code) {
   tmp_file <- tempfile(fileext = "js")
   cat(code, file = tmp_file, sep = "\n")
   tryCatch({
-    system(glue('node {tmp_file}'), intern = TRUE)
+    system(glue("node {tmp_file}"), intern = TRUE)
   }, error = function(e) e$message)
 }
 
-
 knitr_json_engine <- function() {
   function(options) {
-
-    out <- if (options$eval && knitr::is_html_output(excludes = 'markdown')) {
+    out <- if (options$eval && knitr::is_html_output(excludes = "markdown")) {
       label <- gsub("[^a-zA-Z0-9_.]", "_", options$label)
       code <- paste(options$code, collapse = "\n")
       if (substring(code, 1) == '"') {
@@ -219,11 +217,13 @@ register_knitr_output_hooks <- function(set = TRUE, chunk_hook = NULL) {
     is_html <- knitr::is_html_output(excludes = "markdown")
     has_name <- !is.null(options$name)
     if (options$echo && is_html && has_name) {
-      x <- paste0('<div class="pre-name">', options$name, '</div>', x)
+      x <- paste0('<div class="pre-name">', options$name, "</div>", x)
     }
     if (!set) x else chunk_hook(x, options)
   }
-  if (!set) return(chunk_name_hook)
+  if (!set) {
+    return(chunk_name_hook)
+  }
   if (!was_registered) {
     options("js4shiny.knitr_chunk_hook" = TRUE)
   }

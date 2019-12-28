@@ -67,7 +67,7 @@ lint_addin <- function() {
     rstudioapi::modifyRange(ctx$selection[[1]]$range, collapse(res$code), id = ctx$id)
   }
   if (!is.null(msgs) && length(msgs)) purrr::walk(msgs, message) else {
-    message('\u2714 JavaScript Standard Style')
+    message("\u2714 JavaScript Standard Style")
   }
 }
 
@@ -163,8 +163,8 @@ choose_runtime <- function(example) {
       info <- read_registry_yaml(example)
       run_fn <- switch(
         info$type %||% "repl",
-        shiny=,"shiny-starter"=,"shiny-run" = ":open_app_example",
-        html=,"html-external" = ":open_html_example",
+        shiny = , "shiny-starter" = , "shiny-run" = ":open_app_example",
+        html = , "html-external" = ":open_html_example",
         "repl"
       )
     }
@@ -340,7 +340,7 @@ choose_examples <- function(
 
       is_shiny_group <- identical(examples()$info$type, "shiny-apps")
 
-      default_choice <- if(!is_shiny_group) c("All" = "all")
+      default_choice <- if (!is_shiny_group) c("All" = "all")
 
       shiny::tagList(
         shiny::selectInput(

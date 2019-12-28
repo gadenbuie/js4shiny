@@ -1,5 +1,5 @@
 test_that("resources loaded in correct order", {
-  rmd <- '
+  rmd <- "
 ---
 pagetitle: test html document plain
 output:
@@ -16,7 +16,7 @@ output:
         - script-after-1.js
         - script-after-2.js
 ---
-'
+"
   tmprmd <- tempfile(fileext = ".Rmd")
   cat(rmd, file = tmprmd)
   tmpout <- tempfile(fileext = ".html")

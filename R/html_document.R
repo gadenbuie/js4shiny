@@ -132,4 +132,3 @@ html_document_js <- function(
 
   output_format
 }
-
