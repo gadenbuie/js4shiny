@@ -51,7 +51,7 @@ mdn_addin <- function() {
 
   if (length(ctx$selection) > 1) {
     stop("Please select a single text string")
-  } else if (ctx$selection[[1]]$text == "") {
+  } else if (ctx$selection[[1]]$text %||% "" == "") {
     mdn_gadget(browse = TRUE)
   } else {
     term <- ctx$selection[[1]]$text

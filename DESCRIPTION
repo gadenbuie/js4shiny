@@ -1,6 +1,6 @@
 Package: js4shiny
 Title: Companion Package for JavaScript for Shiny Users
-Version: 0.0.11.9000
+Version: 0.0.12.9000
 Authors@R: 
     person(given = "Garrick",
            family = "Aden-Buie",
