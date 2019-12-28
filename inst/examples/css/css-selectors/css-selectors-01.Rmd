@@ -13,7 +13,10 @@ example:
     document: html
   initial:
     js: ~
-    css: ~
+    css: |-
+      _____ {
+        background-color: #4d8dc9;
+      }
   solution:
     js: ~
     css: |-
@@ -32,6 +35,5 @@ output: js4shiny::html_document_js4shiny
   <p class="shiny" style="color: white;">
     You got it!
   </p>
-</div>
-
+</section>
 </div><!--for pandoc-->
