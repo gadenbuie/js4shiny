@@ -22,9 +22,8 @@ example:
         height: 100px;
       }
 output: js4shiny::html_document_plain
-
 ---
-
+<div><!--for pandoc-->
 <div>
   <div>
     <div class="img-placeholder"></div>
@@ -43,3 +42,4 @@ output: js4shiny::html_document_plain
     a pleasure to work with.
   </div>
 </div>
+</div><!--for pandoc-->
