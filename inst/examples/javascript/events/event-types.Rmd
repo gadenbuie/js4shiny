@@ -1,0 +1,70 @@
+---
+pagetitle: Event Types
+example:
+  title: Event Types
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: "const whichEventType = 0\n\nconst eventTypes = [\n  'click',\n  'dblclick',\n
+      \ 'contextmenu',\n  'mousedown', // 3\n  'mouseup',\n  'mouseenter',\n  'mouseleave',
+      \n  'mousemove', // 7\n  'wheel',\n  'keyup',     // 9\n  'keydown',\n  'change',\n
+      \ 'input'\n]\n\nconst box = document.querySelector('.box')\nconst output = document.getElementById('output')\n\nlet
+      eventType = eventTypes[whichEventType]\n\nbox.querySelector('div').innerHTML
+      = eventType\n\nbox.addEventListener(eventType, (ev) => {\n  console.clear()\n
+      \ console.log(ev)\n  output.innerHTML += eventType + '!<br>'\n})"
+    css: |-
+      .transitioned {
+        transition: all 1s ease; /* <--- This line is important! */
+      }
+
+      .box {
+        height: 250px;
+        width: 250px;
+        background: #4ecdc4;
+        color: white;
+        margin: 50px auto;
+      }
+
+
+
+      /* ---- styles below are just for setting up this example ---- */
+
+      body {
+        padding: 2em;
+      }
+
+      .box {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .button-row {
+        margin: 1em auto;
+        width: max-content;
+      }
+
+      .button-row button {
+        width: 6em;
+        padding: 0.5em;
+      }
+
+      #output {
+        margin-top: 50px;
+        text-align: center;
+      }
+  solution:
+    js: ~
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+<div class="box">
+  <div>Mess with me.</div>
+</div>
+
+<pre id="output"></pre>
+</div><!--for pandoc-->
