@@ -39,7 +39,7 @@ Suggests:
     testthat (>= 2.1.0),
     xaringan
 Remotes: 
-    gadenbuie/lorem
+    gadenbuie/lorem,
     rstudio/rmarkdown
 Encoding: UTF-8
 LazyData: true
