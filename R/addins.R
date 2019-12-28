@@ -57,7 +57,7 @@ lint_addin <- function() {
   }
   code <- ctx$selection[[1]]$text
   msgs <- NULL
-  if (code == "") {
+  if (identical(code, "")) {
     rstudioapi::documentSave(ctx$id)
     msgs <- js_lint_file(ctx$path)
     rstudioapi::navigateToFile(ctx$path)
@@ -146,9 +146,9 @@ repl_example <- function(example = NULL) {
 }
 
 choose_runtime <- function(example) {
-  if (basename(example) == "app.R") {
+  if (identical(basename(example), "app.R")) {
     run_fn <- ":open_app_example"
-  } else if (basename(example) == "index.html") {
+  } else if (identical(basename(example), "index.html")) {
     run_fn <- ":open_html_example"
   } else {
     if (!fs::is_dir(example)) {
@@ -364,15 +364,15 @@ choose_examples <- function(
     })
 
     shiny::observe({
-      has_category <- !(is.null(input$category) || input$category == "")
+      has_category <- !(is.null(input$category) || identical(input$category, ""))
       session$sendCustomMessage("enableDone", has_category)
     })
 
     shiny::observeEvent(input$done, {
-      choice <- if (input$category %||% "" == "") {
+      choice <- if ((input$category %||% "") == "") {
         NULL
-      } else if (input$examples == "all") {
-        if (input$group %||% "" == "") input$category else input$group
+      } else if (identical(input$examples, "all")) {
+        if ((input$group %||% "") == "") input$category else input$group
       } else {
         input$examples
       }

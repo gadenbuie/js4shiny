@@ -614,8 +614,8 @@ repl_server <- function(render_dir) {
         js  = if (!is.null(input$code_js))  trimws(input$code_js),
         css = if (!is.null(input$code_css)) trimws(input$code_css)
       )
-      if (!is.null(current$js)  && current$js  == "") current$js  <- NULL
-      if (!is.null(current$css) && current$css == "") current$css <- NULL
+      if (!is.null(current$js)  && identical(current$js, "")) current$js  <- NULL
+      if (!is.null(current$css) && identical(current$css, "")) current$css <- NULL
 
       # Use solution > current code > initial code > NULL
       # Current code is included here in case the example has an initial state

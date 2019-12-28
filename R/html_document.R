@@ -64,7 +64,7 @@ html_document_js <- function(
 
   mathjax_url <- if (!is.null(mathjax) && mathjax %in% c("default", "local")) {
     mathjax_local <- Sys.getenv("RMARKDOWN_MATHJAX_PATH", unset = NA)
-    if (mathjax == "local" && is.na(mathjax_local)) {
+    if (identical(mathjax, "local") && is.na(mathjax_local)) {
       warning(
         paste(
           "Please use `Sys.setenv('RMARKDOWN_MATHJAX_PATH')` to set local mathjax location.",
@@ -73,7 +73,7 @@ html_document_js <- function(
       )
     }
     mathjax_path <- ifelse(
-      mathjax == "default" || is.na(mathjax_local),
+      identical(mathjax, "default") || is.na(mathjax_local),
       "https://mathjax.rstudio.com/latest",
       mathjax_local
     )

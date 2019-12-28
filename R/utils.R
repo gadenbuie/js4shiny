@@ -1,7 +1,7 @@
 `%||%` <- function(x, y) if (is.null(x)) y else x
 
 null_if_nothing <- function(x) {
-  if (is.null(x) || x == "") NULL else x
+  if (is.null(x) || identical(x, "")) NULL else x
 }
 
 tabs2spaces <- function(x, spaces = 2) {
@@ -41,7 +41,7 @@ write_registry_yaml <- function(
   if (!fs::is_dir(path)) {
     stop("`path` should be a directory where 'registry.yml' will be written")
   }
-  type <- match.arg(type)
+  type <- match.arg(type, several.ok = FALSE)
   info <- list(
     title = title,
     type = type,
