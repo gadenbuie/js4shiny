@@ -1,0 +1,94 @@
+---
+pagetitle: Scrabble - Reduce Re-arrange
+example:
+  title: Scrabble - Reduce Re-arrange
+  instructions: |-
+    It would be easier to calculate the points for each word if we had a lookup table in an object so that the following would work.
+
+    ```js
+    letterPoints['a'] // 1
+    ```
+  hint: Use `.reduce()` to re-organize `scrabbleTiles` into `letterPoints`.
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      const scrabbleTiles = [
+        { "letter": "a", "points": 1, "tiles": 9 },
+        { "letter": "b", "points": 3, "tiles": 2 },
+        { "letter": "c", "points": 3, "tiles": 2 },
+        { "letter": "d", "points": 2, "tiles": 4 },
+        { "letter": "e", "points": 1, "tiles": 12 },
+        { "letter": "f", "points": 4, "tiles": 2 },
+        { "letter": "g", "points": 2, "tiles": 3 },
+        { "letter": "h", "points": 4, "tiles": 2 },
+        { "letter": "i", "points": 1, "tiles": 9 },
+        { "letter": "j", "points": 8, "tiles": 1 },
+        { "letter": "k", "points": 5, "tiles": 1 },
+        { "letter": "l", "points": 1, "tiles": 4 },
+        { "letter": "m", "points": 3, "tiles": 2 },
+        { "letter": "n", "points": 1, "tiles": 6 },
+        { "letter": "o", "points": 1, "tiles": 8 },
+        { "letter": "p", "points": 3, "tiles": 2 },
+        { "letter": "q", "points": 10, "tiles": 1 },
+        { "letter": "r", "points": 1, "tiles": 6 },
+        { "letter": "s", "points": 1, "tiles": 4 },
+        { "letter": "t", "points": 1, "tiles": 6 },
+        { "letter": "u", "points": 1, "tiles": 4 },
+        { "letter": "v", "points": 4, "tiles": 2 },
+        { "letter": "w", "points": 4, "tiles": 2 },
+        { "letter": "x", "points": 8, "tiles": 1 },
+        { "letter": "y", "points": 4, "tiles": 2 },
+        { "letter": "z", "points": 10, "tiles": 1 },
+        { "letter": " ", "points": 0, "tiles": 2 }
+      ]
+
+      const letterPoints = scrabbleTiles.reduce((acc, tile) => {
+        // acc is an object (notice we initialize with {})
+      }, {})
+
+      console.log(letterPoints)
+    css: ~
+  solution:
+    js: |-
+      const scrabbleTiles = [
+        { "letter": "a", "points": 1, "tiles": 9 },
+        { "letter": "b", "points": 3, "tiles": 2 },
+        { "letter": "c", "points": 3, "tiles": 2 },
+        { "letter": "d", "points": 2, "tiles": 4 },
+        { "letter": "e", "points": 1, "tiles": 12 },
+        { "letter": "f", "points": 4, "tiles": 2 },
+        { "letter": "g", "points": 2, "tiles": 3 },
+        { "letter": "h", "points": 4, "tiles": 2 },
+        { "letter": "i", "points": 1, "tiles": 9 },
+        { "letter": "j", "points": 8, "tiles": 1 },
+        { "letter": "k", "points": 5, "tiles": 1 },
+        { "letter": "l", "points": 1, "tiles": 4 },
+        { "letter": "m", "points": 3, "tiles": 2 },
+        { "letter": "n", "points": 1, "tiles": 6 },
+        { "letter": "o", "points": 1, "tiles": 8 },
+        { "letter": "p", "points": 3, "tiles": 2 },
+        { "letter": "q", "points": 10, "tiles": 1 },
+        { "letter": "r", "points": 1, "tiles": 6 },
+        { "letter": "s", "points": 1, "tiles": 4 },
+        { "letter": "t", "points": 1, "tiles": 6 },
+        { "letter": "u", "points": 1, "tiles": 4 },
+        { "letter": "v", "points": 4, "tiles": 2 },
+        { "letter": "w", "points": 4, "tiles": 2 },
+        { "letter": "x", "points": 8, "tiles": 1 },
+        { "letter": "y", "points": 4, "tiles": 2 },
+        { "letter": "z", "points": 10, "tiles": 1 },
+        { "letter": " ", "points": 0, "tiles": 2 }
+      ]
+
+      const letterPoints = scrabbleTiles.reduce((acc, tile) => {
+        acc[tile.letter] = tile.points
+        return acc
+      }, {})
+
+      letterPoints
+output: js4shiny::html_document_js4shiny
+---
+<div><!--for pandoc-->
+</div><!--for pandoc-->

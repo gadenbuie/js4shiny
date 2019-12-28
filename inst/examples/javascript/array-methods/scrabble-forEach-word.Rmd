@@ -1,7 +1,6 @@
 ---
-pagetitle: forEach - Scrabble Word Points
 example:
-  title: forEach - Scrabble Word Points
+  title: Scrabble - forEach Word Points
   instructions: |
     Use the `.forEach()` method to replace the `for` loop.
 
