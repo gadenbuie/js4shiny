@@ -50,14 +50,20 @@ get_source_context <- function(error_msg = "Requires RStudio") {
   rstudioapi::getSourceEditorContext()
 }
 
-lint_addin <- function() {
+lint_addin <- function(path = NULL) {
   ctx <- get_source_context("The linter addin only works in RStudio.")
+  if (is.null(ctx) && is.null(path)) {
+    message("No file to lint. Open the file you want to lint and try again.")
+    return(invisible())
+  }
   if (!js_lint_has_standard()) {
     js_lint_requires_standard()
   }
   code <- ctx$selection[[1]]$text
   msgs <- NULL
-  if (identical(code, "")) {
+  if (is.null(ctx) && !is.null(path)) {
+    msgs <- js_lint_file(path)
+  } else if (identical(code, "")) {
     rstudioapi::documentSave(ctx$id)
     msgs <- js_lint_file(ctx$path)
     rstudioapi::navigateToFile(ctx$path)
