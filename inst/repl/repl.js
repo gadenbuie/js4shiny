@@ -9,9 +9,20 @@ $(document).ready(function() {
   });
 
   document.addEventListener('keydown', () => {
-    if((event.ctrlKey || event.metaKey) && event.which == 83) { //s key
+    if((event.ctrlKey || event.metaKey) && event.code === 'KeyS') { //s key
       event.preventDefault();
-      Shiny.setInputValue("__save_key", Date.now())
+      if (!document.querySelector('body').classList.contains('modal-open')) {
+        Shiny.setInputValue("__key_save", Date.now(), {priority: 'event'})
+      }
+    }
+  })
+
+  document.addEventListener('keydown', () => {
+    if(event.code === 'Escape') { //escape key
+      if (document.querySelector('body').classList.contains('modal-open')) {
+        event.preventDefault();
+        Shiny.setInputValue("__key_escape", Date.now(), {priority: 'event'})
+      }
     }
   })
 

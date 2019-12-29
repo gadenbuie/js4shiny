@@ -832,8 +832,14 @@ repl_server <- function(render_dir) {
       repl_save(example_yaml(), length(extra_resources()) > 0)
     })
 
-    shiny::observeEvent(input[["__save_key"]], {
+    shiny::observeEvent(input[["__key_save"]], {
+      # Only sent when modal is not visible
       repl_save(example_yaml(), length(extra_resources()) > 0)
+    })
+
+    shiny::observeEvent(input[["__key_escape"]], {
+      # only sent when modal is open
+      shiny::removeModal()
     })
 
     output$download_project <- shiny::downloadHandler(
