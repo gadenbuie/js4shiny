@@ -13,6 +13,7 @@ repl(
   js_repl_only = FALSE,
   theme_app = NULL,
   theme_editor = "textmate",
+  autocomplete = c("css", "html"),
   render_dir = NULL,
   ...
 )
@@ -35,6 +36,12 @@ launch \code{repl()} with \code{js_repl_only = TRUE}.}
 
 \item{theme_editor}{The theme of the \pkg{shinyAce} source code editors. See
 \code{\link[shinyAce:getAceThemes]{shinyAce::getAceThemes()}} for a list of valid themes.}
+
+\item{autocomplete}{Ace Editor language modes for which autocomplete will be
+enabled. One or more of \code{"js"}, \code{"css"}, or \code{"html"}. By default
+autocomplete is enabled in all but the JavaScript mode. "Disabling"
+autocomplete here actually doesn't mean disabling all together.
+Autocomplete will still be available by pressing \code{Ctrl} + \code{space}.}
 
 \item{render_dir}{Where to render temporary files, defaults to \code{tempdir()}}
 

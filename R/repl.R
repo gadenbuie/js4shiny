@@ -24,6 +24,11 @@
 #'   [shinythemes::shinytheme()] for a list of valid themes.
 #' @param theme_editor The theme of the \pkg{shinyAce} source code editors. See
 #'   [shinyAce::getAceThemes()] for a list of valid themes.
+#' @param autocomplete Ace Editor language modes for which autocomplete will be
+#'   enabled. One or more of `"js"`, `"css"`, or `"html"`. By default
+#'   autocomplete is enabled in all but the JavaScript mode. "Disabling"
+#'   autocomplete here actually doesn't mean disabling all together.
+#'   Autocomplete will still be available by pressing `Ctrl` + `space`.
 #' @param ... Arguments passed from `repl_js()` to `repl()` or from `repl()` to
 #'   [shiny::shinyApp()].
 #'
@@ -34,6 +39,7 @@ repl <- function(
   js_repl_only = FALSE,
   theme_app = NULL,
   theme_editor = "textmate",
+  autocomplete = c("css", "html"),
   render_dir = NULL,
   ...
 ) {
@@ -51,7 +57,13 @@ repl <- function(
     }
   }
   shiny::shinyApp(
-    ui = repl_ui(example, js_repl_only, theme_app = theme_app, theme_editor = theme_editor),
+    ui = repl_ui(
+      example,
+      js_repl_only,
+      theme_app = theme_app,
+      theme_editor = theme_editor,
+      autocomplete = autocomplete
+    ),
     server = repl_server(render_dir),
     ...
   )
@@ -201,12 +213,20 @@ blank_example <- function() {
   c("Blank" = file.path(js4shiny_file("repl", "blank.Rmd")))
 }
 
-repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
+repl_ui_code <- function(
+  css = TRUE,
+  md = TRUE,
+  autocomplete = c("js", "html", "css"),
+  ...
+) {
+  autocomplete <- match.arg(autocomplete, several.ok = TRUE)
+
   repl_js <- shinyAce::aceEditor(
     "code_js",
     mode = "javascript",
     debounce = 1500,
     height = "100%",
+    autoComplete = if ("js" %in% autocomplete) "live" else "enabled",
     ...
   )
 
@@ -224,47 +244,55 @@ repl_ui_code <- function(css = TRUE, md = TRUE, ...) {
       value = "js",
       repl_js
     ),
-    if (include_css) shiny::tabPanel(
-      "CSS",
-      value = "styles",
-      shinyAce::aceEditor(
-        "code_css",
-        value = if (is.character(css)) css else "",
-        mode = "css",
-        debounce = 1000,
-        height = "100%",
-        ...
+    if (include_css) {
+      shiny::tabPanel(
+        "CSS",
+        value = "styles",
+        shinyAce::aceEditor(
+          "code_css",
+          value = if (is.character(css)) css else "",
+          mode = "css",
+          debounce = 1000,
+          height = "100%",
+          autoComplete = if ("css" %in% autocomplete) "live" else "enabled",
+          ...
+        )
       )
-    ),
-    if (include_md) shiny::tabPanel(
-      "HTML",
-      value = "document",
-      shinyAce::aceEditor(
-        "code_md",
-        value = if (is.character(md)) md else "",
-        mode = "html",
-        debounce = 1000,
-        height = "100%",
-        ...
+    },
+    if (include_md) {
+      shiny::tabPanel(
+        "HTML",
+        value = "document",
+        shinyAce::aceEditor(
+          "code_md",
+          value = if (is.character(md)) md else "",
+          mode = "html",
+          debounce = 1000,
+          height = "100%",
+          autoComplete = if ("html" %in% autocomplete) "live" else "disabled",
+          ...
+        )
       )
-    ),
-    if (include_css | include_md) shiny::tabPanel(
-      title = NULL,
-      value = "settings",
-      icon = shiny::icon("gear"),
-      shiny::div(
-        class = "tab-settings",
+    },
+    if (include_css | include_md) {
+      shiny::tabPanel(
+        title = NULL,
+        value = "settings",
+        icon = shiny::icon("gear"),
         shiny::div(
-          class = "scale--smaller",
-          shiny::selectInput("mode_document", "Document Mode", choices = c("HTML" = "html", "R Markdown" = "md")),
-          # shiny::selectInput("mode_styles", "Styles", choices = c("CSS" = "css", "Sass" = "sass")),
-          shiny::tags$div(
-            class = "col-xs-12",
-            includeExtrasUI("extras")
+          class = "tab-settings",
+          shiny::div(
+            class = "scale--smaller",
+            shiny::selectInput("mode_document", "Document Mode", choices = c("HTML" = "html", "R Markdown" = "md")),
+            # shiny::selectInput("mode_styles", "Styles", choices = c("CSS" = "css", "Sass" = "sass")),
+            shiny::tags$div(
+              class = "col-xs-12",
+              includeExtrasUI("extras")
+            )
           )
         )
       )
-    )
+    }
   )
 }
 
@@ -272,7 +300,8 @@ repl_ui <- function(
   example = NULL,
   js_repl_only = FALSE,
   theme_app = NULL,
-  theme_editor = "textmate"
+  theme_editor = "textmate",
+  autocomplete = c("html", "css")
 ) {
   shiny::addResourcePath("repl", js4shiny_file("repl"))
   shiny::addResourcePath("redirect", js4shiny_file("redirect"))
@@ -367,8 +396,8 @@ repl_ui <- function(
               css = !js_repl_only,
               md = !js_repl_only,
               theme = theme_editor,
+              autocomplete = autocomplete,
               wordWrap = TRUE,
-              autoComplete = "live",
               tabSize = 2,
               useSoftTabs = TRUE
             )
