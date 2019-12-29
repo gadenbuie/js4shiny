@@ -4,6 +4,8 @@ null_if_nothing <- function(x) {
   if (is.null(x) || identical(x, "")) NULL else x
 }
 
+is_null_or_nothing <- function(x) is.null(x) || identical(x, "")
+
 tabs2spaces <- function(x, spaces = 2) {
   if (is.null(x)) return(NULL)
   gsub("\t", strrep(" ", spaces), x)

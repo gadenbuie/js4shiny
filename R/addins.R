@@ -63,7 +63,7 @@ lint_addin <- function(path = NULL) {
   msgs <- NULL
   if (is.null(ctx) && !is.null(path)) {
     msgs <- js_lint_file(path)
-  } else if (identical(code, "")) {
+  } else if (is_null_or_nothing(code)) {
     rstudioapi::documentSave(ctx$id)
     msgs <- js_lint_file(ctx$path)
     rstudioapi::navigateToFile(ctx$path)
@@ -370,15 +370,15 @@ choose_examples <- function(
     })
 
     shiny::observe({
-      has_category <- !(is.null(input$category) || identical(input$category, ""))
+      has_category <- !is_null_or_nothing(input$category)
       session$sendCustomMessage("enableDone", has_category)
     })
 
     shiny::observeEvent(input$done, {
-      choice <- if ((input$category %||% "") == "") {
+      choice <- if (is_null_or_nothing(input$category)) {
         NULL
       } else if (identical(input$examples, "all")) {
-        if ((input$group %||% "") == "") input$category else input$group
+        if (is_null_or_nothing(input$group)) input$category else input$group
       } else {
         input$examples
       }
