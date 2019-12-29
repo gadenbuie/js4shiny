@@ -1,6 +1,6 @@
 Package: js4shiny
 Title: Companion Package for JavaScript for Shiny Users
-Version: 0.0.13.9000
+Version: 0.0.14
 Authors@R: 
     person(given = "Garrick",
            family = "Aden-Buie",
@@ -22,7 +22,7 @@ Imports:
     knitr,
     magrittr,
     purrr,
-    rmarkdown (>= 2.0.5),
+    rmarkdown (>= 1.11.0),
     shiny (>= 1.3.0),
     shinyAce,
     utils,
@@ -32,15 +32,11 @@ Suggests:
     commonmark,
     golem,
     listviewer,
-    lorem (>= 0.1.0),
     rstudioapi,
     servr,
     shinythemes,
     testthat (>= 2.1.0),
     xaringan
-Remotes: 
-    gadenbuie/lorem,
-    rstudio/rmarkdown
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

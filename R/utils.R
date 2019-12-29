@@ -52,3 +52,21 @@ write_registry_yaml <- function(
   if (type == "default") info$type <- NULL
   yaml::write_yaml(info, file = fs::path(path, "registry.yml"))
 }
+
+is_rmarkdown_2 <- function() {
+  v_rmd <- utils::packageVersion("rmarkdown")
+
+  v_rmd >= package_version("2.0") || v_rmd < package_version("2.0.5")
+}
+
+warn_rmarkdown_2 <- function() {
+  is_rmd_2 <- is_rmarkdown_2()
+  if (is_rmd_2) {
+    message(
+      "Some features of {js4shiny} will not work with {rmarkdown} version 2.0.\n",
+      "Please update to rmarkdown version 2.0.5 or greater:\n",
+      "  devtools::install_packages(\"rmarkdown\")"
+    )
+  }
+  invisible(is_rmd_2)
+}
