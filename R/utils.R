@@ -56,7 +56,7 @@ write_registry_yaml <- function(
 is_rmarkdown_2 <- function() {
   v_rmd <- utils::packageVersion("rmarkdown")
 
-  v_rmd >= package_version("2.0") || v_rmd < package_version("2.0.5")
+  v_rmd >= package_version("2.0") && v_rmd < package_version("2.0.5")
 }
 
 warn_rmarkdown_2 <- function() {
