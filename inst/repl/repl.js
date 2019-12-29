@@ -8,6 +8,13 @@ $(document).ready(function() {
     clearElementById('log');
   });
 
+  document.addEventListener('keydown', () => {
+    if((event.ctrlKey || event.metaKey) && event.which == 83) { //s key
+      event.preventDefault();
+      Shiny.setInputValue("__save_key", Date.now())
+    }
+  })
+
   const resizeAceEditors = () => {
     // Resize editors to avoid clipping issues in Chrome
     const editors = ['code_js', 'code_css', 'code_md'];

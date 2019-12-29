@@ -832,6 +832,10 @@ repl_server <- function(render_dir) {
       repl_save(example_yaml(), length(extra_resources()) > 0)
     })
 
+    shiny::observeEvent(input[["__save_key"]], {
+      repl_save(example_yaml(), length(extra_resources()) > 0)
+    })
+
     output$download_project <- shiny::downloadHandler(
       filename = function() {
         ex_file_name <- basename(input$example)
