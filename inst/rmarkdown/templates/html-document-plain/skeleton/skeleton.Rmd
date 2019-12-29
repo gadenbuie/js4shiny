@@ -1,0 +1,72 @@
+---
+title: "Title"
+output: js4shiny::html_document_plain
+---
+
+## Plain HTML Document
+
+This R Markdown format creates a plain HTML document with minimal dependencies.
+This means that the final document does not contain the typical CSS and JavaScript dependencies that are typically created with the `rmarkdown::html_document()` format.
+
+By default, one dependency is included. [normalize.css](https://necolas.github.io/normalize.css/)
+provides a set of CSS resets that ensure that the final HTML document renders similarly across all browsers.
+
+If this page looks like a webpage from 1994---and you haven't included any CSS files---then dont' worry, it's working!
+
+## Including CSS and JavaScript
+
+### CSS
+
+To include CSS files in the `<head>` of your HTML,
+use the `css` option.
+
+```yaml
+output:
+  js4shiny::html_document_plain:
+    css: "styles.css"
+```
+
+or you can use CSS chunks anywhere in your R Markdown document.
+
+````markdown
+```{css echo=FALSE}`r ''`
+.red {
+  color: red;
+}
+```
+````
+
+### JavaScript
+
+To include JavaScript files, use the `script` option.
+The `include_script()` helper function will help you format the argument correctly.
+You can choose to include `.js` files in the `head` of your HTML document, or immediately `before` or `after` the content in the `<body>` of your HTML.
+
+```{r include-script-demo}
+js4shiny::include_script(
+  head = "script-in-head.js",
+  before = "script-before.js",
+  after = c("script-after-1.js", "script-after-2.js")
+)
+```
+
+You can similarly specify this in YAML format.
+
+```yaml
+output:
+  js4shiny::html_document_plain:
+    script:
+      head: script-in-head.js
+      before: script-before.js
+      after: 
+        - script-after-1.js
+        - script-after-2.js
+```
+
+Finally, you can similarly include JavaScript code anywhere in the body of your R Markdown with a `{js}` chunk.
+
+````markdown
+```{js}`r ''`
+console.log('hello, world')
+```
+````

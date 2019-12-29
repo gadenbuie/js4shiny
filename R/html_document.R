@@ -132,3 +132,70 @@ html_document_js <- function(
 
   output_format
 }
+
+
+#' Create a new js4shiny HTML document
+#'
+#' Opens or creates an R Markdown document using the \pkg{js4shiny} html
+#' document templates.
+#'
+#' @examples
+#'
+#' tmpfile <- tempfile(fileext = ".Rmd")
+#' js4shiny_rmd(type = "plain", full_template = TRUE, path = tmpfile)
+#' js4shiny_rmd(type = "plain", path = tmpfile, overwrite = TRUE)
+#'
+#' @param type One of `"plain"` for [html_document_plain()] or `"js"` for
+#'   [html_document_js()].
+#' @param full_template Include the full R Markdown template document. Default
+#'   is `FALSE`.
+#' @param path If `NULL`, an R Markdown document is opened in a new RStudio
+#'   editor. If a path is given, a file is created and opened if in RStudio.
+#' @param overwrite If `TRUE`, will overwrite `path` if it exists.
+#'
+#' @seealso [html_document_plain()], [html_document_js()]
+#' @export
+js4shiny_rmd <- function(
+  type = c("plain", "js"),
+  full_template = FALSE,
+  path = NULL,
+  overwrite = FALSE
+) {
+  type <- match.arg(type)
+  if (!full_template) {
+    text <- switch(
+      type,
+      plain = c("---", "output: js4shiny::html_document_plain", "---\n"),
+      js = c("---", "output: js4shiny::html_document_js", "---\n")
+    )
+  } else {
+    skeleton <- function(x) {
+      js4shiny_file("rmarkdown", "templates", x, "skeleton", "skeleton.Rmd")
+    }
+    src <- switch(
+      type,
+      plain = skeleton("html-document-plain"),
+      js4shiny = skeleton("html-document-js")
+    )
+    text <- read_lines(src)
+  }
+
+  if (is.null(path)) {
+    requires_pkg("rstudioapi")
+    if (!isTRUE(rstudioapi::hasFun("documentNew"))) {
+      stop("Please provide a path for the new file.")
+    }
+    rstudioapi::documentNew(collapse(text), type = "rmarkdown")
+  } else {
+    if (file.exists(path) && !overwrite) {
+      stop("File already exists at ", path)
+    }
+    writeLines(text, path)
+    if (isTRUE(rstudioapi::hasFun("navigateToFile"))) {
+      rstudioapi::navigateToFile(path)
+    } else {
+      return(path)
+    }
+  }
+  return(invisible(path))
+}
