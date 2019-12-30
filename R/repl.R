@@ -1659,6 +1659,7 @@ unpkg_url <- function(slug) {
 
 unpkg_meta <- function(url) {
   url <- unpkg_url(url)
+  url <- sub("\\?\\w+$", "", url)
   url <- glue("{url}?meta")
   tryCatch(
     jsonlite::fromJSON(url),
