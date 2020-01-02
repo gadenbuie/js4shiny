@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>2018 R Package Calendar</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>The 2018 R Package Calendar</h1>
+        <p>These are 24 of my favorite R things.</p>
+      </header>
+
+      <div class="pkg-card-container flex">
+        <section class="pkg-card">
+          <header>
+            <img
+              src="https://user-images.githubusercontent.com/163582/45438104-ea200600-b67b-11e8-80fa-d9f2a99a03b0.png"
+              class="pkg-logo"
+              alt="xaringan package logo"
+            />
+            <h2>
+              <a class="pkg-link" href="https://slides.yihui.org/xaringan/"
+                >xaringan</a
+              >
+            </h2>
+          </header>
+          <ul class="pkg-stats flex">
+            <li>Day One</li>
+            <li><strong>Stars</strong> 852</li>
+            <li><strong>Forks</strong> 172</li>
+          </ul>
+          <p>
+            Mountains of examples and excellent documentation makes
+            <code>xaringan</code>
+            a pleasure to work with.
+          </p>
+        </section>
+
+        <section class="pkg-card">
+          <header>
+            <img
+              src="https://raw.githubusercontent.com/tidyverse/readr/master/man/figures/logo.png"
+              class="pkg-logo"
+              alt="readr package logo"
+            />
+            <h2>
+              <a class="pkg-link" href="https://readr.tidyverse.org">readr</a>
+            </h2>
+          </header>
+          <ul class="pkg-stats flex">
+            <li>Day Two</li>
+            <li><strong>Stars</strong> 739</li>
+            <li><strong>Forks</strong> 232</li>
+          </ul>
+          <p>
+            The <code>readr</code> package allows for an easy and fast way to
+            read rectangular data.
+          </p>
+        </section>
+
+        <section class="pkg-card">
+          <header>
+            <img
+              src="https://raw.githubusercontent.com/ropensci/rtweet/master/man/figures/logo.png"
+              class="pkg-logo"
+              alt="rtweet package logo"
+            />
+            <h2>
+              <a class="pkg-link" href="https://rtweet.info/">xaringan</a>
+            </h2>
+          </header>
+          <ul class="pkg-stats flex">
+            <li>Day Three</li>
+            <li><strong>Stars</strong> 431</li>
+            <li><strong>Forks</strong> 111</li>
+          </ul>
+          <p>
+            If manual tweetering isn't enough for you, you can use the
+            <code>rtweet</code> package to accelerate your work! Collect,
+            analyze and summarize tweets with <code>rtweet</code>.
+          </p>
+        </section>
+      </div>
+    </main>
+    <style>
+      html {
+        font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+          helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial,
+          sans-serif;
+        margin: 0;
+      }
+      .flex {
+        display: flex;
+      }
+      .pkg-card-container {
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+      }
+      .pkg-card {
+        position: relative;
+        border: 1px solid #466683;
+        border-radius: 3px;
+        padding: 1em;
+        margin: 1em;
+        flex: 1;
+        min-width: 200px;
+        max-width: 25%;
+      }
+      .pkg-link {
+        color: #338d70;
+        text-decoration: none;
+      }
+      .pkg-link:hover {
+        color: #993d70;
+      }
+      @media screen and (max-width: 600px) {
+        .pkg-card {
+          min-width: 200px;
+          max-width: 100%;
+        }
+      }
+      .pkg-card header {
+        text-align: center;
+      }
+      .pkg-card header img {
+        max-height: 100px;
+      }
+      ul.pkg-stats {
+        list-style-type: none;
+        padding: 1em 1em;
+        background: #466683;
+        color: white;
+        margin: 1em -1em;
+      }
+      .pkg-stats li {
+        display: inline-block;
+        text-align: center;
+        width: 33%;
+        flex: 1;
+      }
+      .pkg-stats li:first-child {
+        text-align: left;
+      }
+      .pkg-stats li:last-child {
+        text-align: right;
+      }
+    </style>
+  </body>
+</html>
