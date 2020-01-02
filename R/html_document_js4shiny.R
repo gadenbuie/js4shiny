@@ -64,3 +64,74 @@ html_document_js4shiny <- function(version = c("solution", "initial"), ...) {
     base_format = html_document_plain(...)
   )
 }
+
+render_html_js4shiny <- function(input, output_dir = NULL, prefix = NULL, ...) {
+  if (fs::is_dir(input)) {
+    input <- fs::dir_ls(input, regexp = "[.][Rr]md$")
+    stopifnot(length(input) > 0)
+  } else {
+    stopifnot(fs::file_exists(input))
+  }
+  render_html_js4shiny__ <- purrr::partial(
+    render_html_js4shiny_,
+    output_dir = output_dir,
+    prefix = prefix,
+    ...
+  )
+  purrr::walk(input, render_html_js4shiny__)
+}
+
+render_html_js4shiny_ <- function(input, output_file = NULL, output_dir = NULL, prefix = NULL, ...) {
+  yml <- extract_yaml(input)
+  if (!(identical(yml$output, "js4shiny::html_document_js4shiny") ||
+      identical(names(yml$output)[1], "js4shiny::html_document_js4shiny"))) {
+    stop(input, " is not a js4shiny html document.")
+  }
+  if (is.null(output_file)) output_file <- fs::path_file(input)
+  output_file_base <- fs::path_ext_remove(output_file)
+  has_solution <- !is.null(yml$example$solution) &&
+    purrr::some(yml$example$solution, purrr::negate(is.null))
+  output_initial_base <- paste0(
+    prefix, output_file_base, if (has_solution) "_initial.html" else ".html"
+  )
+
+  if (is_outdated(output_initial_base, input, output_dir)) {
+    message(input, " -> ", fs::path(output_dir, output_initial_base))
+    rmarkdown::render(
+      input = input,
+      output_file = output_initial_base,
+      output_dir = output_dir,
+      output_options = list(version = "initial"),
+      ...
+    )
+  } else {
+    message(
+      fs::path(output_dir, output_initial_base),
+      " is up to date"
+    )
+  }
+  if (has_solution) {
+    output_solution_base <- paste0(prefix, output_file_base, "_solution.html")
+    if (is_outdated(output_solution_base, input, output_dir)) {
+      message(input, " -> ", fs::path(output_dir, output_solution_base))
+      rmarkdown::render(
+        input = input,
+        output_file = output_solution_base,
+        output_dir = output_dir,
+        output_options = list(version = "solution"),
+        ...
+      )
+    } else {
+      message(
+        fs::path(output_dir, output_solution_base),
+        " is up to date"
+      )
+    }
+  }
+}
+
+is_outdated <- function(path, ref, path_dir = NULL) {
+  if (!is.null(path_dir)) path <- fs::path(path_dir, path)
+  if (!fs::file_exists(path)) return(TRUE)
+  fs::file_info(path)$change_time < fs::file_info(ref)$change_time
+}
