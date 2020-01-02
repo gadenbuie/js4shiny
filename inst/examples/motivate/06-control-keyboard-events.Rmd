@@ -1,0 +1,91 @@
+---
+pagetitle: Control - Add keyboard shortcuts
+example:
+  title: Control - Add keyboard shortcuts
+  instructions: |-
+    Letting your users use their keyboards to navigate your app can make your app easier to use.
+
+    Click on the input below to activate keyboard shortcuts and then try the two below.
+  hint: I made you click on the input so that the keyboard shortcuts don't mess up
+    the rest of this app ;)
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      const input = document.getElementById('input-demo-2')
+
+      const container = document.getElementById('control-demo-2')
+
+      const clear = () => container.className = 'demo-container'
+
+      input.addEventListener('keydown', (ev) => {
+        if (event.ctrlKey && event.code === 'KeyS') {
+          ev.preventDefault()
+          clear()
+          container.classList.add('shiny')
+        } else if (event.ctrlKey && event.code === 'KeyJ') {
+          ev.preventDefault()
+          clear()
+          container.classList.add('javascript')
+        } else if (event.code === "Escape") {
+          ev.preventDefault()
+          clear()
+          input.value = ''
+        }
+      })
+    css: |-
+      body {
+        padding: 2em;
+      }
+
+      .demo-container {
+        border: 1px solid lightgray;
+        border-radius: 3px;
+        padding: 2em;
+      }
+
+      .btn-group {
+        margin-bottom: 1em;
+      }
+
+      .shiny, .shiny * {
+        background-color: #4d8dc9;
+        color: white;
+        border-color: white;
+      }
+      .shiny kbd {
+        border: 1px solid white;
+        box-shadow: none;
+      }
+
+      .javascript, .javascript * {
+        background-color: #f0db4f;
+        color: black;
+        border-color: black;
+      }
+      .javascript kbd {
+        border: 1px solid black;
+        box-shadow: none;
+      }
+  solution:
+    js: ~
+    css: ~
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+---
+<div><!--for pandoc-->
+<div class="demo-container" id="control-demo-2">
+  <div class="form-group">
+    <label class="control-label" for="name">Click on the input below</label>
+    <input id="input-demo-2" type="text" class="form-control" value=""/>
+    <p class="help-block">
+      And then press
+      <kbd>Ctrl</kbd> + <kbd>S</kbd> or
+      <kbd>Ctrl</kbd> + <kbd>J</kbd>.
+      <br>Press <kbd>ESC</kbd> to clear.
+    </p>
+  </div>
+</div>
+</div><!--for pandoc-->

@@ -1,0 +1,55 @@
+---
+example:
+  title: Use JS - Frappe Charts
+  instructions: Copied the first example directly from the [Frappe Charts documentation](https://frappe.io/charts).
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |2-
+        let chart = new frappe.Chart( "#frost-chart", { // or DOM element
+        data: {
+        labels: ["12am-3am", "3am-6am", "6am-9am", "9am-12pm",
+          "12pm-3pm", "3pm-6pm", "6pm-9pm", "9pm-12am"],
+
+        datasets: [
+          {
+            name: "Some Data", chartType: 'bar',
+            values: [25, 40, 30, 35, 8, 52, 17, -4]
+          },
+          {
+            name: "Another Set", chartType: 'bar',
+            values: [25, 50, -10, 15, 18, 32, 27, 14]
+          },
+          {
+            name: "Yet Another", chartType: 'line',
+            values: [15, 20, -3, -15, 58, 12, -17, 37]
+          }
+        ],
+
+        yMarkers: [{ label: "Marker", value: 70,
+          options: { labelPos: 'left' }}],
+        yRegions: [{ label: "Region", start: -10, end: 50,
+          options: { labelPos: 'right' }}]
+        },
+
+        title: "My Awesome Chart",
+        type: 'axis-mixed', // or 'bar', 'line', 'pie', 'percentage'
+        height: 300,
+        colors: ['purple', '#ffa3ef', 'light-blue'],
+
+        tooltipOptions: {
+          formatTooltipX: d => (d + '').toUpperCase(),
+          formatTooltipY: d => d + ' pts',
+        }
+        });
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/frappe-charts/dist/frappe-charts.min.css
+    script:
+      head: https://unpkg.com/frappe-charts
+
+---
+<div><!--for pandoc-->
+<div id="frost-chart"></div>
+</div><!--for pandoc-->

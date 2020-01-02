@@ -1,0 +1,62 @@
+---
+pagetitle: Use JS - For Fun
+example:
+  title: Use JS - For Fun
+  instructions: |
+    This example uses [typerjs](https://github.com/qodesmith/typer) to create a "live coding" effect.
+    Click anywhere in the preview window to start typing R code.
+  hint: Look, I'm live coding!
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      let hasClicked = false
+      window.addEventListener('click', () => {
+        if (hasClicked) return
+        hasClicked = true
+        document.querySelector('.placeholder').classList.remove('placeholder')
+        typer(
+          document.querySelector('.live-coding code'), 
+          {min: 10, max: 100}
+        )
+          .line({container:'.live-coding-source code'});
+      })
+    css: |-
+      .live-coding-source {
+        display: none;
+      }
+      .live-coding.placeholder::before {
+        content: 'Click here to start typing like a hacker';
+        color: #ddd;
+      }
+  solution:
+    js: ~
+    css: ~
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/typer-js/typer.css
+    script:
+      head: https://unpkg.com/typer-js
+---
+<div><!--for pandoc-->
+<pre class="live-coding-source"><code>emperors %>%
+  count(cause) %>%
+  ggplot(aes(x = n, y = cause)) +
+  geom_col() +
+  geom_text(
+    aes(label = n, x = n - .25),
+    color = "white", 
+    size = 5, 
+    hjust = 1
+  ) +
+  cowplot::theme_minimal_vgrid(16) +
+  theme(
+    axis.title.y = element_blank(), 
+    legend.position = "none" 
+  ) +
+  xlab("number of emperors")</code>
+</pre>
+
+<pre class="live-coding placeholder"><code></code></pre>
+</div><!--for pandoc-->

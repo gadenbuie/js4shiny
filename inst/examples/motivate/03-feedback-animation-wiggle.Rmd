@@ -1,0 +1,153 @@
+---
+pagetitle: Feedback - Animation attention
+example:
+  title: Feedback - Animation attention
+  instructions: Use animation to draw attention to part of your app.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      const btn = document.getElementById('feedback-demo-3')
+      const nameText = document.getElementById('name')
+      const alertDiv = document.querySelector('.hello')
+
+      const wiggle = el => {
+        el.classList.add('shake')
+        setTimeout(() => el.classList.remove('shake'), 1000)
+      }
+
+      btn.addEventListener('click', ev => {
+        if (nameText.value === '') {
+          wiggle(nameText.parentElement)
+        } else {
+          alertDiv.innerHTML = `Hello, ${nameText.value}!`
+          alertDiv.classList.add('hello-visible')
+          alertDiv.classList.remove('hello-hidden')
+          setTimeout(() => {
+            alertDiv.classList.add('hello-hidden')
+            alertDiv.classList.remove('hello-visible')
+          }, 2500)
+        }
+      })
+    css: |-
+      body {
+        padding: 2em;
+      }
+
+      .demo-container {
+        border: 1px solid lightgray;
+        border-radius: 3px;
+        padding: 2em;
+        position: relative;
+        overflow-y: hidden;
+      }
+
+      @-webkit-keyframes shake {
+        from,
+        to {
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+        }
+
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          -webkit-transform: translate3d(-10px, 0, 0);
+          transform: translate3d(-10px, 0, 0);
+        }
+
+        20%,
+        40%,
+        60%,
+        80% {
+          -webkit-transform: translate3d(10px, 0, 0);
+          transform: translate3d(10px, 0, 0);
+        }
+      }
+
+      @keyframes shake {
+        from,
+        to {
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+        }
+
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          -webkit-transform: translate3d(-10px, 0, 0);
+          transform: translate3d(-10px, 0, 0);
+        }
+
+        20%,
+        40%,
+        60%,
+        80% {
+          -webkit-transform: translate3d(10px, 0, 0);
+          transform: translate3d(10px, 0, 0);
+        }
+      }
+
+      :root {
+        --red: red;
+      }
+
+      .shake {
+        -webkit-animation-name: shake;
+        animation: shake 1s ease-in-out;
+        color: var(--red);
+      }
+
+      .shake input {
+        border-color: var(--red);
+      }
+
+      .hello {
+        transition: opacity 0.65s linear, transform 0.4s ease-in-out;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        align-items: center;
+        background-color: #466683;
+        color: white;
+        font-size: 2em;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .hello-hidden {
+        opacity: 0;
+        transform: translateY(-125%);
+      }
+
+      .hello-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+  solution:
+    js: ~
+    css: ~
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script: []
+
+---
+<div><!--for pandoc-->
+<div class="demo-container">
+  <div class="form-group shiny-input-container">
+    <label class="control-label" for="name">Your Name</label>
+    <input id="name" type="text" class="form-control" value=""/>
+  </div>
+  <button id="feedback-demo-3" class="btn btn-default demo-3">Say hello</button>
+  <div class="hello hello-hidden"></div>
+</div>
+</div><!--for pandoc-->

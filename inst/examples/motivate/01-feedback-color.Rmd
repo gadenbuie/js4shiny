@@ -1,0 +1,69 @@
+---
+pagetitle: Feedback - Color for context
+example:
+  title: Feedback - Color for context
+  instructions: |-
+    Change the appearance of your UI depending on the state of the app.
+    Here, warning is given to the user by changing the button from green to yellow to red using Bootstrap's `success`, `warning`, and `danger` states.
+  hint: The button doesn't do anything
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      const btn = document.getElementById('feedback-demo-1')
+      document
+        .getElementById('feedback-demo-1-will-work')
+        .addEventListener('change', ev => {
+          switch(ev.target.value) {
+            case 'work':
+              btn.className = 'btn btn-success'
+              break
+            case 'maybe work':
+              btn.className = 'btn btn-warning'
+              break
+            case 'not work':
+              btn.className = 'btn btn-danger'
+              break
+            default:
+              break
+          }
+        })
+    css: |-
+      body {
+        padding: 2em;
+      }
+
+      .demo-container {
+        border: 1px solid lightgray;
+        border-radius: 3px;
+        padding: 2em;
+      }
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script: []
+---
+<div><!--for pandoc-->
+<div class="demo-container">
+  <div id="feedback-demo-1-will-work" class="form-group shiny-input-radiogroup shiny-input-container shiny-input-container-inline">
+    <label class="control-label" for="feedback-demo-1-will-work">Task Difficulty...</label>
+    <div class="shiny-options-group">
+      <label class="radio-inline">
+        <input type="radio" name="feedback-demo-1-will-work" value="work"/>
+        <span>Easy</span>
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="feedback-demo-1-will-work" value="maybe work"/>
+        <span>Not So Easy</span>
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="feedback-demo-1-will-work" value="not work"/>
+        <span>Very Complicated</span>
+      </label>
+    </div>
+  </div>
+  
+  <button id="feedback-demo-1" class="btn btn-default">Calculate</button>
+</div>
+</div><!--for pandoc-->

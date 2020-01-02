@@ -1,0 +1,58 @@
+---
+pagetitle: Feedback - Update text
+example:
+  title: Feedback - Update text
+  instructions: Update the text in your app directly, without having to go through
+    Shiny's reactivity loop.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      const btn = document.getElementById('feedback-demo-4')
+      const helpTxt = document.querySelector('#feedback-demo-4 + .help-block')
+      const feedback = (x, cls = 'fadeIn') => `<span class="${cls}">${x}</span>`
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('running')) return;
+        btn.classList.add('running')
+        const messages = [
+          'Looking up your IP address...',
+          'Geolocating...',
+          'Scanning for open ports...',
+          'Vulnerability discovered!',
+          'Initializing bot army...',
+          'Just kidding!'
+        ]
+        for (let i = 0; i <= messages.length; i++) {
+          if (i === messages.length) {
+            setTimeout(() => btn.classList.remove('running'), (i-1) * 2500)
+          } else {
+            setTimeout(() => helpTxt.innerHTML = feedback(messages[i]), i * 2500)
+          }
+        }
+      })
+    css: |
+      body {
+        padding: 2em;
+      }
+
+      .demo-container {
+        border: 1px solid lightgray;
+        border-radius: 3px;
+        padding: 2em;
+      }
+  solution:
+    js: ~
+    css: ~
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script: []
+
+---
+<div><!--for pandoc-->
+<div class="demo-container">
+  <button id="feedback-demo-4" class="btn btn-default">Totally Harmless</button>
+  <p class="help-block"></p>
+</div>
+</div><!--for pandoc-->

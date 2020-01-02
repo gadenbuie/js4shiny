@@ -1,0 +1,79 @@
+---
+example:
+  title: Use JS - Frappe Charts Extended
+  instructions: >
+    An extended example using [Frappe Charts](https://frappe.io/charts/docs/)
+    to motivate usage as an `htmlwidget`.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      const data = {
+        "labels": [
+          "Santa Rosa", "San Francisco", "Sacramento", "San Jose", 
+          "Los Angeles", "San Diego", "Salinas", "Stockton", 
+          "Santa Barbara", "Modesto", "Fresno", "Bakersfield"
+        ],
+        "datasets": [
+          {
+            "name": "Median Age",
+            "type": "bar",
+            "values": [
+              41.4, 38.8, 37, 36.9, 35.9, 35.4, 
+              33.9, 33.9, 33.7, 32.9, 31.8, 31.3
+            ]
+          }
+        ]
+      }
+      
+      const chart = new frappe.Chart("#chart", {
+          title: "Median Age of Californian Cities",
+          data: data,
+          type: 'bar', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
+          height: 250,
+          colors: ['#4D8DC9'],
+          isNavigable: true,
+          valuesOverPoints: true
+      })
+      
+      const spanSelected = (x, which = "label") => `<span class="selected-${which}">${x}</span>`
+      
+      chart.parent.addEventListener('data-select', ev => {
+        let {label, values} = ev
+        const selected = document.getElementById('selected')
+        label = spanSelected(label, 'value')
+        const value = spanSelected(values[0])
+        selected.querySelector('h2').innerHTML = label
+        selected.querySelector('p').innerHTML = `The median age of the residents of ${label} is ${value} years old.`
+      })
+    css: |-
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+      }
+      .selected-label {
+        background-color: #f6e995;
+      }
+
+      .selected-value {
+        background-color: #55ebbc;
+      }
+
+      .placeholder {
+        font-style: italic;
+        color: #999;
+      }
+output:
+  js4shiny::html_document_js4shiny:
+    css: ~
+    script:
+      head: https://unpkg.com/frappe-charts@1.1.0/dist/frappe-charts.min.iife.js
+---
+<div><!--for pandoc-->
+<div id="chart"></div>
+
+<div id="selected">
+  <h2></h2>
+  <p><span class="placeholder">Click on a bar in the plot above.</span></p>
+</div>
+</div><!--for pandoc-->

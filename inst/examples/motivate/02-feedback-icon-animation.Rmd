@@ -1,0 +1,130 @@
+---
+pagetitle: Feedback - Icons and animation
+example:
+  title: Feedback - Icons and animation
+  instructions: Enhance user feedback with icons and animation.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    css: |-
+      body {
+        padding: 2em;
+      }
+      
+      .demo-container {
+        border: 1px solid lightgray;
+        border-radius: 3px;
+        padding: 2em;
+      }
+      .demo-container.working {
+        position: relative;
+        cursor: progress;
+      }
+      
+      .demo-container.working::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0.5;
+        background-color: #ddd;
+      }
+    js: |-
+      const btn = document.getElementById('feedback-demo-2')
+      const container = document.querySelector('.demo-container')
+      
+      
+      btn.addEventListener('click', () => {
+      
+        container.classList.add('working')
+        btn.blur()
+      
+        setTimeout(() => {
+          // done!
+          container.classList.remove('working')
+        }, 4000)
+      })
+  solution:
+    js: |-
+      const btn = document.getElementById('feedback-demo-2')
+
+      const feedback = (x, cls = 'fadeUpIn') => `<span class="${cls}">${x}</span>`
+
+      btn.addEventListener('click', () => {
+
+        btn.innerHTML = feedback(`<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Running...`)
+
+        setTimeout(() => {
+          // done!
+          btn.innerHTML = feedback(`<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Done!`)
+          // reset after 2s
+          setTimeout(() => btn.innerHTML = feedback('Do Long Task', 'fadeIn'), 2000)
+        }, 4000)
+      })
+    css: |-
+      body {
+        padding: 2em;
+      }
+
+      .demo-container {
+        border: 1px solid lightgray;
+        border-radius: 3px;
+        padding: 2em;
+      }
+
+      @keyframes fadeUpIn {
+        0% {
+          opacity: 0;
+          transform: translateY(125%);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+      .fadeUpIn {
+        animation: fadeUpIn 0.25s ease-in-out;
+      }
+      .fadeIn {
+        animation: fadeIn 0.5s ease-in;
+      }
+      .demo-2 {
+        overflow: hidden;
+      }
+      .demo-2 span {
+        display: inline-block;
+      }
+      .glyphicon-refresh {
+        animation: spin 2s infinite linear;
+      }
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script: []
+
+---
+<div><!--for pandoc-->
+<div class="demo-container">
+  <button id="feedback-demo-2" class="btn btn-default demo-2">Do Long Task</button>
+</div>
+
+<!-- requires fontawesome which needs an embed code for the CDN link -->
+<!--
+```{r}
+htmltools::tagList(
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+-->
+</div><!--for pandoc-->

@@ -1,0 +1,112 @@
+---
+example:
+  title: Design - Add content
+  instructions: |-
+    R Markdown is amazing and makes creating HTML documents so much easier.
+    But occasionally, there are tasks that are difficult or painfully repetetive
+    when you are only using markdown and CSS.
+    For example, adding a logo to each slide in a xaringan presentation is not straightforward.
+    
+    But JavaScript was built to manipulate HTML and is perfect for this task!
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      const btn = document.getElementById('add-thing')
+      
+      btn.addEventListener('click', (ev) => {
+        // when the "#add-thing" button is clicked
+        // find all the slides and add or remove the "thing"
+        
+        // we know whether or not to add by the button value
+        const hasThing = btn.value === 'reset'
+        
+        // find all slides and...
+        document
+          .querySelectorAll('.slide')
+          .forEach((s, i) => {
+            if (!hasThing) {
+              // ...add the thing
+              const thing = document.createElement('div')
+              thing.className = "slide-addition"
+              setTimeout(() => s.appendChild(thing), i * 60)
+            } else {
+              // ... or remove the thing
+              s.querySelector('.slide-addition').style.opacity = 0
+              setTimeout(() => s.firstChild.remove(), 500)
+            }
+          })
+        
+        // set the button for the next action
+        btn.value = hasThing ? 'add' : 'reset'
+        setTimeout(() => {
+          // update the button text with a small delay
+          btn.innerHTML = hasThing ? 
+            'Add the thing to each slide' : 'Reset slides'
+        }, 800)
+      })
+    css: |-
+      .demo-container {
+        border: 1px solid lightgray;
+        border-radius: 3px;
+        padding: 1em;
+      }
+      
+      .slides-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      
+      .slide {
+        height: 100px;
+        width: 133px;
+        background: #ddd;
+        margin: 0.5em;
+        position: relative;
+      }
+      
+      @keyframes growIn {
+        0% {
+          opacity: 0;
+          transform: rotate(-30deg);
+        }
+        50% {
+          transform: scale(1.5) rotate(30deg);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      
+      .slide-addition {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        height: 15px;
+        width: 15px;
+        background: #ff41b4;
+        animation: growIn 1s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+        transition: opacity 0.5s linear;
+      }
+output:
+  js4shiny::html_document_js4shiny: default
+---
+<div><!--for pandoc-->
+<div class="demo-container" id="html-demo-1">
+  <button id="add-thing" value="add">Add the thing to each slide</button>
+  <hr>
+  <div class="slides-container">
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+  </div>
+</div>
+</div><!--for pandoc-->

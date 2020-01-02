@@ -1,0 +1,79 @@
+---
+pagetitle: Control - Help the user out
+example:
+  title: Control - Help the user out
+  instructions: |-
+    Click on the <kbd>Regular Hello</kbd> button.
+    Obviously, the next thing you want to do is add your name, 
+    but you have to click the input to start typing.
+    
+    Then click <kbd>Reset</kbd> and try the <kbd>Helpful Hello</kbd> button.
+    Better, right?
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      const nameInput = document.querySelector('#control-demo-1 .form-group')
+      
+      document
+        .getElementById('control-demo-1-regular')
+        .addEventListener('click', () => {
+          nameInput.classList.remove('hidden')
+        })
+        
+      document
+        .getElementById('control-demo-1-helpful')
+        .addEventListener('click', () => {
+          nameInput.classList.remove('hidden')
+          nameInput.querySelector('input[type="text"]').focus()
+        })
+        
+      document
+        .getElementById('control-demo-1-reset')
+        .addEventListener('click', () => {
+          nameInput.classList.add('hidden')
+          nameInput.querySelector('input[type="text"]').value = ''
+        })
+    css: |-
+      body {
+        padding: 2em;
+      }
+
+      .demo-container {
+        border: 1px solid lightgray;
+        border-radius: 3px;
+        padding: 2em;
+      }
+
+      .btn-group {
+        margin-bottom: 1em;
+      }
+  solution:
+    js: ~
+    css: ~
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script: []
+
+---
+<div><!--for pandoc-->
+<div class="demo-container" id="control-demo-1">
+  <div class="btn-group">
+    <button id="control-demo-1-regular" class="btn btn-default">
+      Regular Hello
+    </button>
+    <button id="control-demo-1-helpful" class="btn btn-default">
+      Helpful Hello
+    </button>
+    <button id="control-demo-1-reset" class="btn btn-default">
+      Reset
+    </button>
+  </div>
+  <div class="form-group hidden">
+    <label class="control-label" for="name">Your Name</label>
+    <input id="name" type="text" class="form-control" value=""/>
+  </div>
+</div>
+</div><!--for pandoc-->
