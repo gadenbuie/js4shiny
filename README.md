@@ -5,6 +5,8 @@
 
 `js4shiny` is a companion package for the **JavaScript for Shiny Users** rstudio::conf(2020) workshop.
 
+&#x1F6A7; This package is a work in progress but feel free to install and try it out. Just please be prepared to update it frequently and [report any issues](https://github.com/gadenbuie/js4shiny/issues)!
+
 ## Installation
 
 You can install js4shiny from GitHub with
