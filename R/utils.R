@@ -70,3 +70,11 @@ warn_rmarkdown_2 <- function() {
   }
   invisible(is_rmd_2)
 }
+
+rstudio_gt_1.3 <- function() {
+  rstudio_gt_1.3 <- FALSE
+  if (rstudioapi::hasFun("versionInfo")) {
+    rstudio_gt_1.3 <- rstudioapi::versionInfo()$version >= "1.3.555"
+  }
+  rstudio_gt_1.3
+}

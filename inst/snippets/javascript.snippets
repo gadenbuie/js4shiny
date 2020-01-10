@@ -1,0 +1,88 @@
+snippet Shinymsg
+	Shiny.addCustomMessageHandler('${1:handlerName}', ${2:function})
+
+snippet ShinysetInput
+	Shiny.setInputValue('${1:inputId}', ${2:value})
+
+snippet ShinysetInputTyped
+	Shiny.setInputValue('${1:inputId}:${2:inputType}', ${3:value})
+
+snippet ShinysetEvent
+	Shiny.setInputValue('${1:inputId}', ${2:value}, {priority: 'event'})
+
+snippet ShinysetEventTyped
+	Shiny.setInputValue('${1:inputId}:${2:inputType}', ${3:value}, {priority: 'event'})
+
+snippet ShinyInputBinding
+	// Ref: https://shiny.rstudio.com/articles/building-inputs.html
+	// Ref: https://github.com/rstudio/shiny/blob/master/srcjs/input_binding.js
+
+	const ${1:bindingName} = new Shiny.InputBinding();
+
+	\$.extend(${1:bindingName}, {
+	  find: function(el) {
+	    // Specify the selector that identifies the input's container
+	    // where the input is a descendent of `el`
+	    return el.document.querySelectorAll("${2:inputBindingSelector}");
+	  },
+	  getValue: function(el) {
+	    // Given the input's container, find or construct the value
+	    // that will be returned to Shiny
+	    return 'FIXME';
+	  },
+	  receiveMessage: function(el, data) {
+	    // Given the input's container and data, update the input
+	    // and its elements to reflect the given data.
+	    // The messages are sent from R/Shiny via
+	    // R> session$sendInputMessage(inputId, data)
+	    throw 'receiveMessage is yet not defined for ${1:bindingName}';
+	  },
+	  subscribe: function(el, callback) {
+	    \$(el).on("change.${1:bindingName}", function(e) {
+	      // Use callback() or callback(true).
+	      // If using callback(true) the rate policy applies,
+	      // for example if you need to throttle or debounce
+	      // the values being sent back to the server.
+	      callback();
+	    });
+	  },
+	  getRatePolicy: function() {
+	    return {
+	      policy: 'debounce', // or 'throttle' or 'direct' (default)
+	      delay: 100 // milliseconds for debounce or throttle
+	    };
+	  },
+	  unsubscribe: function(el) {
+	    \$(el).off(".${1:bindingName}");
+	  }
+	});
+
+	Shiny.inputBindings.register(${1:bindingName}, '${3:pkgName}.${1:bindingName}');
+
+snippet did
+	document.getElementById('$0')
+
+snippet dqs
+	document.querySelector('$0')
+
+snippet dqsa
+	document.querySelectorAll('$0')
+
+snippet daddEvent
+	document.addEventListener('${1:event}', function(event) {
+	  $0
+	})
+
+snippet elid
+	${1:el}.getElementById('$0')
+
+snippet elqs
+	${1:el}.querySelector('$0')
+
+snippet elqsa
+	${1:el}.querySelectorAll('$0')
+
+snippet eladdEvent
+	${1:el}.addEventListener('${2:event}', function(event) {
+	  $0
+	})
