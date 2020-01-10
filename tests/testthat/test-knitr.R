@@ -1,4 +1,12 @@
+skip_if_not_on_my_machine <- function() {
+  testthat::skip_if_not(
+    identical(Sys.getenv("MY_MACHINE", FALSE), "TRUE"),
+    "Hey, this test worked on my machine ¯\\_(ツ)_/¯"
+  )
+}
+
 test_that("the js_lint option doesn't break things", {
+  skip_if_not_on_my_machine()
   js_eng <- knitr_js_engine()
   with_mock(
     "js4shiny:::js_lint" = function(code, x, y) list(code = code),
