@@ -1,7 +1,7 @@
 test_that("the js_lint option doesn't break things", {
   js_eng <- knitr_js_engine()
   with_mock(
-    js_lint = function(code, x, y) list(code = code),
+    "js4shiny:::js_lint" = function(code, x, y) list(code = code),
     has_node = function() FALSE,
     expect_equal(
       js_eng(list(
@@ -18,7 +18,7 @@ test_that("the js_lint option doesn't break things", {
   )
 
   with_mock(
-    js_lint = function(code, x, y) list(code = code),
+    "js4shiny:::js_lint" = function(code, x, y) list(code = code),
     has_node = function() FALSE,
     expect_equal(
       js_eng(list(
