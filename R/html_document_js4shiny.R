@@ -17,12 +17,14 @@
 #' rmarkdown::render(
 #'   input = css_ex,
 #'   output_file = tmp_html_init,
-#'   output_options = list(version = "initial")
+#'   output_options = list(version = "initial"),
+#'   quiet = TRUE
 #' )
 #' rmarkdown::render(
 #'   input = css_ex,
 #'   output_file = tmp_html_sol,
-#'   output_options = list(version = "solution")
+#'   output_options = list(version = "solution"),
+#'   quiet = TRUE
 #' )
 #'
 #' # View tmp_html_init/sol

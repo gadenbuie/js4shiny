@@ -1,0 +1,71 @@
+url: https://pkg.garrickadenbuie.com/js4shiny/
+
+authors:
+  Garrick Aden-Buie:
+    href: https://www.garrickadenbuie.com
+
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    right:
+    - news
+    - github
+    - twitter
+    - garrick
+  components:
+    home:
+      icon: ~
+      text: Overview
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    news:
+      icon: fa fa-newspaper-o fa-lg
+      href: news/index.html
+      text: ""
+      title: "Changelog"
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/gadenbuie/js4shiny
+    garrick:
+      icon: fa-home fa-lg
+      href: https://garrickadenbuie.com
+      title: Garrick Aden-Buie
+    twitter:
+      icon: fa-twitter fa-lg
+      href: https://twitter.com/grrrck
+
+reference:
+- title: REPL
+  desc: Real Time Web Development Tinkering in RStudio
+  contents:
+  - '`repl`'
+- title: Literate JavaScript Documents
+  desc: Live JavaScript in R Markdown
+  contents:
+  - '`js4shiny_rmd`'
+  - starts_with("html_document")
+- title: Web Development Helpers
+  desc: Utilities and snippets to improve the web dev experience in RStudio
+  contents:
+  - '`mdn_search`'
+  - '`snippets_install`'
+  - '`launch_shiny_in`'
+- title: Data Sets
+  desc: ~
+  contents:
+  - '`first_sentences`'
+  - '`us_cities_ranked`'
+- title: HTML and Knitr Dependencies
+  desc: Helpers and dependencies exported for hackers
+  contents:
+  - '`html_dependency_js4shiny`'
+  - '`html_setup`'
+  - '`knitr_js_engine`'
+  - '`register_knitr`'
