@@ -9,3 +9,7 @@
 ^\.eslintrc$
 ^inst/examples/demo$
 ^tic\.R$
+^.travis.yml$
+^appveyor.yml$
+^pkgdown$
+^docs$
