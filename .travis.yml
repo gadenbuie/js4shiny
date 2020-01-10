@@ -7,7 +7,7 @@ matrix:
     #  r: devel
     - os: osx
       r: release
-      env: BUILD_PKGDOWN=true
+      env: BUILD_PKGDOWN=TRUE
     #- os: osx
     #  r: oldrelease
     #- os: linux
