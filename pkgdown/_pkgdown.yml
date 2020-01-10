@@ -4,6 +4,9 @@ authors:
   Garrick Aden-Buie:
     href: https://www.garrickadenbuie.com
 
+development:
+  mode: auto
+
 navbar:
   structure:
     left:
