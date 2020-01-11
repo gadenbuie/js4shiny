@@ -1,19 +1,33 @@
+# OS: Linux + macOS ------------------------------------------------------------
 # tic documentation: https://docs.ropensci.org/tic/dev/
 
-# OS ---------------------------------------------------------------------------
-os: linux
-dist: bionic
+matrix:
+  include:
+    - os: osx
+      r: devel
+    - os: osx
+      r: release
+    - os: osx
+      r: oldrelease
+    - os: linux
+      r: devel
+    - os: linux
+      r: release
+      env: BUILD_PKGDOWN=TRUE
+    - os: linux
+      r: oldrelease
 
 # meta -------------------------------------------------------------------------
 language: r
 cache:
   - packages
-  - ccache
+  - $HOME/.ccache
+  - $HOME/Library/Caches/Homebrew
 latex: false
 
 env:
   global:
-    - MAKEFLAGS="-j 2"
+  - MAKEFLAGS="-j 2"
 
 addons:
   ssh_known_hosts:
