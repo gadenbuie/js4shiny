@@ -175,7 +175,7 @@ js4shiny_rmd <- function(
     src <- switch(
       type,
       plain = skeleton("html-document-plain"),
-      js4shiny = skeleton("html-document-js")
+      js = skeleton("html-document-js")
     )
     text <- read_lines(src)
   }
