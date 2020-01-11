@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A JavaScript Engine for knitr — knitr_js_engine • js4shiny</title>
+<title>Lint and Fix JavaScript file with StandardJS — lint_js_addin • js4shiny</title>
 
 
 <!-- jquery -->
@@ -37,8 +37,13 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="A JavaScript Engine for knitr — knitr_js_engine" />
-<meta property="og:description" content="A JavaScript Engine for knitr" />
+<meta property="og:title" content="Lint and Fix JavaScript file with StandardJS — lint_js_addin" />
+<meta property="og:description" content="This addin lints and fixes selected JavaScript code or the currently open
+file in RStudio. The addin can be helpful for linting JavaScript code
+embedded in R Markdown or Shiny apps, in addition to linting whole JavaScript
+files. The underlying functions are not exported from js4shiny. If you
+want to programmatically lint multiple files, it would be better to use npm
+scripts or another JavaScript task running system to lint your files." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -123,23 +128,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A JavaScript Engine for knitr</h1>
-    <small class="dont-index">Source: <a href='https://github.com/gadenbuie/js4shiny/blob/master/R/knitr.R'><code>R/knitr.R</code></a></small>
-    <div class="hidden name"><code>knitr_js_engine.Rd</code></div>
+    <h1>Lint and Fix JavaScript file with StandardJS</h1>
+    <small class="dont-index">Source: <a href='https://github.com/gadenbuie/js4shiny/blob/master/R/addins.R'><code>R/addins.R</code></a></small>
+    <div class="hidden name"><code>lint_js_addin.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A JavaScript Engine for knitr</p>
+    <p>This addin lints and fixes selected JavaScript code or the currently open
+file in RStudio. The addin can be helpful for linting JavaScript code
+embedded in R Markdown or Shiny apps, in addition to linting whole JavaScript
+files. The underlying functions are not exported from <span class="pkg">js4shiny</span>. If you
+want to programmatically lint multiple files, it would be better to use <code>npm</code>
+scripts or another JavaScript task running system to lint your files.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>knitr_js_engine</span>()</pre>
 
 
+    <h2 class="hasAnchor" id="installing-standardjs"><a class="anchor" href="#installing-standardjs"></a>Installing StandardJS</h2>
+
+    <p><a href='https://standardjs.com/'>standardjs</a> is a
+style guide, code linter, and beautifier in one. It is also a command line
+tool (<code>standard</code>) for automatically formatting JavaScript code in the
+<a href='https://standardjs.com/'>JavaScript Standard Style</a>. The command line tool
+will also alert users to common style and programmer errors.</p>
+<p>Using <code>standard</code> and this addin requires that <code>node</code>, <code>npm</code>, and <code>standard</code>
+be installed on your system. To install <code>node</code> and <code>npm</code>, you need to
+install Node.js (they come together). Follow <a href='https://nodejs.org/en/download/'>the instructions from Node.js</a> to install these tools. Confirm
+that your installation was successful by running <code>npm -v</code> in a new terminal
+session. Once <code>npm</code> is available, install <code>standard</code> globally by running
+this command in the terminal.</p><pre>npm install standard --global
+</pre>
+
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>https://standardjs.com/</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#installing-standardjs">Installing StandardJS</a></li>
+      <li><a href="#references">References</a></li>
     </ul>
 
   </div>
