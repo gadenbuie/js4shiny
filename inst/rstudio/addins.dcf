@@ -33,7 +33,7 @@ Description: Launch the js4shiny JavaScript REPL
 Binding: repl_js
 Interactive: true
 
-Name: Lint File or Selection
+Name: Lint File or Selection with StandardJS
 Description: Lint and fix using Standard JavaScript Code Style
 Binding: lint_addin
 Interactive: false

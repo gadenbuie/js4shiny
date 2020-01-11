@@ -153,7 +153,39 @@ get_source_context <- function(error_msg = "Requires RStudio") {
   rstudioapi::getSourceEditorContext()
 }
 
-lint_addin <- function(path = NULL) {
+#' Lint and Fix JavaScript file with StandardJS
+#'
+#' This addin lints and fixes selected JavaScript code or the currently open
+#' file in RStudio. The addin can be helpful for linting JavaScript code
+#' embedded in R Markdown or Shiny apps, in addition to linting whole JavaScript
+#' files. The underlying functions are not exported from \pkg{js4shiny}. If you
+#' want to programmatically lint multiple files, it would be better to use `npm`
+#' scripts or another JavaScript task running system to lint your files.
+#'
+#' @section Installing StandardJS: [standardjs](https://standardjs.com/) is a
+#'   style guide, code linter, and beautifier in one. It is also a command line
+#'   tool (`standard`) for automatically formatting JavaScript code in the
+#'   [JavaScript Standard Style](https://standardjs.com/). The command line tool
+#'   will also alert users to common style and programmer errors.
+#'
+#'   Using `standard` and this addin requires that `node`, `npm`, and `standard`
+#'   be installed on your system. To install `node` and `npm`, you need to
+#'   install Node.js (they come together). Follow [the instructions from
+#'   Node.js](https://nodejs.org/en/download/) to install these tools. Confirm
+#'   that your installation was successful by running `npm -v` in a new terminal
+#'   session. Once `npm` is available, install `standard` globally by running
+#'   this command in the terminal.
+#'
+#'   ```
+#'   npm install standard --global
+#'   ```
+#'
+#' @references https://standardjs.com/
+#' @name lint_js_addin
+#' @rdname lint_js_addin
+NULL
+
+lint_js_addin <- function(path = NULL) {
   ctx <- get_source_context("The linter addin only works in RStudio.")
   if (is.null(ctx) && is.null(path)) {
     message("No file to lint. Open the file you want to lint and try again.")

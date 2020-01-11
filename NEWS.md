@@ -1,3 +1,7 @@
+## js4shiny 0.0.24
+
+- Document the JavaScript linter addin with the topic `?lint_js_addin`
+
 ## js4shiny 0.0.23
 
 - Export and document `live_preview()`

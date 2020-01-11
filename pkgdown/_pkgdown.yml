@@ -59,6 +59,7 @@ reference:
   desc: Utilities and snippets to improve the web dev experience in RStudio
   contents:
   - '`mdn_search`'
+  - '`lint_js_addin`'
   - '`snippets_install`'
   - '`launch_shiny_in`'
 - title: Data Sets

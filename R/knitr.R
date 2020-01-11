@@ -69,11 +69,12 @@ sanitize_path <- function(x) {
   fs::path_sanitize(gsub("[^a-zA-Z0-9_.-]", "_", x))
 }
 
-js_lint_file <- function(file) {
+js_lint_file <- function(file, fix = TRUE) {
+  fix <- if (fix) "--fix " else ""
   owd <- setwd(dirname(file))
   on.exit(setwd(owd))
   res <- suppressWarnings(system(
-    glue("standard --fix {basename(file)}"),
+    glue("standard {fix}{basename(file)}"),
     intern = TRUE
   ))
   drnm <- normalizePath(dirname(file))
@@ -99,10 +100,12 @@ js_lint_has_standard <- function() {
 # TODO: document js_lint options and how to install standard
 js_lint_requires_standard <- function() {
   stop(paste0(
-    "JavaSript linting requires the standardjs library. To install standard, run:\n",
+    "JavaSript linting requires the standardjs library.\n",
+    "To install standard, run:\n",
     "  npm install -g standard\n",
     "For more information about installing npm, visit:\n",
-    "  https://docs.npmjs.com/downloading-and-installing-node-js-and-npm"
+    "  https://docs.npmjs.com/downloading-and-installing-node-js-and-npm\n",
+    "See `?js4shiny::lint_js_addin` for more information"
   ), call. = FALSE)
 }
 
