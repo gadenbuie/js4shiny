@@ -13,6 +13,11 @@ Description: Starts a live preview in the directory of the current source docume
 Binding: live_preview_external_addin
 Interactive: false
 
+Name: Live Preview Stop
+Description: Stop all background live preview servers
+Binding: live_preview_stop
+Interactive: true
+
 Name: Open Example
 Description: Pick an example and launch js4shiny::repl()
 Binding: repl_example

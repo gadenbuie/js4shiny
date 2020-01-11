@@ -1,3 +1,7 @@
+## js4shiny 0.0.23
+
+- Export and document `live_preview()`
+
 ## js4shiny 0.0.22
 
 - Added pkgdown site and travis

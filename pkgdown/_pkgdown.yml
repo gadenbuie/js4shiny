@@ -49,6 +49,7 @@ reference:
   desc: Real Time Web Development Tinkering in RStudio
   contents:
   - '`repl`'
+  - '`live_preview`'
 - title: Literate JavaScript Documents
   desc: Live JavaScript in R Markdown
   contents:

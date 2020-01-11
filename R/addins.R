@@ -1,35 +1,138 @@
+#' Serve a Live Preview
+#'
+#' Opens a live preview of the files in a directory. The live preview server
+#' automatically renders R Markdown files when they are saved, and the preview
+#' is refreshed whenever R Markdown files or supporting files, such as `.js`,
+#' `.css`, `.htm`, `.html`, `.sass`, or `.scss` files, are updated. This
+#' functionality requires the \pkg{servr} package.
+#'
+#' @section RStudio Addins: There are three Live Preview addins provided by
+#'   \pkg{js4shiny}. **Live Preview** and **Live Preview (External)** open a
+#'   live preview of the directory of the currently open document, if possible
+#'   at the current HTML document corresponding to the open document. The
+#'   external preview addin automatically opens the preview in your web browser,
+#'   otherwise the preview is opened in the RStudio Viewer pane.
+#'
+#'   To stop the live server, you can call `servr::daemon_stop()` or
+#'   `live_preview_stop()`, which will stop all bakground \pkg{servr} daemons,
+#'   or you can use the **Live Preview Stop** addin.
+#'
+#' @examples
+#' if (interactive()) {
+#'
+#' tmp_dir <- tempfile("live-preview")
+#' dir.create(tmp_dir)
+#' tmp_rmd <- file.path(tmp_dir, "js4shiny-plain.Rmd")
+#'
+#' # Create a new js4shiny plain HTML document. If interactive
+#' # and in RStudio, this file will open and you can use the
+#' # addins to launch the live preview
+#' js4shiny_rmd("js", full_template = TRUE, path = tmp_rmd)
+#'
+#' srvr <- live_preview(tmp_rmd)
+#'
+#' # Stop all background servers with either of the following
+#' # live_preview_stop()
+#' # servr::daemon_stop()
+#' #
+#' # Or if you've saved the return value from live_preview()
+#' # srvr$stop_server()
+#' }
+#'
+#' @param path The path for the directory or file to preview. If the path given
+#'   is an R Markdown document or HTML document, the HTML version of that file
+#'   will be opened directly, otherwise the directory containing the file will
+#'   be served.
+#' @param update_pattern Update the live preview when files matching this
+#'   pattern are updated. By default, updating files with the following
+#'   extensions will update the preview: `.Rmd` (case insensitive), `.html`,
+#'   `.htm`, `.js`, `.css`, `.sass`, `.scss`.
+#' @param render_quietly If `TRUE` (default), the output from
+#'   [rmarkdown::render()] will not be shown. Set to `FALSE` for debugging. You
+#'   can set the default value with a global option:
+#'
+#'   `options(js4shiny.live_preview.quiet = FALSE)`
+#' @param external Should the live preview be opened in an external browser?
+#'   The default is `FALSE` and the preivew is opened in the RStudio viewer pane
+#'   (if launched inside RStudio).
+#' @inheritDotParams servr::httw
+#'
+#' @return Invisibly returns the [servr::httw()] object, so that you can
+#'   manually stop the server with the `$stop_server()` method.
+#' @export
 live_preview <- function(
   path = getwd(),
-  pattern = "[.](js|css|[Rr][Mm][Dd]|html?|s[ca]ss)$",
+  update_pattern = "[.](js|css|[Rr][Mm][Dd]|html?|s[ca]ss)$",
   ...,
+  render_quietly = getOption("js4shiny.live_preview.quiet", TRUE),
   external = FALSE
 ) {
   requires_pkg("servr")
   path_dir <- dirname(path)
-  path_file <- if (grepl("[.]rmd", path, ignore.case = TRUE)) "/" else basename(path)
+
+  render_quietly <- isTRUE(render_quietly)
+
+  render <- function(path) {
+    rmd_paths <- path[grepl("[.]rmd", path, ignore.case = TRUE)]
+    if (length(rmd_paths)) {
+      for (rmd_path in rmd_paths) {
+        if (render_quietly) message(glue(
+          "Rendering {rmd_path}"
+        ))
+        rmarkdown::render(rmd_path, envir = new.env(), quiet = render_quietly)
+      }
+    }
+    path
+  }
+
+  path_is_rmd <- fs::is_file(path) && tolower(fs::path_ext(path)) == "rmd"
+  path_file <- "/"
+  if (path_is_rmd) {
+    # will it render to html?
+    output_format <- rmarkdown::default_output_format(path)$name
+    is_html <- grepl("html", output_format)
+    if (is_html) {
+      path_html <- path
+      fs::path_ext(path_html) <- "html"
+      if (!fs::file_exists(path_html) || is_outdated(path_html, path)) {
+        render(path)
+      }
+      path_file <- fs::path_file(path_html)
+    }
+  }
+
   viewer <- if (external) {
     utils::browseURL
   } else {
     getOption("viewer", utils::browseURL)
   }
-  render <- function(path) {
-    rmd_paths <- path[grepl("[.]rmd", path, ignore.case = TRUE)]
-    if (length(rmd_paths)) {
-      for (rmd_path in rmd_paths) {
-        rmarkdown::render(rmd_path, envir = new.env())
-      }
-    }
-    path
-  }
+
   x <- servr::httw(
     dir = path_dir,
-    pattern = pattern,
+    pattern = update_pattern,
     initpath = path_file,
     browser = FALSE,
     handler = render,
     ...
   )
   viewer(x$url)
+  invisible(x)
+}
+
+#' @describeIn live_preview Stop the live preview background daemons. See
+#'   [servr::daemon_list()] for more information.
+#' @inheritParams servr::daemon_stop
+#' @export
+live_preview_stop <- function(which = NULL) {
+  requires_pkg("servr")
+  which <- which %||% servr::daemon_list()
+  if (!length(which)) {
+    message("No server daemon specified or no daemon is running")
+    return(invisible())
+  }
+  word_daemon <- paste0("daemon", if (length(which) > 1) "s")
+  servr::daemon_stop(which %||% servr::daemon_list())
+  message(glue("Stopped {length(which)} server {word_daemon}"))
 }
 
 live_preview_addin <- function() {
