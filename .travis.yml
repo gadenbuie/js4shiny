@@ -21,6 +21,11 @@ env:
   global:
   - MAKEFLAGS="-j 2"
 
+addons:
+  ssh_known_hosts:
+  - github.com
+  - 140.82.114.3
+
 # Stages -----------------------------------------------------------------------
 
 before_install:
