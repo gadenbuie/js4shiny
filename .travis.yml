@@ -5,9 +5,9 @@ matrix:
   include:
     - os: osx
       r: release
-      env: BUILD_PKGDOWN=TRUE
     - os: linux
       r: release
+      env: BUILD_PKGDOWN=TRUE
 
 # meta -------------------------------------------------------------------------
 language: r
