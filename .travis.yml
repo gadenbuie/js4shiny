@@ -13,7 +13,8 @@ matrix:
       r: devel
     - os: linux
       r: release
-      env: BUILD_PKGDOWN=TRUE
+      env:
+      - BUILD_PKGDOWN=true
     - os: linux
       r: oldrel
 
