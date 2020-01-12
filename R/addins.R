@@ -68,7 +68,7 @@ live_preview <- function(
   external = FALSE
 ) {
   requires_pkg("servr")
-  path_dir <- dirname(path)
+  path_dir <- if (fs::is_dir(path)) path else fs::path_dir(path)
 
   render_quietly <- isTRUE(render_quietly)
 
