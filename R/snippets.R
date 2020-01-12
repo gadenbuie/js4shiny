@@ -134,7 +134,8 @@ snippets_merge <- function(new, old) {
   new_snps <- setdiff(names(snps$new), names(snps$old))
   merged <- c()
   str2snippet <- function(str) {
-    strsplit(paste("snippet", str), "\n")[[1]]
+    str <- ifelse(substr(str, 1, 1) != "#", paste("snippet", str), str)
+    strsplit(collapse(str), "\n")[[1]]
   }
   for (snippet in unique(names(snps$old))) {
     if (snippet %in% names(snps$new)) {
