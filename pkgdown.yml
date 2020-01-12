@@ -3,6 +3,6 @@ pkgdown: 1.4.1
 pkgdown_sha: ~
 articles: []
 urls:
-  reference: https://pkg.garrickadenbuie.com/js4shiny//reference
-  article: https://pkg.garrickadenbuie.com/js4shiny//articles
+  reference: https://pkg.js4shiny.com/reference
+  article: https://pkg.js4shiny.com/articles
 

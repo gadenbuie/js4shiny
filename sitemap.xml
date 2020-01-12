@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//index.html</loc>
+    <loc>https://pkg.js4shiny.com/index.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/first_sentences.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/first_sentences.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/html_dependency_js4shiny.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/html_dependency_js4shiny.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/html_document_js.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/html_document_js.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/html_document_js4shiny.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/html_document_js4shiny.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/html_document_plain.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/html_document_plain.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/html_setup.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/html_setup.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/js4shiny-package.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/js4shiny-package.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/js4shiny_rmd.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/js4shiny_rmd.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/knitr_js_engine.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/knitr_js_engine.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/launch_shiny_in.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/launch_shiny_in.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/lint_js_addin.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/lint_js_addin.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/live_preview.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/live_preview.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/mdn_search.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/mdn_search.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/pipe.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/register_knitr.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/register_knitr.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/repl.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/repl.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/snippets_install.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/snippets_install.html</loc>
   </url>
   <url>
-    <loc>https://pkg.garrickadenbuie.com/js4shiny//reference/us_cities_ranked.html</loc>
+    <loc>https://pkg.js4shiny.com/reference/us_cities_ranked.html</loc>
   </url>
 </urlset>
