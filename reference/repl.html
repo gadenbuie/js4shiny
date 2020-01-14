@@ -75,7 +75,7 @@ containing the source files." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">js4shiny</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.25</span>
       </span>
     </div>
 
@@ -149,6 +149,7 @@ containing the source files.</p>
   <span class='kw'>theme_editor</span> <span class='kw'>=</span> <span class='st'>"textmate"</span>,
   <span class='kw'>autocomplete</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"css"</span>, <span class='st'>"html"</span>),
   <span class='kw'>render_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
   <span class='no'>...</span>
 )
 
@@ -192,6 +193,10 @@ Autocomplete will still be available by pressing <code>Ctrl</code> + <code>space
     <tr>
       <th>render_dir</th>
       <td><p>Where to render temporary files, defaults to <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>options</th>
+      <td><p>Options passed to <code><a href='https://rdrr.io/pkg/shiny/man/runApp.html'>shiny::runApp()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
