@@ -29,6 +29,7 @@
 #'   autocomplete is enabled in all but the JavaScript mode. "Disabling"
 #'   autocomplete here actually doesn't mean disabling all together.
 #'   Autocomplete will still be available by pressing `Ctrl` + `space`.
+#' @param options Options passed to [shiny::runApp()].
 #' @param ... Arguments passed from `repl_js()` to `repl()` or from `repl()` to
 #'   [shiny::shinyApp()].
 #'
@@ -41,12 +42,18 @@ repl <- function(
   theme_editor = "textmate",
   autocomplete = c("css", "html"),
   render_dir = NULL,
+  options = list(),
   ...
 ) {
+  if (!is.null(example) && length(example) > 1) {
+    warning(glue("Please request only one example or example group. Using '{example[1]}'"))
+    example <- example[1]
+  }
   if (is.null(render_dir)) {
     render_dir <- file.path(tempdir(), "repl_render")
   }
   if (!js_repl_only) repl_show_disclaimer()
+  requires_external <- FALSE
   if (!is.null(example)) {
     if (!file.exists(example)) {
       ex_slug <- example
@@ -55,7 +62,20 @@ repl <- function(
         warning('"', ex_slug, '" does not exist or is not the name of an example')
       }
     }
+    requires_external <-
+      example %>%
+      get_example_file_paths() %>%
+      purrr::map(extract_resources) %>%
+      purrr::some(purrr::negate(is_null_or_nothing))
   }
+  options$launch.browser <- if (!requires_external) {
+    options$launch.browser %||% getOption("shiny.launch.browser", interactive())
+  } else {
+    if (is.null(options$launch.browser)) {
+      TRUE
+    }
+  }
+
   shiny::shinyApp(
     ui = repl_ui(
       example,
@@ -65,6 +85,7 @@ repl <- function(
       autocomplete = autocomplete
     ),
     server = repl_server(render_dir),
+    options = options,
     ...
   )
 }
