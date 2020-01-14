@@ -15,6 +15,7 @@ repl(
   theme_editor = "textmate",
   autocomplete = c("css", "html"),
   render_dir = NULL,
+  options = list(),
   ...
 )
 
@@ -44,6 +45,8 @@ autocomplete here actually doesn't mean disabling all together.
 Autocomplete will still be available by pressing \code{Ctrl} + \code{space}.}
 
 \item{render_dir}{Where to render temporary files, defaults to \code{tempdir()}}
+
+\item{options}{Options passed to \code{\link[shiny:runApp]{shiny::runApp()}}.}
 
 \item{...}{Arguments passed from \code{repl_js()} to \code{repl()} or from \code{repl()} to
 \code{\link[shiny:shinyApp]{shiny::shinyApp()}}.}
