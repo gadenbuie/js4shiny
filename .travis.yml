@@ -48,3 +48,6 @@ after_deploy: R -q -e 'tic::after_deploy()'
 after_script: R -q -e 'tic::after_script()'
 
 # Custom user code -------------------------------------------------------------
+notifications:
+  slack:
+    secure: 0edR69WCadxHE9nDQVPV5m9Hf9u0Z2a5CQgdSOWdd0duW6FUzafViXjwdtpNuZijEcmRX77BBwLJGIVgaFkqXuhp4fWZyEWGXiq61lVXvf4WnYbUGyOMRWzNP9685bzvbopDyUkW6a/7HIvzESoi1Z3TZdVPThmtss30HqWyoB/DAx0eyvR7ANMUHVSrhHXQn9rJgr5RlN56A3UJBVt7hlcFXBzyHZA7R7xD6tvcHUDSuL+Wj60nmHP3MqkInXXBc+hBrM3IBYCGaId7MgvJRbzvYZg2iWPx0mGyLvIdtMRnuheqM8PGji02m3dZS8HOg6D1VqmYic03ZRHDi2ePA5x7pr9fVmEtQ4+7+A6MxlLGS3elQYNIQKigKUv54HP6HLMMyoHT/uaP+SO/8r0KVjqYf7p3BsNZ+H/E5qfLJFc76QQHcccM5TOpVJEqRpVbd+T+7k9Z+NAItWOM8GHvDuJdBHa4xpAsOlUFWqVI5ny8Wr/kDaPkgNANZyfSJoS6E/c+nHF3RJPZ6BesRG5zN+mIrQ4cOaK+GsHXWFP2Jl2own61lpI/5R1okbndQC0ThBbiZdN3L6rslyCURpDTFBALuAGdxWnehgvrPgYKNz95vZPEydBvuosCJJu1ChxiOKfZ6U6p6tt1yrpB4B6g08OVsgiBtso+rQLXAzQw2SE=
