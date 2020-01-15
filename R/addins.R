@@ -369,13 +369,18 @@ search_for_example <- function(example) {
 search_for_example_dir <- function(example) {
   all_examples <- dir(
     js4shiny_file("examples"),
-    pattern = "app[.][rR]|index[.]html?|[.][Rr]md",
+    pattern = "app[.][rR]|index[.]html?|[.][Rr]md|registry.yml",
     full.names = TRUE,
     recursive = TRUE
   )
-  all_example_slugs <- basename(dirname(all_examples))
+  all_example_slugs <- c(
+    dirname(all_examples),
+    dirname(dirname(all_examples))
+  )
+  all_example_slugs <- sort(unique(all_example_slugs))
+  names(all_example_slugs) <- basename(all_example_slugs)
 
-  example <- all_examples[which(example == all_example_slugs)]
+  example <- all_example_slugs[which(example == names(all_example_slugs))]
   if (length(example) > 0) {
     if (all(grepl(".rmd", tolower(example)))) {
       return(dirname(example[1]))
