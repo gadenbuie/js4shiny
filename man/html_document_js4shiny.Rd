@@ -19,26 +19,29 @@ render the solution or the example's initial state by setting the output
 option \code{version}.
 }
 \examples{
-css_ex <- system.file(
-  "examples", "css", "css-basics", "css-basics-appearance.Rmd",
-  package = "js4shiny"
-)
+if (rmarkdown::pandoc_available("1.12.3")) {
+  css_ex <- system.file(
+    "examples", "css", "css-basics", "css-basics-appearance.Rmd",
+    package = "js4shiny"
+  )
 
-tmp_html_init <- tempfile("initial", fileext = ".html")
-tmp_html_sol <- tempfile("solution", fileext = ".html")
+  tmp_html_init <- tempfile("initial", fileext = ".html")
+  tmp_html_sol <- tempfile("solution", fileext = ".html")
 
-rmarkdown::render(
-  input = css_ex,
-  output_file = tmp_html_init,
-  output_options = list(version = "initial"),
-  quiet = TRUE
-)
-rmarkdown::render(
-  input = css_ex,
-  output_file = tmp_html_sol,
-  output_options = list(version = "solution"),
-  quiet = TRUE
-)
+  tmp_html_init <- rmarkdown::render(
+    input = css_ex,
+    output_file = tmp_html_init,
+    output_options = list(version = "initial"),
+    quiet = TRUE
+  )
+
+  tmp_html_sol <- rmarkdown::render(
+    input = css_ex,
+    output_file = tmp_html_sol,
+    output_options = list(version = "solution"),
+    quiet = TRUE
+  )
+}
 
 # View tmp_html_init/sol
 # browseURL(tmp_html_init)
