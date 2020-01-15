@@ -1,30 +1,42 @@
+# OS: Linux + macOS ------------------------------------------------------------
 # tic documentation: https://docs.ropensci.org/tic/dev/
 
-# OS ---------------------------------------------------------------------------
-os: linux
-dist: bionic
+matrix:
+  include:
+    - os: osx
+      r: devel
+    - os: osx
+      r: release
+    - os: osx
+      r: oldrel
+    - os: linux
+      r: devel
+    - os: linux
+      r: release
+      env:
+      - BUILD_PKGDOWN=true
+    - os: linux
+      r: oldrel
 
 # meta -------------------------------------------------------------------------
 language: r
 cache:
   - packages
-  - ccache
+  - $HOME/.ccache
+  - $HOME/Library/Caches/Homebrew
 latex: false
+
+# environment variables --------------------------------------------------------
 
 env:
   global:
     - MAKEFLAGS="-j 2"
 
-addons:
-  ssh_known_hosts:
-  - github.com
-  - 140.82.114.3
-
 # Stages -----------------------------------------------------------------------
 
 before_install:
   - echo -e "options(Ncpus = 8, repos = structure(c(CRAN = 'https://cloud.r-project.org/')))" > $HOME/.Rprofile
-  - mkdir $HOME/.R && echo -e 'CXX_STD = CXX14\n\nCC=ccache gcc -std=gnu99\nCXX=ccache g++\nCXX11=ccache g++ -std=gnu99\nCXX14=ccache g++ -std=gnu99\nC11=ccache g++\nC14=ccache g++\nFC=ccache gfortran\nF77=ccache gfortran' > $HOME/.R/Makevars
+  - mkdir -p $HOME/.R && echo -e 'CXX_STD = CXX14\n\nCC=ccache gcc -std=gnu99\nCXX=ccache g++\nCXX11=ccache g++ -std=gnu99\nCXX14=ccache g++ -std=gnu99\nC11=ccache g++\nC14=ccache g++\nFC=ccache gfortran\nF77=ccache gfortran' > $HOME/.R/Makevars
   - mkdir -p $HOME/.ccache && echo -e 'max_size = 5.0G\nsloppiness = include_file_ctime\nhash_dir=false' > $HOME/.ccache/ccache.conf
   - R -q -e 'if (!requireNamespace("remotes")) install.packages("remotes")'
   - R -q -e 'if (getRversion() < "3.2" && !requireNamespace("curl")) install.packages("curl")'
