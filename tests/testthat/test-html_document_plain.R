@@ -1,4 +1,5 @@
 test_that("resources loaded in correct order", {
+  skip_if_not(rmarkdown::pandoc_available("1.12.3"))
   rmd <- "
 ---
 pagetitle: test html document plain
