@@ -68,3 +68,25 @@ test_that("repl() and repl_example() force external browser when needed", {
 test_that("repl() warns if multiple examples are requested", {
   expect_warning(s <- repl(c("bootstrap", "css-variables")))
 })
+
+describe("is_repl_foramt()", {
+  file_repl <- js4shiny_file("examples", "css", "css-basics", "css-variables.Rmd")
+  file_not <- js4shiny_file("examples", "shiny", "shiny-demo-apps", "shiny-starter-app", "app.R")
+  dir_repl <- js4shiny_file("examples", "css", "css-basics")
+
+  it ("returns TRUE for files in correct format", {
+    expect_true(is_repl_format(file_repl))
+  })
+
+  it ("returns FALSE for file not in correct format", {
+    expect_false(is_repl_format(file_not))
+    expect_false(is_repl_format(dir_repl))
+  })
+
+  it ("returns vector TRUE/FALSE", {
+    expect_identical(
+      is_repl_format(c(file_repl, file_not)),
+      c(TRUE, FALSE)
+    )
+  })
+})

@@ -49,6 +49,7 @@ repl <- function(
     warning(glue("Please request only one example or example group. Using '{example[1]}'"))
     example <- example[1]
   }
+  .example_original <- example
   if (is.null(render_dir)) {
     render_dir <- file.path(tempdir(), "repl_render")
   }
@@ -61,6 +62,12 @@ repl <- function(
       if (is.null(example)) {
         warning('"', ex_slug, '" does not exist or is not the name of an example')
       }
+    }
+    if (!fs::is_dir(example) && !is_repl_format(example)) {
+      stop(glue(
+        "\"{.example_original}\" isn't in a format that repl() expects.",
+        "Did you mean to call `repl_exmaple(\"{.example_original}\")`?"
+      ))
     }
     requires_external <-
       example %>%
@@ -94,6 +101,16 @@ repl <- function(
 #' @export
 repl_js <- function(..., render_dir = NULL) {
   repl(js_repl_only = TRUE, render_dir = render_dir, ...)
+}
+
+is_repl_format <- function(path) {
+  if (!length(path)) return(logical())
+  if (length(path) > 1) return(purrr::map_lgl(path, is_repl_format))
+
+  is_rmd <- function() tolower(fs::path_ext(path)) == "rmd"
+  has_example_yaml <- function() "example" %in% names(extract_yaml(path))
+
+  is_rmd() && has_example_yaml()
 }
 
 get_example_file_paths <- function(path = NULL) {
