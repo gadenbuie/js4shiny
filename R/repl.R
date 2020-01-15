@@ -54,28 +54,25 @@ repl <- function(
     render_dir <- file.path(tempdir(), "repl_render")
   }
   if (!js_repl_only) repl_show_disclaimer()
-  requires_external <- FALSE
-  if (!is.null(example)) {
-    if (!file.exists(example)) {
-      ex_slug <- example
-      example <- search_for_example(example)
-      if (is.null(example)) {
-        warning('"', ex_slug, '" does not exist or is not the name of an example')
-      }
+
+  if (!is.null(example) && !file.exists(example)) {
+    # example was probably a slug (short code), try to look it up
+    ex_slug <- example
+    example <- search_for_example(example)
+    if (is.null(example)) {
+      warning('"', ex_slug, '" does not exist or is not the name of an example')
     }
-    if (!fs::is_dir(example) && !is_repl_format(example)) {
-      stop(glue(
-        "\"{.example_original}\" isn't in a format that repl() expects.",
-        "Did you mean to call `repl_exmaple(\"{.example_original}\")`?"
-      ))
-    }
-    requires_external <-
-      example %>%
-      get_example_file_paths() %>%
-      purrr::map(extract_resources) %>%
-      purrr::some(purrr::negate(is_null_or_nothing))
   }
-  options$launch.browser <- if (!requires_external) {
+
+  # Check example is directory or correct format (might have changed in previous block)
+  if (!is.null(example) && !fs::is_dir(example) && !is_repl_format(example)) {
+    stop(glue(
+      "\"{.example_original}\" isn't in a format that repl() expects. ",
+      "Did you mean to call `repl_exmaple(\"{.example_original}\")`?"
+    ))
+  }
+
+  options$launch.browser <- if (!repl_requires_external(example)) {
     options$launch.browser %||% getOption("shiny.launch.browser", interactive())
   } else {
     if (is.null(options$launch.browser)) {
@@ -111,6 +108,22 @@ is_repl_format <- function(path) {
   has_example_yaml <- function() "example" %in% names(extract_yaml(path))
 
   is_rmd() && has_example_yaml()
+}
+
+repl_requires_external <- function(path) {
+  if (is.null(path)) return(FALSE)
+  files <- path %>% get_example_file_paths()
+  if (!length(files) || purrr::every(files, purrr::negate(is_repl_format))) {
+    warning(glue(
+      "The selected example or example group isn't designed for repl(). ",
+      "Did you mean to use `repl_example()`?"
+    ))
+    return(FALSE)
+  }
+
+  files %>%
+    purrr::map(extract_resources) %>%
+    purrr::some(purrr::negate(is_null_or_nothing))
 }
 
 get_example_file_paths <- function(path = NULL) {

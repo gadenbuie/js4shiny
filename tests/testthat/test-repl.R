@@ -69,6 +69,15 @@ test_that("repl() warns if multiple examples are requested", {
   expect_warning(s <- repl(c("bootstrap", "css-variables")))
 })
 
+test_that("repl() warns or stops when the example isn't repl format", {
+  expect_warning(s <- repl("shiny"), "isn't designed for repl()")
+  expect_warning(s <- repl("apple"), "does not exist")
+  expect_error(
+    s <- repl(js4shiny_file("examples", "shiny", "shiny-demo-apps", "shiny-starter-app", "app.R")),
+    "isn't in a format .+ expect"
+  )
+})
+
 describe("is_repl_foramt()", {
   file_repl <- js4shiny_file("examples", "css", "css-basics", "css-variables.Rmd")
   file_not <- js4shiny_file("examples", "shiny", "shiny-demo-apps", "shiny-starter-app", "app.R")
@@ -89,4 +98,11 @@ describe("is_repl_foramt()", {
       c(TRUE, FALSE)
     )
   })
+})
+
+test_that("choose_example('css')", {
+  expect_equal(
+    search_for_example("css"),
+    c(css = js4shiny_file("examples", "css"))
+  )
 })
