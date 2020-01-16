@@ -563,7 +563,7 @@ list_examples <- function(path, recurse = 0L) {
   list(
     path = path,
     info = registry_info,
-    files = as.character(fs::dir_ls(path, regexp = "((app[.]R)|(.[Rr][Mm][Dd]))$", recurse = recurse)),
+    files = as.character(fs_dir_ls(path, regexp = "((app[.]R)|(.[Rr][Mm][Dd]))$", recurse = recurse)),
     dirs = if (has_subdir && recurse < 2) {
       unname(purrr::map(
         as.character(fs::dir_ls(path, type = "dir")),
