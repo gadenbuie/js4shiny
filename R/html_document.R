@@ -182,7 +182,7 @@ js4shiny_rmd <- function(
 
   if (is.null(path)) {
     requires_pkg("rstudioapi")
-    if (!isTRUE(rstudioapi::hasFun("documentNew"))) {
+    if (!has_rstudio("documentNew")) {
       stop(
         "This version of RStudio doesn't support creating new documents. ",
         "You will need to provide a `path` for the new file."
@@ -194,7 +194,7 @@ js4shiny_rmd <- function(
       stop("File already exists at ", path)
     }
     writeLines(text, path)
-    if (isTRUE(rstudioapi::hasFun("navigateToFile"))) {
+    if (has_rstudio("navigateToFile")) {
       rstudioapi::navigateToFile(path)
     } else {
       return(path)

@@ -157,7 +157,7 @@ live_preview_external_addin <- function() {
 
 get_source_context <- function(error_msg = "Requires RStudio") {
   requires_pkg("rstudioapi")
-  if (!isTRUE(rstudioapi::hasFun("getSourceEditorContext"))) {
+  if (!has_rstudio("getSourceEditorContext")) {
     stop(error_msg)
   }
   rstudioapi::getSourceEditorContext()
@@ -209,9 +209,9 @@ lint_js_addin <- function(path = NULL) {
   if (is.null(ctx) && !is.null(path)) {
     msgs <- js_lint_file(path)
   } else if (is_null_or_nothing(code)) {
-    rstudioapi::documentSave(ctx$id)
+    with_rstudio("documentSave", ctx$id)
     msgs <- js_lint_file(ctx$path)
-    rstudioapi::navigateToFile(ctx$path)
+    with_rstudio("navigateToFile", ctx$path)
   } else {
     res <- js_lint(code, "standard", fs::path_ext_remove(fs::path_file(ctx$path)))
     if (length(res$warnings)) msgs <- res$warnings
@@ -289,10 +289,14 @@ repl_example <- function(example = NULL) {
   if (!chose_example) {
     eval(parse(text = run_cmd))
   } else {
-    # Can't launch a Shiny app from a running Shiny gadget. Instead, we send the
-    # repl() command to console to launch.
-    # Thanks to Joris Meys: https://stackoverflow.com/a/44891545
-    rstudioapi::sendToConsole(run_cmd, execute = TRUE)
+    if (has_rstudio("sendToConsole")) {
+      # Can't launch a Shiny app from a running Shiny gadget. Instead, we send the
+      # repl() command to console to launch.
+      # Thanks to Joris Meys: https://stackoverflow.com/a/44891545
+      rstudioapi::sendToConsole(run_cmd, execute = TRUE)
+    } else {
+      message("Run this command:\n", run_cmd)
+    }
   }
 }
 
@@ -338,7 +342,18 @@ open_app_example <- function(example) {
     ))
     text <- collapse(read_lines(example))
     text <- paste0(glue("# {basename(dirname(example))}/app.R"), "\n\n", text)
-    rstudioapi::documentNew(text = text, type = "r", execute = FALSE)
+    if (has_rstudio("documentNew")) {
+      with_rstudio("documentNew", text = text, type = "r", execute = FALSE)
+    } else if (has_rstudio("selectFile")) {
+      path_save <- with_rstudio("selectFile", existing = FALSE, caption = "Save Example to...")
+      cat(text, file = path_save)
+      with_rstudio("navigateToFile", file = path_save)
+      return(path_save)
+    } else {
+      path_save <- file.choose(new = TRUE)
+      cat(text, file = path_save)
+      return(path_save)
+    }
   } else {
     shiny::runApp(example)
   }
