@@ -112,3 +112,12 @@ has_rstudio <- function(fn, stopifnot = FALSE) {
   ), call. = FALSE)
   has
 }
+
+fs_dir_ls <- function(..., recurse = FALSE) {
+  if (utils::packageVersion("fs") < package_version("1.3.0")) {
+    recurse <- if (is.numeric(recurse) && recurse > 0) TRUE else isTRUE(recurse)
+    fs::dir_ls(..., recursive = recurse)
+  } else {
+    fs::dir_ls(..., recurse = recurse)
+  }
+}
