@@ -16,8 +16,22 @@ js4shiny_file <- function(...) {
 }
 
 requires_pkg <- function(pkg) {
+  calling_function <- deparse(sys.calls()[[sys.nframe() - 1]])
   if (!requireNamespace(pkg, quietly = TRUE)) {
-    stop(glue("`{pkg}` is required: install.packages('{pkg}')"))
+    stop(glue("{calling_function} requires the `{pkg}` package"), call. = FALSE)
+  }
+}
+
+requires_pkg_version <- function(pkg, version) {
+  calling_function <- deparse(sys.calls()[[sys.nframe() - 1]])
+  tryCatch(requires_pkg(pkg), error = function(e) {
+    stop(glue("{calling_function} requires the `{pkg}` package"), call. = FALSE)
+  })
+  if (utils::packageVersion(pkg) < package_version(version)) {
+    stop(
+      glue("{calling_function} requires `{pkg}` version {version} or later."),
+      call. = FALSE
+    )
   }
 }
 
@@ -77,4 +91,24 @@ rstudio_gt_1.3 <- function() {
     rstudio_gt_1.3 <- rstudioapi::versionInfo()$version >= "1.3.555"
   }
   rstudio_gt_1.3
+}
+
+with_rstudio <- function(fn, ..., stopifnot = FALSE) {
+  if (rstudioapi::hasFun(fn)) {
+    rstudioapi::callFun(fn, ...)
+  } else {
+    if (stopifnot) {
+      stop(glue(
+        "Your version of RStudio does not support this function: {fn}"
+      ), call. = FALSE)
+    }
+  }
+}
+
+has_rstudio <- function(fn, stopifnot = FALSE) {
+  has <- rstudioapi::hasFun(fn)
+  if (!has && stopifnot) stop(glue(
+    "Your version of RStudio does not support this function: {fn}"
+  ), call. = FALSE)
+  has
 }
