@@ -20,14 +20,19 @@ snippet ShinyInputBinding
 	const ${1:bindingName} = new Shiny.InputBinding();
 
 	\$.extend(${1:bindingName}, {
-	  find: function(el) {
-	    // Specify the selector that identifies the input's container
-	    // where the input is a descendent of `el`
-	    return el.document.querySelectorAll("${2:inputBindingSelector}");
+	  find: function(scope) {
+	    // Specify the selector that identifies your input. `scope` is a general
+	    // parent of your input elements. This function should return the nodes of
+	    // ALL of the inputs that are inside `scope`. These elements should all
+	    // have IDs that are used as the inputId on the server side.
+	    return scope.querySelectorAll("${2:inputBindingSelector}");
 	  },
 	  getValue: function(el) {
-	    // Given the input's container, find or construct the value
-	    // that will be returned to Shiny
+	    // For a particular input, this function is given the element containing
+	    // your input. In this function, find or construct the value that will be
+	    // returned to Shiny. The ID of `el` is used for the inputId.
+
+	    // e.g: return el.value
 	    return 'FIXME';
 	  },
 	  receiveMessage: function(el, data) {
