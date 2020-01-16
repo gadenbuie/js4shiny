@@ -95,7 +95,10 @@ rstudio_gt_1.3 <- function() {
 
 with_rstudio <- function(fn, ..., stopifnot = FALSE) {
   if (rstudioapi::hasFun(fn)) {
-    rstudioapi::callFun(fn, ...)
+    rstudio_fun <- get(fn, asNamespace("rstudioapi"))
+    tryCatch(do.call(rstudio_fun, list(...)), error = function(e) {
+      stop(glue("Error in rstudioapi::{fn}(): {e$message}"), call. = FALSE)
+    })
   } else {
     if (stopifnot) {
       stop(glue(
