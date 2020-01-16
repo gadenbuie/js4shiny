@@ -68,6 +68,8 @@ live_preview <- function(
   external = FALSE
 ) {
   requires_pkg("servr")
+  is_servr_old <- utils::packageVersion("servr") < package_version("0.13")
+
   path_dir <- if (fs::is_dir(path)) path else fs::path_dir(path)
 
   render_quietly <- isTRUE(render_quietly)
@@ -111,11 +113,19 @@ live_preview <- function(
     dir = path_dir,
     pattern = update_pattern,
     initpath = path_file,
-    browser = FALSE,
+    browser = is_servr_old && !external,
     handler = render,
     ...
   )
-  viewer(x$url)
+  if (is_servr_old) {
+    # older versions of servr don't return the config option, so we have to
+    # rely on servr to open. Or we just don't open and we let the user choose.
+    if (external) {
+      message("Your version of servr is out of date. Use the link above to open the preview.")
+    }
+  } else {
+    viewer(x$url)
+  }
   invisible(x)
 }
 
