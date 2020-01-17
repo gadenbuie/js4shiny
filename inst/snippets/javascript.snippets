@@ -91,3 +91,20 @@ snippet eladdEvent
 	${1:el}.addEventListener('${2:event}', function(event) {
 	  $0
 	})
+
+snippet iife
+	(function() {
+	  $0
+	})()
+
+snippet dready
+	document.addEventListener("DOMContentLoaded", function() {
+	  // run this code once the document is ready
+	  $0
+	})
+
+snippet jqready
+	// jquery for run when document is ready
+	\$(function() {
+	  $0
+	})
