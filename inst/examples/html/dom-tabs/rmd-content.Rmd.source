@@ -1,0 +1,21 @@
+---
+output: html_document
+---
+
+```{r include=FALSE}
+set.seed(424242)
+```
+
+# This is a big header {.tabset}
+
+## Tab One
+
+`r lorem::ipsum(sample(2:5, 1), 1)`
+
+## Tab Two
+
+`r lorem::ipsum(sample(2:5, 1), 1)`
+
+## Tab Three
+
+`r lorem::ipsum(sample(2:5, 1), 1)`

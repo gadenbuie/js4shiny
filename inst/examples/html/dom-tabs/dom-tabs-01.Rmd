@@ -1,0 +1,65 @@
+---
+example:
+  title: DOM - Bootstrap Tabs
+  instructions: |
+    This example includes a sketch of the HTML required to create
+    [Bootstrap Tabs](https://getbootstrap.com/docs/3.3/components/#nav-tabs)
+    that, when combined with jQuery and the
+    [Bootstrap js library](https://getbootstrap.com/docs/3.3/javascript/#markup),
+    create interactive, tabbed content.
+    
+    Take a look at the structure of the HTML and look
+    through the documentation linked above.
+    
+    Then add an **FAQ** tab.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |-
+      body {
+        margin: 2em 1em;
+      }
+  solution:
+    js: ~
+    css: ~
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script:
+      head:
+      - https://unpkg.com/jquery@3.4.1
+      - https://unpkg.com/bootstrap@3.4.1/dist/js/bootstrap.js
+
+---
+<div><!--for pandoc-->
+
+<div class="container">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+      <a href="#home" aria-controls="home" role="tab" data-toggle="tab">
+        Home
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="#about" aria-controls="about" role="tab" data-toggle="tab">
+        About
+      </a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">
+      <p>Welcome home!</p>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="about">
+      <p>About Me</p>
+    </div>
+  </div>
+
+</div>
+</div><!--for pandoc-->

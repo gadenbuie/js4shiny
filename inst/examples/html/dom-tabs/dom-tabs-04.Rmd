@@ -1,0 +1,307 @@
+---
+example:
+  title: DOM - R Markdown's Tab Set by Hand
+  instructions: |
+    Let's say you have an R Markdown document that looks something like this.
+    
+    ```
+    # This is a big header {.tabset}
+    
+    ## Home
+    
+    Home content...
+    
+    ## About
+    
+    ...etc...
+    ```
+    
+    I've added the HTML that `rmarkdown` produces when the document is rendered.
+    Your goal is to re-write the R Markdown-rendered HTML into the format required for the Bootstrap tabs panels.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      // Find a .tabset header. You only need to find one 
+      // and you can assume it's a header if is has the tabset class
+      const tabsetHeader = //______
+      
+      // The parent of the tabset has all of the elements on the page
+      // and we want to keep the header that had .tabset outside of the tabs
+      const toBeTabbedContainer = tabsetHeader.parentElement
+      document.body.insertBefore(tabsetHeader, toBeTabbedContainer)
+      
+      // Create the elements that will hold the `tabs` and the `tabPanels`
+      const tabs = tabList()
+      const tabPanels = tabContent()
+      
+      // Each direct child of toBeTabbedContainer is going to turn into a tab
+      const toBeTabbed =  Array.from(toBeTabbedContainer.children)
+      
+      for (let i = 0; i < toBeTabbed.length; i++) {
+        
+        const content = toBeTabbed[i]
+        
+        // we need to:
+        // - get the id from the direct child (`content`)
+        // - then finder the `<h2>` descendent of `content`
+        // - create a tab using the id and the text in the header
+        // - add the tab to our `tabs`
+        // - remove the header from the document
+        //    - use header.parentElement.removeChild(header)
+        // - create a tab panel from the remaining content
+        // - add the tab panel to our `tabPanels`
+      }
+      
+      // Append the `tabs` to the document.body
+      
+      // Append the `tabPanels` to the document.body
+
+
+      /** ---- Functions to create tabs, etc are below --- 
+       * 
+       * - `tabList()` creates the `<ul>` container for the tabs
+       * - `tabTab()` creates an individual `<li>` tab
+       * - `tabContent()` creates the `.tab-content` `<div>` container
+       * - `tabPanel()` creates a panel with the content for a tab
+       * 
+       * ----/
+
+      /**
+       * Create a tabList
+       * 
+       * <ul class="nav nav-tabs" role="tablist">
+       */
+      function tabList() {
+        let el = document.createElement('ul')
+        el.classList = 'nav nav-tabs'
+        el.setAttribute('role', 'tablist')
+        return el
+      }
+      
+      /**
+       * Create a tab content container
+       * 
+       * <div class="tab-content"></div>
+       */
+      function tabContent() {
+        let el = document.createElement('div')
+        el.classList = 'tab-content'
+        return el
+      }
+      
+      /**
+       * Create an individual tab
+       * 
+       * <li role="presentation" class="active">
+       *   <a href="#ID" aria-controls="ID" role="tab" data-toggle="tab">
+       *     TAB NAME
+       *   </a>
+       * </li>
+       */
+      function tabTab(id, tabName, isActive = false) {
+        let li = document.createElement('li')
+        li.setAttribute('role', 'presentation')
+        if (isActive) li.classList = 'active'
+        
+        let a = document.createElement('a')
+        a.href = '#' + id
+        a.setAttribute('aria-controls', id)
+        a.setAttribute('role', 'tab')
+        a.dataset.toggle = 'tab'
+        a.textContent = tabName
+        
+        li.appendChild(a)
+        return li
+      }
+      
+      /**
+       * Create a tab panel for tabbed content
+       * 
+       * <div role="tabpanel" class="tab-pane active" id="ID">
+       *   <!-- content -->
+       * </div>
+       */
+      function tabPanel(id, content, isActive = false) {
+        const panel = document.createElement('div')
+        panel.setAttribute('role', 'tabpanel')
+        panel.classList = 'tab-pane'
+        if (isActive) panel.classList.add('active')
+        panel.id = id
+        
+        if (content) panel.appendChild(content)
+        return panel
+      }
+    css: |-
+      body {
+        margin: 2em 1em;
+      }
+  solution:
+    js: |-
+      // Find a .tabset header. You only need to find one 
+      // and you can assume it's a header if is has the tabset class
+      const tabsetHeader = document.querySelector('.tabset')
+      
+      // The parent of the tabset has all of the elements on the page
+      // and we want to keep the header that had .tabset outside of the tabs
+      const toBeTabbedContainer = tabsetHeader.parentElement
+      document.body.insertBefore(tabsetHeader, toBeTabbedContainer)
+      
+      // Create the elements that will hold the `tabs` and the `tabPanels`
+      const tabs = tabList()
+      const tabPanels = tabContent()
+      
+      // Each direct child of toBeTabbedContainer is going to turn into a tab
+      const toBeTabbed =  Array.from(toBeTabbedContainer.children)
+      
+      for (let i = 0; i < toBeTabbed.length; i++) {
+        
+        const content = toBeTabbed[i]
+        
+        // we need to:
+        // - get the id from the direct child (`content`)
+        const id = content.id
+        
+        // - then finder the `<h2>` descendent of `content`
+        const header = content.querySelector('h2')
+        
+        // - create a tab using the id and the text in the header
+        const tab = tabTab(id, header.textContent, i === 0)
+        
+        // - add the tab to our `tabs`
+        tabs.appendChild(tab)
+        
+        // - remove the header from the document
+        //    - use header.parentElement.removeChild(header)
+        header.parentElement.removeChild(header)
+        
+        // - create a tab panel from the remaining content
+        const panel = tabPanel(id, content, i === 0)
+        
+        // - add the tab panel to our `tabPanels`
+        tabPanels.appendChild(panel)
+      }
+      
+      // Append the `tabs` to the document.body
+      document.body.appendChild(tabs)
+      
+      // Append the `tabPanels` to the document.body
+      document.body.appendChild(tabPanels)
+      
+      
+      /** ---- Functions to create tabs, etc are below --- 
+       * 
+       * - `tabList()` creates the `<ul>` container for the tabs
+       * - `tabTab()` creates an individual `<li>` tab
+       * - `tabContent()` creates the `.tab-content` `<div>` container
+       * - `tabPanel()` creates a panel with the content for a tab
+       * 
+       * ----/
+      
+      /**
+       * Create a tabList
+       * 
+       * <ul class="nav nav-tabs" role="tablist">
+       */
+      function tabList() {
+        let el = document.createElement('ul')
+        el.classList = 'nav nav-tabs'
+        el.setAttribute('role', 'tablist')
+        return el
+      }
+      
+      /**
+       * Create a tab content container
+       * 
+       * <div class="tab-content"></div>
+       */
+      function tabContent() {
+        let el = document.createElement('div')
+        el.classList = 'tab-content'
+        return el
+      }
+      
+      /**
+       * Create an individual tab
+       * 
+       * <li role="presentation" class="active">
+       *   <a href="#ID" aria-controls="ID" role="tab" data-toggle="tab">
+       *     TAB NAME
+       *   </a>
+       * </li>
+       */
+      function tabTab(id, tabName, isActive = false) {
+        let li = document.createElement('li')
+        li.setAttribute('role', 'presentation')
+        if (isActive) li.classList = 'active'
+        
+        let a = document.createElement('a')
+        a.href = '#' + id
+        a.setAttribute('aria-controls', id)
+        a.setAttribute('role', 'tab')
+        a.dataset.toggle = 'tab'
+        a.textContent = tabName
+        
+        li.appendChild(a)
+        return li
+      }
+      
+      /**
+       * Create a tab panel for tabbed content
+       * 
+       * <div role="tabpanel" class="tab-pane active" id="ID">
+       *   <!-- content -->
+       * </div>
+       */
+      function tabPanel(id, content, isActive = false) {
+        const panel = document.createElement('div')
+        panel.setAttribute('role', 'tabpanel')
+        panel.classList = 'tab-pane'
+        if (isActive) panel.classList.add('active')
+        panel.id = id
+        
+        if (content) panel.appendChild(content)
+        return panel
+      }
+    css: |-
+      body {
+        margin: 2em 1em;
+      }
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script:
+      head:
+      - https://unpkg.com/jquery@3.4.1
+      - https://unpkg.com/bootstrap@3.4.1/dist/js/bootstrap.js
+
+---
+<div><!--for pandoc-->
+
+<div id="this-is-a-big-header" class="section level1">
+  <h1 class="tabset">This is a big header</h1>
+  
+  <div id="home" class="section level2">
+    <h2>Home</h2>
+    <p>Sit libero porttitor aptent cubilia netus varius.</p>
+    <p>Elit sapien conubia pulvinar sem pharetra lobortis potenti sollicitudin fusce gravida sapien torquent.</p>
+    <p>Sit auctor commodo nulla dis mattis et sagittis conubia velit?</p>
+    <p>Sit platea neque in dis viverra torquent torquent tortor odio lacinia ultrices aliquet.</p>
+  </div>
+  
+  <div id="about" class="section level2">
+    <h2>About</h2>
+    <p>Elit nunc cursus habitant faucibus ornare tempus rutrum habitant faucibus diam posuere dis?</p>
+    <p>Ipsum vel imperdiet justo posuere leo dui per ultrices varius fringilla laoreet nulla.</p>
+  </div>
+  
+  <div id="faq" class="section level2">
+    <h2>FAQ</h2>
+    <p>Sit netus habitasse feugiat lobortis montes erat.</p>
+    <p>Consectetur convallis sapien bibendum euismod pulvinar volutpat gravida hac venenatis curabitur.</p>
+    <p>Consectetur nascetur ultrices turpis pretium eros potenti.</p>
+    <p>Adipiscing tincidunt tincidunt mus nisl vivamus a lobortis ut proin scelerisque felis per sociis vehicula!</p>
+  </div>
+</div>
+</div><!--for pandoc-->

@@ -1,0 +1,209 @@
+---
+example:
+  title: DOM - Added a New Tab By Hand
+  instructions: |
+    Now that you've explored the structure of the tab panels,
+    let's write some JavaScript to create the container elements that form
+    the HTML structure of a tab panel.
+    
+    Write four JavaScript functions:
+    - `tabList()` creates the `<ul>` container for the tabs
+    - `tabTab()` creates an individual `<li>` tab
+    - `tabContent()` creates the `.tab-content` `<div>` container
+    - `tabPanel()` creates a panel with the content for a tab
+    
+    (I'm sorry about the names, but I've tried follow the key identifying
+    elements of the Bootstrap template.)
+  hint: |
+    Some functions you'll need include:
+    
+    1. `document.createElement('div')` <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement">creates a new element</a>.
+    1. `elParent.appendChild(elChild)` appends `elChild` <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild">as the new last child</a> of `elParent`.
+    1. `el.textContent = x` <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent">sets the text content</a> of `el` to `x`.
+    1. `el.dataset.VAR` lets you access the <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/dataset"><code>data-VAR</code> attribute</a> of `el`.
+    1. `el.classList` lets you <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Element/classList">set the classes</a> of `el` and has an `.add()` method.
+    1. `el.setAttribute(attr, value)` lets you <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute">set <code>attr</code>ibutes of <code>el</code></a> to `value`.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      /**
+       * Create a tabList
+       * 
+       * <ul class="nav nav-tabs" role="tablist">
+       */
+      function tabList() {
+      
+      }
+      
+      /**
+       * Create a tab content container
+       * 
+       * <div class="tab-content"></div>
+       */
+      function tabContent() {
+      
+      }
+      
+      /**
+       * Create an individual tab
+       * 
+       * <li role="presentation" class="active">
+       *   <a href="#ID" aria-controls="ID" role="tab" data-toggle="tab">
+       *     TAB NAME
+       *   </a>
+       * </li>
+       */
+      function tabTab(id, tabName, isActive = false) {
+      
+      }
+      
+      /**
+       * Create a tab panel for tabbed content
+       * 
+       * <div role="tabpanel" class="tab-pane active" id="ID">
+       *   <!-- content -->
+       * </div>
+       */
+      function tabPanel(id, content, isActive = false) {
+      
+      }
+      
+      /**
+       * This part creates a Home tab and an About page
+       * If all goes according to plan, the tabs will 
+       * appear once you've filled in the functions above
+       */
+      const contentHome = document.createElement('p')
+      contentHome.textContent = 'Welcome home!'
+      
+      const contentAbout = document.createElement('p')
+      contentAbout.textContent = 'About page'
+      
+      const tabs = tabList()
+      tabs.appendChild(tabTab('home', 'Home', true))
+      tabs.appendChild(tabTab('about', 'About'))
+      
+      const content = tabContent()
+      content.appendChild(tabPanel('home', contentHome, true))
+      content.appendChild(tabPanel('about', contentAbout))
+      
+      const container = document.querySelector('.container')
+      container.appendChild(tabs)
+      container.appendChild(content)
+    css: |-
+      body {
+        margin: 2em 1em;
+      }
+  solution:
+    js: |-
+      /**
+       * Create a tabList
+       * 
+       * <ul class="nav nav-tabs" role="tablist">
+       */
+      function tabList() {
+        let el = document.createElement('ul')
+        el.classList = 'nav nav-tabs'
+        el.setAttribute('role', 'tablist')
+        return el
+      }
+      
+      /**
+       * Create a tab content container
+       * 
+       * <div class="tab-content"></div>
+       */
+      function tabContent() {
+        let el = document.createElement('div')
+        el.classList = 'tab-content'
+        return el
+      }
+      
+      /**
+       * Create an individual tab
+       * 
+       * <li role="presentation" class="active">
+       *   <a href="#ID" aria-controls="ID" role="tab" data-toggle="tab">
+       *     TAB NAME
+       *   </a>
+       * </li>
+       */
+      function tabTab(id, tabName, isActive = false) {
+        let li = document.createElement('li')
+        li.setAttribute('role', 'presentation')
+        if (isActive) li.classList = 'active'
+        
+        let a = document.createElement('a')
+        a.href = '#' + id
+        a.setAttribute('aria-controls', id)
+        a.setAttribute('role', 'tab')
+        a.dataset.toggle = 'tab'
+        a.textContent = tabName
+        
+        li.appendChild(a)
+        return li
+      }
+      
+      /**
+       * Create a tab panel for tabbed content
+       * 
+       * <div role="tabpanel" class="tab-pane active" id="ID">
+       *   <!-- content -->
+       * </div>
+       */
+      function tabPanel(id, content, isActive = false) {
+        const panel = document.createElement('div')
+        panel.setAttribute('role', 'tabpanel')
+        panel.classList = 'tab-pane'
+        if (isActive) panel.classList.add('active')
+        panel.id = id
+        
+        if (content) panel.appendChild(content)
+        return panel
+      }
+      
+      
+      /**
+       * This part creates a Home tab and an About page
+       * If all goes according to plan, the tabs will 
+       * appear once you've filled in the functions above
+       */
+      const contentHome = document.createElement('p')
+      contentHome.textContent = 'Welcome home!'
+      
+      const contentAbout = document.createElement('p')
+      contentAbout.textContent = 'About page'
+      
+      const tabs = tabList()
+      tabs.appendChild(tabTab('home', 'Home', true))
+      tabs.appendChild(tabTab('about', 'About'))
+      
+      const content = tabContent()
+      content.appendChild(tabPanel('home', contentHome, true))
+      content.appendChild(tabPanel('about', contentAbout))
+      
+      const container = document.querySelector('.container')
+      container.appendChild(tabs)
+      container.appendChild(content)
+    css: |-
+      body {
+        margin: 2em 1em;
+      }
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script:
+      head:
+      - https://unpkg.com/jquery@3.4.1
+      - https://unpkg.com/bootstrap@3.4.1/dist/js/bootstrap.js
+
+---
+<div><!--for pandoc-->
+
+<div class="container">
+  <!-- You're going to put the tabs here with magic! -->
+  <!-- ... just kidding, we'll use JavaScript        -->
+</div>
+</div><!--for pandoc-->

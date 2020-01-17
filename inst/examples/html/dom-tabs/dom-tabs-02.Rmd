@@ -1,0 +1,75 @@
+---
+example:
+  title: DOM - Added a New Tab By Hand
+  instructions: |
+    Hey, we added a new tab! A few questions arise...
+    
+    What parts of the HTML change when you create a tab and which parts stay the same?
+    
+    How are the tabs linked to the content inside each tab?
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: ~
+    css: |-
+      body {
+        margin: 2em 1em;
+      }
+  solution:
+    js: ~
+    css: ~
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://unpkg.com/bootstrap@3.4.1/dist/css/bootstrap.min.css
+    script:
+      head:
+      - https://unpkg.com/jquery@3.4.1
+      - https://unpkg.com/bootstrap@3.4.1/dist/js/bootstrap.js
+
+---
+<div><!--for pandoc-->
+
+<div class="container">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+      <a href="#home" aria-controls="home" role="tab" data-toggle="tab">
+        Home
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="#about" aria-controls="about" role="tab" data-toggle="tab">
+        About
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="#faq" aria-controls="faq" role="tab" data-toggle="tab">
+        FAQ
+      </a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">
+      <p>Welcome home!</p>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="about">
+      <p>About Me</p>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="faq">
+      <ul>
+        <li>How to input data into R?</li>
+        <li>How can I sort my data in R?</li>
+        <li>How can I subset a data set?</li>
+        <li>How do I plug in R?</li>
+        <li>How can I print my data?</li>
+        <li>What is Excel and how can I "pivot"?</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</div><!--for pandoc-->
