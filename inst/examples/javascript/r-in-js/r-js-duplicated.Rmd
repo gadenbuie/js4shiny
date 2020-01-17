@@ -1,0 +1,51 @@
+---
+example:
+  title: R.js - duplicated()
+  instructions: |-
+    Replicate R's `duplicated()` function in JavaScript.
+
+    ```r
+    duplicated(c(0, 1, 1, 0, 2, 3, 2))
+    # [1] FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE
+    ```
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      function duplicated(x) {
+        
+      }
+      
+      console.log(
+        "duplicated([0, 1, 1, 0, 2, 3, 2]):\n",
+        duplicated([0, 1, 1, 0, 2, 3, 2])
+      )
+    css: ~
+  solution:
+    js: |-
+      function duplicated(x) {
+        let seen = []
+        let ret = []
+        for (let val of x) {
+          // have we seen val before
+          let was_seen = seen.includes(val)
+          // note whether val is duplicated
+          ret.push(was_seen)
+          // if we haven't seen val before, remember it
+          if (!was_seen) seen.push(val)
+        }
+        return ret
+      }
+      
+      console.log(
+        "duplicated([0, 1, 1, 0, 2, 3, 2]):\n",
+        duplicated([0, 1, 1, 0, 2, 3, 2])
+      )
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->

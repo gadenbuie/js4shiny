@@ -1,0 +1,44 @@
+---
+example:
+  title: R.js - mean() with reduce
+  instructions: |-
+    Replicate R's `mean()` function in JavaScript.
+
+    ```r
+    mean(c(5, 7, 9))
+    # [1] 7
+    ```
+    
+    This time, don't use a `for` loop. Try using `.reduce()` instead.
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      function mean(x) {
+        
+      }
+      
+      console.log(
+        'mean([5, 7, 9]):',
+        mean([5, 7, 9])
+      )
+    css: ~
+  solution:
+    js: |-
+      function mean(x) {
+        let total = x.reduce((total, item) => total + item)
+        return total / x.length
+      }
+      
+      console.log(
+        'mean([1, 2, 3, 4, 5]):',
+        mean([1, 2, 3, 4, 5]) // 3
+      )
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->

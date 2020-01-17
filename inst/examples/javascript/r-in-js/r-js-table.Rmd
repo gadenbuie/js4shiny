@@ -1,0 +1,52 @@
+---
+example:
+  title: R.js - table()
+  instructions: |-
+    Replicate R's `table()` function in JavaScript.
+
+    ```r
+    table(c("A", "B", "B", "A"))
+    # A B 
+    # 2 2 
+    ```
+    
+    Only consider a single array.
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      function table(x) {
+        
+      }
+      
+      console.log(
+        "table(['A', 'B', 'B', 'A']):",
+        table(['A', 'B', 'B', 'A'])
+      )
+    css: ~
+  solution:
+    js: |-
+      function table(x) {
+        let vals = {}
+        for (let val of x) {
+          if (Object.keys(vals).includes(val)) {
+            vals[val] += 1
+          } else {
+            vals[val] = 1
+          }
+        }
+        return vals
+      }
+      
+      console.log(
+        "table(['A', 'B', 'B', 'A']):",
+        table(['A', 'B', 'B', 'A'])
+      )
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->

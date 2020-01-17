@@ -1,0 +1,65 @@
+---
+example:
+  title: R.js - seq_along()
+  instructions: |-
+    Replicate R's `seq_along()` function in JavaScript.
+
+    ```r
+    seq_along(c("a", "b", "c"))
+    # [1] 1 2 3
+    ```
+    
+    Except: JavaScript arrays are 0-indexed, so the JavaScript version should
+    count from 0 to 2.
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      function seqAlong(alongWith) {
+        // return an empty array if given a 0 length input
+        // otherwise return 0:(length-1) of the input
+        console.log(alongWith.length)
+      }
+      
+      console.log(
+        "seqAlong(['a', 'b', 'c'])", 
+        seqAlong(['a', 'b', 'c'])
+      )
+      
+      console.log(
+        'seqAlong([]):', 
+        seqAlong([])
+      )
+    css: ~
+  solution:
+    js: |-
+      function seqAlong(alongWith) {
+        // return an empty array if given a 0 length input
+        if (!alongWith.length) {
+          return []
+        }
+        // otherwise return 0:(length-1) of the input
+        let idx = []
+        for (let i = 0; i < alongWith.length; i++) {
+          idx.push(i)
+        }
+        return idx
+      }
+      
+      console.log(
+        "seqAlong(['a', 'b', 'c'])", 
+        seqAlong(['a', 'b', 'c'])
+      )
+      
+      console.log(
+        'seqAlong([]):', 
+        seqAlong([])
+      )
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->

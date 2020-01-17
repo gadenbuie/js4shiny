@@ -1,0 +1,54 @@
+---
+example:
+  title: R.js - seq()
+  instructions: |-
+    Replicate R's `seq()` function in JavaScript.
+
+    ```r
+    seq(5)
+    # [1] 1 2 3 4 5
+
+    seq(2, 6)
+    # [1] 2 3 4 5 6
+    ```
+    
+    You'll need an array, a standard JavaScript `for` loop, and the `.push()`
+    method.
+  hint: '`seq()` has arguments `from` and `to`. If `to` isn''t set, then go from `1`
+    to `from`.'
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      function seq(from, to) {
+        console.log({from, to})
+      }
+      
+      console.log("seq(5):", seq(5))
+      console.log("seq(2, 6):", seq(2, 6))
+    css: ~
+  solution:
+    js: |-
+      function seq(from, to) {
+        if (typeof to === 'undefined') {
+          to = from
+          from = 1
+        }
+        
+        let x = []
+        for (let i = from; i <= to; i++) {
+          x.push(i)
+        }
+        return x
+      }
+      
+      console.log("seq(5):", seq(5))
+      console.log("seq(2, 6):", seq(2, 6))
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->
