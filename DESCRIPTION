@@ -1,6 +1,6 @@
 Package: js4shiny
 Title: Companion Package for JavaScript for Shiny Users
-Version: 0.0.25
+Version: 0.0.26
 Authors@R: 
     person(given = "Garrick",
            family = "Aden-Buie",
@@ -32,10 +32,12 @@ Suggests:
     commonmark,
     golem,
     listviewer,
+    r2d3,
     rstudioapi,
     servr,
     shinythemes,
     testthat (>= 2.1.0),
+    usethis,
     xaringan
 Encoding: UTF-8
 LazyData: true
