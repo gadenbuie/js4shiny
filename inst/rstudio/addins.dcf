@@ -35,5 +35,5 @@ Interactive: true
 
 Name: Lint File or Selection with StandardJS
 Description: Lint and fix using Standard JavaScript Code Style
-Binding: lint_addin
+Binding: lint_js_addin
 Interactive: false
