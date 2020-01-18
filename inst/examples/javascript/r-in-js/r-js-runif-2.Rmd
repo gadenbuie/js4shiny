@@ -28,10 +28,23 @@ example:
         return rand
       }
       
-      runif()
+      console.log(
+        'runif(5):',
+        runif(5)
+      )
+      
+      console.log(
+        'runif():',
+        runif()
+      )
+      
+      console.log(
+        'runif([5, 10]):',
+        runif()
+      )
   solution:
     js: |-
-      function runif(n, min = 0, max = 1) {
+      function runif (n, min = 0, max = 1) {
         if (typeof n === 'undefined') {
           throw 'n must be provided'
         }
@@ -45,13 +58,24 @@ example:
           const x = Math.random() * range + min
           rand.push(x)
         }
-        
+      
         return rand
       }
       
-      runif('5')
-      // runif()
-      // runif([5, 10])
+      console.log(
+        'runif(5):',
+        runif(5)
+      )
+      
+      console.log(
+        'runif():',
+        runif()
+      )
+      
+      console.log(
+        'runif([5, 10]):',
+        runif()
+      )
 output: js4shiny::html_document_js4shiny
 
 ---
