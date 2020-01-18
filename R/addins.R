@@ -369,16 +369,20 @@ open_html_example <- function(example) {
   }
 }
 
-open_or_save_file <- function(path, filename = "app.R", open = TRUE) {
+open_or_save_file <- function(path, filename = fs::path_file(path), open = TRUE) {
   stopifnot(fs::is_file(path), fs::file_exists(path))
   text <- collapse(read_lines(path))
-  is_r <- tolower(fs::path_ext(filename)) == "r"
+  is_r <- tolower(fs::path_ext(path)) == "r"
   if (is_r) {
     text <- paste0(glue("# {basename(dirname(path))}/{basename(path)}"), "\n\n", text)
   }
-  if (is_r && has_rstudio("documentNew")) {
+  assets <- example_assets(path)
+  has_assets <- length(assets) > 0
+  if (is_r && has_rstudio("documentNew") && !has_assets) {
     with_rstudio("documentNew", text = text, type = "r", execute = FALSE)
     return(invisible(path))
+  } else if (has_assets && has_rstudio("selectDirectory")) {
+    save_directory(path, assets)
   } else if (has_rstudio("selectFile")) {
     path_save <- with_rstudio(
       "selectFile",
@@ -393,6 +397,69 @@ open_or_save_file <- function(path, filename = "app.R", open = TRUE) {
     path_save <- file.choose(new = TRUE)
     cat(text, file = path_save)
     return(path_save)
+  }
+}
+
+save_directory <- function(path, assets = example_assets(path)) {
+  cancel <- function() {
+    message("Canceled by the user.")
+    invisible()
+  }
+
+  dir_save <- with_rstudio(
+    "selectDirectory",
+    caption = "Select Directory for Example Files",
+    label = "Select"
+  )
+  if (is.null(dir_save)) {
+    return(cancel())
+  }
+
+  copy_files <- c(path, assets)
+  new_files <- fs::path(dir_save, fs::path_file(copy_files))
+  new_exist <- purrr::some(new_files, fs::file_exists)
+  if (new_exist) {
+    overwrite_all <- ask_overwrite()
+    if (!(overwrite_all %||% TRUE)) {
+      return(cancel())
+    }
+  } else {
+    overwrite_all <- TRUE
+  }
+  if (is.null(overwrite_all)) {
+    for (idx in seq_along(copy_files)) {
+      new_file <- new_files[idx]
+      overwrite <- if (fs::file_exists(new_files[idx])) {
+        ask_overwrite(new_file, dir_save, binary = TRUE)
+      } else TRUE
+      if (overwrite) {
+        fs::file_copy(copy_files[idx], new_file, overwrite = overwrite)
+      }
+    }
+  } else if (overwrite_all) {
+    purrr::walk2(copy_files, new_files, fs::file_copy, overwrite = TRUE)
+  }
+  return(dir_save)
+}
+
+example_assets <- function(path) {
+  contents <- fs_dir_ls(fs::path_dir(path))
+  names(contents) <- fs::path_file(contents)
+  assets <- setdiff(names(contents), c(fs::path_file(path), "registry.yml"))
+  contents[assets]
+}
+
+ask_overwrite <- function(path = NULL, rel = NULL, binary = FALSE) {
+  msg <- if (!is.null(path)) {
+    path <- fs::path_rel(path, rel %||% ".")
+    glue::glue("Overwrite '{path}'?")
+  } else {
+    "Overwrite existing files?"
+  }
+  prompts <- if (binary) c("Yes", "No", "Skip") else c("Yes", "Cancel", "Ask")
+  ans <- utils::askYesNo(msg, default = if (binary) FALSE else NA, prompts = prompts)
+  if (!is.na(ans)) ans else {
+    if (binary) FALSE else NULL
   }
 }
 
