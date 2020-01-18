@@ -35,15 +35,30 @@ snippet ShinyInputBinding
 	    // e.g: return el.value
 	    return 'FIXME';
 	  },
+	  setValue: function(el, value) {
+	    // This method is used for restoring the bookmarked state of your input
+	    // and allows you to set the input's state without triggering reactivity.
+	    // Basically, reverses .getValue()
+
+	    // e.g.; el.value = value
+	    console.error('${1:bindingName}.setValue() is not yet defined');
+	  },
 	  receiveMessage: function(el, data) {
 	    // Given the input's container and data, update the input
 	    // and its elements to reflect the given data.
 	    // The messages are sent from R/Shiny via
-	    // R> session$sendInputMessage(inputId, data)
-	    throw 'receiveMessage is yet not defined for ${1:bindingName}';
+	    // R> session\$sendInputMessage(inputId, data)
+	    console.error('${1:bindingName}.receiveMessage() is not yet defined');
+
+	    // If you want the update to trigger reactivity, trigger a subscribed event
+	    \$(el).trigger("${3:change}")
 	  },
 	  subscribe: function(el, callback) {
-	    \$(el).on("change.${1:bindingName}", function(e) {
+	    // Listen to events on your input element. The following block listens to
+	    // the change event, but you might want to listen to another event.
+	    // Repeat the block for each event type you want to subscribe to.
+
+	    \$(el).on("${3:change}.${1:bindingName}", function(e) {
 	      // Use callback() or callback(true).
 	      // If using callback(true) the rate policy applies,
 	      // for example if you need to throttle or debounce
@@ -53,7 +68,7 @@ snippet ShinyInputBinding
 	  },
 	  getRatePolicy: function() {
 	    return {
-	      policy: 'debounce', // or 'throttle' or 'direct' (default)
+	      policy: 'debounce', // 'debounce', 'throttle' or 'direct' (default)
 	      delay: 100 // milliseconds for debounce or throttle
 	    };
 	  },
@@ -62,7 +77,7 @@ snippet ShinyInputBinding
 	  }
 	});
 
-	Shiny.inputBindings.register(${1:bindingName}, '${3:pkgName}.${1:bindingName}');
+	Shiny.inputBindings.register(${1:bindingName}, '${4:pkgName}.${1:bindingName}');
 
 snippet did
 	document.getElementById('$0')
