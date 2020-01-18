@@ -92,14 +92,19 @@ live_preview <- function(
   if (path_is_md) {
     # will it render to html?
     output_format <- rmarkdown::default_output_format(path)$name
-    is_html <- grepl("html", output_format)
+    is_html <- grepl(
+      "html|xaringan|pagedown|ioslides|revealjs|slidy|flex_?dashboard",
+      output_format
+    )
     if (is_html) {
       path_html <- path
       fs::path_ext(path_html) <- "html"
       if (!fs::file_exists(path_html) || is_outdated(path_html, path)) {
         render(path)
       }
-      path_file <- fs::path_file(path_html)
+      if (fs::file_exists(path_html)) {
+        path_file <- fs::path_file(path_html)
+      }
     }
   }
 
