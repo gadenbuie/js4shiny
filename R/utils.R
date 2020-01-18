@@ -67,6 +67,13 @@ write_registry_yaml <- function(
   yaml::write_yaml(info, file = fs::path(path, "registry.yml"))
 }
 
+is_markdown <- function(path, rmd_only = FALSE) {
+  is_file <- fs::is_file(path)
+  is_rmd <- tolower(fs::path_ext(path)) == "rmd"
+  is_md <- tolower(fs::path_ext(path)) == "md"
+  is_file & (is_rmd | (!rmd_only & is_md))
+}
+
 has_rmarkdown_2 <- function() {
   v_rmd <- utils::packageVersion("rmarkdown")
 

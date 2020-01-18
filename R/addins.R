@@ -75,21 +75,21 @@ live_preview <- function(
   render_quietly <- isTRUE(render_quietly)
 
   render <- function(path) {
-    rmd_paths <- path[grepl("[.]rmd", path, ignore.case = TRUE)]
-    if (length(rmd_paths)) {
-      for (rmd_path in rmd_paths) {
+    md_paths <- path[is_markdown(path)]
+    if (length(md_paths)) {
+      for (md_path in md_paths) {
         if (render_quietly) message(glue(
-          "Rendering {rmd_path}"
+          "Rendering {md_path}"
         ))
-        rmarkdown::render(rmd_path, envir = new.env(), quiet = render_quietly)
+        rmarkdown::render(md_path, envir = new.env(), quiet = render_quietly)
       }
     }
     path
   }
 
-  path_is_rmd <- fs::is_file(path) && tolower(fs::path_ext(path)) == "rmd"
+  path_is_md <- is_markdown(path)
   path_file <- "/"
-  if (path_is_rmd) {
+  if (path_is_md) {
     # will it render to html?
     output_format <- rmarkdown::default_output_format(path)$name
     is_html <- grepl("html", output_format)
