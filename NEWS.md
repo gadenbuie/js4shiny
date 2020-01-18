@@ -1,3 +1,10 @@
+## js4shiny 0.0.27
+
+- Live preview also renders and previews markdown `.md` documents
+- Improve use of {rstudioapi} to be safer with older versions of RStudio
+- Added {r2d3} and {usethis} dependencies
+- Added and improved several R and JS snippets
+
 ## js4shiny 0.0.24
 
 - Document the JavaScript linter addin with the topic `?lint_js_addin`
