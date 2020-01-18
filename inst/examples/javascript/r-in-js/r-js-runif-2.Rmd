@@ -1,6 +1,6 @@
 ---
 example:
-  title: Math - Random Numbers Part 2
+  title: R.js - runif() Part 2
   instructions: |-
     Our previous function works but makes a few assumptions
     about how it will be used.
@@ -17,7 +17,7 @@ example:
     document: html
   initial:
     js: |-
-      const runif = (n, min = 0, max = 1) => {
+      function runif(n, min = 0, max = 1) {
         const rand = []
         for (let i = 0; i < n; i++) {
           const range = max - min
@@ -31,7 +31,7 @@ example:
       runif()
   solution:
     js: |-
-      const runif = (n, min = 0, max = 1) => {
+      function runif(n, min = 0, max = 1) {
         if (typeof n === 'undefined') {
           throw 'n must be provided'
         }
