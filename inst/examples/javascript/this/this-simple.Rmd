@@ -1,0 +1,56 @@
+---
+pagetitle: A Simple this Example
+example:
+  title: A Simple this Example
+  instructions: |-
+    Generally speaking, `this` refers to the _context of a function_ when it is called.
+    For the `sayHello()` method attached to `person`,
+    and when called as `person.sayHello()`,
+    `this` refers to the `person` object.
+
+    One very useful way of using `this` is
+    when you have functions that format or process data
+    stored in an object with a specific structure,
+    like we are doing here.
+  hint: Add a `title` property to `person` and incorporate it into the `sayHello()`
+    method.
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      const person = {
+        name: "Christelle",
+        sayHello: function() {
+          console.log(`Hello, ${this.name}!`)
+        }
+      }
+
+      person.sayHello()
+
+      person.name = 'Mateo'
+      person.sayHello()
+    css: ~
+  solution:
+    js: |-
+      const person = {
+        name: "Christelle",
+        title: 'Ms.',
+        sayHello: function() {
+          title = this.title ? this.title + ' ' : ''
+          console.log(`Hello, ${title}${this.name}!`)
+        }
+      }
+      
+      person.sayHello()
+      
+      person.name = 'Mateo'
+      person.title = null
+      person.sayHello()
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->
