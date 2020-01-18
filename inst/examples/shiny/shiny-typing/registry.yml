@@ -1,0 +1,4 @@
+title: Type Racer
+type: shiny-apps
+description: |
+  A Shiny app for monitoring typing speed that demonstrates custom inputs.
