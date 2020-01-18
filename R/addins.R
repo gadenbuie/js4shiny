@@ -345,20 +345,7 @@ open_app_example <- function(example) {
       "Opening {basename(dirname(example))} as new R script, ",
       "save the file as app.R"
     ))
-    text <- collapse(read_lines(example))
-    text <- paste0(glue("# {basename(dirname(example))}/app.R"), "\n\n", text)
-    if (has_rstudio("documentNew")) {
-      with_rstudio("documentNew", text = text, type = "r", execute = FALSE)
-    } else if (has_rstudio("selectFile")) {
-      path_save <- with_rstudio("selectFile", existing = FALSE, caption = "Save Example to...")
-      cat(text, file = path_save)
-      with_rstudio("navigateToFile", file = path_save)
-      return(path_save)
-    } else {
-      path_save <- file.choose(new = TRUE)
-      cat(text, file = path_save)
-      return(path_save)
-    }
+    open_or_save_file(example, "app.R")
   } else {
     shiny::runApp(example)
   }
@@ -371,10 +358,41 @@ open_html_example <- function(example) {
   if (grepl("index[.]html$", example)) {
     stopifnot(file.exists(example))
     info <- read_registry_yaml(dirname(example))
-    external <- grepl("external", info$type %||% "")
-    live_preview(dirname(example), external = external)
+    external <- grepl("html-external", info$type %||% "")
+    if (external) {
+      live_preview(dirname(example), external = external)
+    } else {
+      open_or_save_file(example, filename = "index.html")
+    }
   } else {
     stop("Not sure how to open example: ", example)
+  }
+}
+
+open_or_save_file <- function(path, filename = "app.R", open = TRUE) {
+  stopifnot(fs::is_file(path), fs::file_exists(path))
+  text <- collapse(read_lines(path))
+  is_r <- tolower(fs::path_ext(filename)) == "r"
+  if (is_r) {
+    text <- paste0(glue("# {basename(dirname(path))}/{basename(path)}"), "\n\n", text)
+  }
+  if (is_r && has_rstudio("documentNew")) {
+    with_rstudio("documentNew", text = text, type = "r", execute = FALSE)
+    return(invisible(path))
+  } else if (has_rstudio("selectFile")) {
+    path_save <- with_rstudio(
+      "selectFile",
+      existing = FALSE,
+      path = filename,
+      caption = "Save Example to..."
+    )
+    cat(text, file = path_save)
+    if (open) with_rstudio("navigateToFile", file = path_save)
+    return(path_save)
+  } else {
+    path_save <- file.choose(new = TRUE)
+    cat(text, file = path_save)
+    return(path_save)
   }
 }
 
