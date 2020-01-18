@@ -7,7 +7,7 @@
 \usage{
 live_preview(
   path = getwd(),
-  update_pattern = "[.](js|css|[Rr][Mm][Dd]|html?|s[ca]ss)$",
+  update_pattern = "[.](js|css|[Rr]?[Mm][Dd]|html?|s[ca]ss)$",
   ...,
   render_quietly = getOption("js4shiny.live_preview.quiet", TRUE),
   external = FALSE
