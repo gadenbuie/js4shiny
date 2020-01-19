@@ -174,12 +174,12 @@ knitr_json_engine <- function() {
 
 knitr_html_engine <- function() {
   function(options) {
-    out <- if (options$eval && knitr::is_html_output()) {
+    out <- if (isTRUE(options$eval) && knitr::is_html_output()) {
       # use pandoc's raw html block by default, but this isn't always available
       # so it can be disabled with the html_raw chunk option.
       raw <- isTRUE(options$html_raw %||% TRUE)
       paste0(
-        if (raw) '\n```{=html}\n',
+        if (raw) '\n```{=html}\n' else "\n",
         '<div',
         paste0(' id="out-', gsub("[^a-zA-Z0-9_.]", "-", options$label), '"'),
         if (!is.null(options$class.output)) paste0(

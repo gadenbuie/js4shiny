@@ -1,0 +1,25 @@
+---
+title: knitr html engine test
+output: js4shiny::html_document_js
+---
+
+```{html TEST}
+<span>TEST ONE</span>
+```
+
+```{html echo-false, echo=FALSE}
+<span>TEST ECHO FALSE</span>
+```
+
+```{html eval-false, eval=FALSE}
+<span>TEST EVAL FALSE</span>
+```
+
+```{html raw-false, html_raw = FALSE}
+<span>TEST RAW FALSE</span>
+```
+
+
+```{html eval=FALSE, name="index.html"}
+<script src="script.js"></script>
+```

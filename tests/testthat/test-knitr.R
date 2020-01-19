@@ -42,3 +42,92 @@ test_that("the js_lint option doesn't break things", {
     )
   )
 })
+
+
+describe("knitr_html_engine()", {
+  chunk <- list(
+    eval = TRUE,
+    echo = TRUE,
+    code = "<span>TEST</span>",
+    label = "test",
+    engine = "html"
+  )
+  html <- knitr_html_engine()
+
+  it("creates a raw html chunk as output", {
+    with_mock(
+      "knitr::is_html_output" = function(...) TRUE, {
+        expect_equal(html(chunk), paste(
+          chunk$code,
+          "\n```{=html}\n<div id=\"out-test\">\n<span>TEST</span>\n</div>\n```",
+          "", sep = "\n"
+        ))
+      }
+    )
+  })
+
+  it("creates a raw html chunk without the source when echo=FALSE", {
+    with_mock(
+      "knitr::is_html_output" = function(...) TRUE, {
+        chunk$echo <- FALSE
+        expect_equal(html(chunk), paste(
+          "\n```{=html}\n<div id=\"out-test\">\n<span>TEST</span>\n</div>\n```",
+          "", sep = "\n"
+        ))
+      }
+    )
+  })
+
+  it("creates an output div if html_raw = FALSE", {
+    with_mock(
+      "knitr::is_html_output" = function(...) TRUE, {
+        chunk$html_raw <- FALSE
+        expect_equal(html(chunk), paste(
+          chunk$code,
+          "\n<div id=\"out-test\">\n<span>TEST</span>\n</div>",
+          "", sep = "\n"
+        ))
+      }
+    )
+  })
+
+  it("creates just the html chunk if eval=FALSE", {
+    with_mock(
+      "knitr::is_html_output" = function(...) TRUE, {
+        chunk$eval <- FALSE
+        expect_equal(html(chunk), chunk$code)
+      }
+    )
+  })
+
+  it("uses the class.output option", {
+    with_mock(
+      "knitr::is_html_output" = function(...) TRUE, {
+        chunk$html_raw <- FALSE
+        chunk$class.output <- "MYCLASS"
+        expect_equal(html(chunk), paste(
+          chunk$code,
+          "\n<div id=\"out-test\" class=\"MYCLASS\">\n<span>TEST</span>\n</div>",
+          "", sep = "\n"
+        ))
+      }
+    )
+  })
+})
+
+test_that("knitr html() engine", {
+  tmpfile <- tempfile(fileext = ".html")
+  on.exit(unlink(tmpfile))
+  rmarkdown::render(
+    input = "html-engine/html-engine.Rmd",
+    output_file = tmpfile,
+    quiet = TRUE,
+    envir = new.env()
+  )
+
+  expect_known_output(
+    cat(read_lines(tmpfile), sep = "\n"),
+    "html-engine/html-engine.html",
+    update = TRUE
+  )
+})
