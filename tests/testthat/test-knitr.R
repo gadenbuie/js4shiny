@@ -116,6 +116,8 @@ describe("knitr_html_engine()", {
 })
 
 test_that("knitr html() engine", {
+  skip_if_not(rmarkdown::pandoc_available("1.12.3"))
+  
   tmpfile <- tempfile(fileext = ".html")
   on.exit(unlink(tmpfile))
   rmarkdown::render(
