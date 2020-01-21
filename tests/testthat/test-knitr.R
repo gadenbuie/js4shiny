@@ -124,10 +124,21 @@ test_that("knitr html() engine", {
     quiet = TRUE,
     envir = new.env()
   )
+  result <- read_lines(tmpfile)
 
-  expect_known_output(
-    cat(read_lines(tmpfile), sep = "\n"),
-    "html-engine/html-engine.html",
-    update = TRUE
-  )
+  expect_detect <- function(pattern, fixed = TRUE, ...) {
+    expect_true(sum(grepl(!!pattern, result, fixed = fixed, ...)) == 1)
+  }
+  expect_missing <- function(pattern, fixed = TRUE, ...) {
+    expect_false(sum(grepl(!!pattern, result, fixed = fixed, ...)) == 1)
+  }
+
+  expect_detect("&lt;span&gt;</span>TEST ONE<span")
+  expect_detect('<div id="out-TEST">')
+  expect_detect("&lt;span&gt;</span>TEST EVAL FALSE")
+  expect_missing("<span>TEST EVAL FALSE</span>")
+  expect_detect("&lt;span&gt;</span>TEST RAW FALSE")
+  expect_detect("<span>TEST RAW FALSE</span>")
+  expect_detect("&gt;&lt;/script&gt;")
+  expect_missing('<script src="script.js"></script>')
 })
