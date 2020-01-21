@@ -1,3 +1,5 @@
 *.html
 rsconnect/*
 !index.html
+.history/*
+.DS_Store

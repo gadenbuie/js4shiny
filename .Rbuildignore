@@ -8,6 +8,7 @@
 ^node_modules$
 ^\.eslintrc$
 ^inst/examples/demo$
+^inst/examples/.history$
 ^tic\.R$
 ^.travis.yml$
 ^appveyor.yml$
