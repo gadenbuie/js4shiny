@@ -1,0 +1,29 @@
+:root {
+  --dark-blue: #466683;
+  --green: #55ebbc;
+  --yellow: #f6e995;
+  --gray: #c0c9cc;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+    helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial,
+    sans-serif;
+}
+h1,
+h2 {
+  color: var(--dark-blue);
+}
+.city {
+  background: var(--green);
+}
+.age {
+  background: var(--yellow);
+}
+.home-price {
+	color: var(--dark-blue);
+}
+#chart {
+  border: 2px solid var(--gray);
+  width: 800px;
+  height: 250px;
+}

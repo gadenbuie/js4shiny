@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!-- meta -->
+  <title>Californian Cities</title>
+</head>
+
+<body>
+  <h1>Median Resident Age</h1>
+  <div id="chart">
+    <!-- chart will go here -->
+  </div>
+  <h2><span id="city-header" class="city">San Francisco</span></h2>
+  <p>
+    The median age of the residents of
+    <strong id="city-text" class="city">San Francisco</strong>
+    is <strong id="age" class="age">38.8</strong> years old.
+  </p>
+  <button id="next-city" value=0>Next City</button>
+
+  <script id="data-cities" type="application/json">
+      [{"city":"San Francisco","median_age":38.8,"median_home_price":768517},{"city":"San Jose","median_age":36.9,"median_home_price":1080017},{"city":"San Diego","median_age":35.4,"median_home_price":555325},{"city":"Santa Barbara","median_age":33.7,"median_home_price":463750},{"city":"Santa Rosa","median_age":41.4,"median_home_price":629917},{"city":"Sacramento","median_age":37,"median_home_price":389858},{"city":"Los Angeles","median_age":35.9,"median_home_price":526214},{"city":"Salinas","median_age":33.9,"median_home_price":581342},{"city":"Fresno","median_age":31.8,"median_home_price":260733},{"city":"Modesto","median_age":32.9,"median_home_price":289168},{"city":"Stockton","median_age":33.9,"median_home_price":352350},{"city":"Bakersfield","median_age":31.3,"median_home_price":226908}]
+    </script>
+  <script>
+    const cities = [
+      { city: 'San Francisco', age: 38.8 },
+      { city: 'Los Angeles', age: 35.9 },
+      { city: 'Fresno', age: 31.8 },
+      { city: 'Santa Rosa', age: 41.4 }
+    ]
+
+    function updateCityAge({ city, age }) {
+      document.getElementById('city-header').textContent = city
+      document.getElementById('city-text').textContent = city
+      document.querySelector('#age').textContent = age
+    }
+
+    updateCityAge(cities[0])
+
+    const btn = document.getElementById('next-city')
+    btn.addEventListener('click', function (event) {
+      let btnValue = event.target.value
+      btnValue = Number(btnValue) + 1
+      if (btnValue >= cities.length) {
+        btnValue = 0
+      }
+      btn.value = btnValue
+      updateCityAge(cities[btnValue])
+    })
+
+    const chart = document.getElementById('chart')
+    chart.style.background = 'var(--gray)'
+  </script>
+  <style>
+    :root {
+      --dark-blue: #466683;
+      --green: #55ebbc;
+      --yellow: #f6e995;
+      --gray: #c0c9cc;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+        helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial,
+        sans-serif;
+    }
+
+    h1,
+    h2 {
+      color: var(--dark-blue);
+    }
+
+    .city {
+      background: var(--green);
+    }
+
+    .age {
+      background: var(--yellow);
+    }
+
+    #chart {
+      border: 2px solid var(--gray);
+      width: 800px;
+      height: 250px;
+    }
+
+  </style>
+</body>
+
+</html>
