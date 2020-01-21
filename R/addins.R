@@ -694,6 +694,6 @@ find_registry_yaml <- function(path) {
 read_registry_yaml <- function(path) {
   path <- find_registry_yaml(path)
   if (!length(path)) return()
-  x <- yaml::yaml.load_file(path)
+  x <- yaml::read_yaml(text = read_lines(path))
   if (length(x)) x
 }
