@@ -382,7 +382,17 @@ open_or_save_file <- function(path, filename = fs::path_file(path), open = TRUE)
     with_rstudio("documentNew", text = text, type = "r", execute = FALSE)
     return(invisible(path))
   } else if (has_assets && has_rstudio("selectDirectory")) {
-    save_directory(path, assets)
+    path_dir <- save_directory(path, assets)
+    if (open) {
+      paths_try <- fs::path(path_dir, c("app.R", "index.html"))
+      for (path_open in paths_try) {
+        if (fs::file_exists(path_open)) {
+          with_rstudio("navigateToFile", file = path_open)
+          return(path_open)
+        }
+      }
+    }
+    return(path_dir)
   } else if (has_rstudio("selectFile")) {
     path_save <- with_rstudio(
       "selectFile",
