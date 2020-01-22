@@ -47,7 +47,7 @@ const questions = [
     answer: 'no'
   },
   {
-    selector: 'ul:first-child',
+    selector: 'ul:not(.navbar-right)',
     proposal: 'ul:not(.navbar-right)',
     answer: 'yes'
   },
@@ -111,11 +111,11 @@ const questions = [
     proposal: 'ul li:first-child',
     answer: 'yes'
   },
-  {
-    selector: '.content > :nth-child(2n+1)',
-    proposal: '.content > :nth-child(2n+1)',
-    answer: 'yes'
-  },
+  // {
+  //   selector: '.content > :nth-child(2n+1)',
+  //   proposal: '.content > :nth-child(2n+1)',
+  //   answer: 'yes'
+  // },
   {
     selector: ':empty',
     proposal: ':empty',
@@ -155,12 +155,12 @@ const questions = [
     selector: 'label',
     proposal: '[for="user-name"]',
     answer: 'yes'
-  },
-  {
-    selector: '[class^="nav"]',
-    proposal: '[class^="navbar"]',
-    answer: 'no'
   }
+  // {
+  //   selector: '[class^="nav"]',
+  //   proposal: '[class^="navbar"]',
+  //   answer: 'no'
+  // }
 ]
 
 Vue.component('question', {
