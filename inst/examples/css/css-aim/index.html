@@ -19,6 +19,7 @@
       <div v-if="isIdle" key="s1">
         <p>Your task is to decide whether a given selector targets <strong style="white-space: nowrap">all and only</strong> the elements marked on the right.</p>
         <button type="button" @click="start">Let's Start</button>
+        <p class="credit">Adapted from <a href="https://codepen.io/pehaa/pen/ROapJZ">Paulina Hetman's quiz on codepen</a></p>
       </div>
       <question v-else :key="currentIndex" :v="v" :q="proposal" @answered="go" :disabled="disabled" :correct="answer"></question>
     </transition>

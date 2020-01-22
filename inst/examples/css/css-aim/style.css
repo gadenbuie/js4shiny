@@ -81,6 +81,14 @@ h1 {
   font-size: calc(1rem + .25vw + .5vh);
   padding: 0 1.5rem;
 }
+.quiz p.credit {
+  margin-top: 2em;
+  font-size: 0.9em;
+}
+a {
+  color: var(--red);
+  text-decoration: none;
+}
 strong {
   color: var(--red);
 }
