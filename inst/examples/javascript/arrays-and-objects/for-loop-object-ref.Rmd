@@ -22,7 +22,7 @@ example:
       
       let backupFruits = fruits
 
-      for (____ fruit in ____) {
+      for (____ fruit of Object.keys(____)) {
         if (fruit === "apple") {
           ____[fruit] -= 4
         } else if (fruit === ____) {
@@ -46,7 +46,7 @@ example:
       
       let backupFruits = fruits
       
-      for (const fruit in fruits) {
+      for (let fruit of Object.keys(fruits)) {
         if (fruit === "apple") {
          fruits[fruit] -= 4
         } else if (fruit === 'coconut') {
