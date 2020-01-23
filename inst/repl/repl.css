@@ -104,10 +104,8 @@ html * {
 }
 
 .hide-html-preview .panel-code-js-console {
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
   min-width: 100px;
+  flex-basis: 100px;
 }
 
 .panel-code-js-console #show_solution {
