@@ -23,7 +23,7 @@ example:
       }
     
       let same = true
-      for (const key __ katya) {
+      for (const key __ Object.keys(_____)) {
         if (____  ___  ____) {
           same = false
         }
@@ -44,7 +44,7 @@ example:
       }
 
       let same = true
-      for (const key in katya) {
+      for (const key of Object.keys(katya)) {
         if (katya[key] !== leo[key]) {
           same = false
         }
