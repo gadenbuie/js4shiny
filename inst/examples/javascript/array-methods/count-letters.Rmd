@@ -1,0 +1,47 @@
+---
+pagetitle: Count the Number of Letters
+example:
+  title: Count the Number of Letters
+  instructions: Loop over the letters in the word `flyby` and store the count of each
+    letter in an object.
+  hint: |
+    `for ... of` loops coerce strings to an array of characters!
+    
+    Use bracket notation — `obj[keyVar]` — to access the property
+    of an object using a string stored in a variable.
+  runtime: repl_js
+  mode:
+    document: ~
+  initial:
+    js: |-
+      let word = 'flyby'
+      let lettersPoints = {b: 3, f:4, l:1, y:4}
+      
+      // how many of each letter in the word?
+      let letters = {}
+      
+      for (_____) {
+        
+      }
+    css: ~
+  solution:
+    js: |-
+      let word = 'flyby'
+      let lettersPoints = {b: 3, f:4, l:1, y:4}
+
+      // how many of each letter in the word?
+      let letters = {}
+
+      for (let letter of word) {
+        if (letters[letter]) {
+          letters[letter] += 1
+        } else {
+          letters[letter] = 1
+        }
+      }
+
+      console.log(letters)
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---

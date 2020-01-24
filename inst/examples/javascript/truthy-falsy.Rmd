@@ -1,0 +1,38 @@
+---
+pagetitle: Truthy and Falsy
+example:
+  title: Truthy and Falsy
+  instructions: |-
+    Every value in JavaScript can be coerced into a boolean `true` or `false`.
+
+    Try a few of the options below to see which values are _truthy_ and which are _falsy_.
+  hint: |-
+    - `true`, `false`
+    - A number, e.g. `42` or `0`
+    - A number in a string, e.g. `"42"` or `"0"`
+    - Strings, e.g `'yes'` or `'false'`
+    - A negative number
+    - An object
+    - An empty object
+    - An array
+    - An empty array
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      if (true) {
+        console.log('truthy')
+      } else {
+        console.log('false-ish')
+      }
+    css: ~
+  solution:
+    js: ~
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->

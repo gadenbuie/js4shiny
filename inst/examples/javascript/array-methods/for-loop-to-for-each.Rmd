@@ -1,0 +1,48 @@
+---
+pagetitle: Replace For Loop with forEeach
+example:
+  title: Replace For Loop with forEeach
+  instructions: |-
+    Replace the `for...of` loop with a `.forEach()` method call.
+
+    Use an arrow function to add the letter's points to the total score.
+  hint: |-
+    `.forEach()` is an 
+    [array method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#Instance_methods). 
+    While the `for...of` loop coerced `word`
+    to an array of strings, `.forEach()` isn't 
+    available unless the object it's
+    called on is an array.
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |
+      let word = 'syzygy'
+      let lettersPoints = {"g":2,"s":1,"y":4,"z":10}
+      let score = 0
+
+      // replace this for loop with .forEach()
+      for (let letter of word) {
+        score += lettersPoints[letter]
+      }
+      
+      score
+    css: ~
+  solution:
+    js: |
+      let word = 'syzygy'
+      let lettersPoints = {"g":2,"s":1,"y":4,"z":10}
+      let score = 0
+      
+      // replace this for loop with .forEach()
+      word.split('').forEach((l) => score += lettersPoints[l])
+      
+      score
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->

@@ -1,0 +1,56 @@
+---
+pagetitle: Who won the game?
+example:
+  title: Who won the game?
+  instructions: |-
+    Use `if ... else` or the ternary `if` statement to determine the outcome of the game.
+
+    Tell the player how they did. Report the final scores and the final outcome.
+  hint: |-
+    Use string addition — 
+    `points + ' points'` — 
+    or template strings — 
+    <code>&grave;${points} points&grave;</code>
+  runtime: repl_js
+  mode:
+    document: ~
+  initial:
+    js: |-
+      let scores = {
+        player: 12,
+        opponent: 33
+      }
+      
+      // What's the outcome of the game for player? Consider ties
+      // let result = _____
+      
+      // Tell the player how they did: report scores and outcome
+      //let outcome = _____
+    css: ~
+  solution:
+    js: |-
+      let scores = {
+        player: 12,
+        opponent: 33
+      }
+      
+      // What's the outcome of the game for player? Consider ties
+      let result = 'tied'
+      if (scores.player > scores.opponent) {
+        result = 'won'
+      } else if (scores.player < scores.opponent) {
+        result = 'lost'
+      }
+      
+      // Tell the player how they did: report scores and outcome
+      let outcome = 
+      `You scored : ${scores.player}
+      Opponent   : ${scores.opponent}
+        
+      You ${result}!`
+        
+      console.log(outcome)
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
