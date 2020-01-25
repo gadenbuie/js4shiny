@@ -1,0 +1,49 @@
+---
+pagetitle: Mapping with Arrays of Words - Step 1
+example:
+  title: Mapping with Arrays of Words - Step 1
+  instructions: |-
+    Write one function that takes a word and returns
+    the point values of each letter as an array.
+
+    Then use `.map()` to apply this function to the array of `words`.
+  runtime: repl_js
+  mode:
+    document: ~
+  initial:
+    js: |-
+      const lettersPoints = {
+        "a": 1, "b": 3, "c": 3, "d": 2, "e": 1, "f": 4, "g": 2, "h": 4, "i": 1, "j": 8, "k": 5, "l": 1, "m": 3, "n": 1, "o": 1, "p": 3, "q": 10, "r": 1, "s": 1, "t": 1, "u": 1, "v": 4, "w": 4, "x": 8, "y": 4, "z": 10, " ": 0
+      }
+
+      let words = ['freezer', 'jukebox']
+
+      // Write one function that takes a word and returns
+      // the point values of each letter as an array
+
+      // Then use map to apply this function to the
+      // array of words above.
+    css: ~
+  solution:
+    js: |-
+      const lettersPoints = {
+        "a": 1, "b": 3, "c": 3, "d": 2, "e": 1, "f": 4, "g": 2, "h": 4, "i": 1, "j": 8, "k": 5, "l": 1, "m": 3, "n": 1, "o": 1, "p": 3, "q": 10, "r": 1, "s": 1, "t": 1, "u": 1, "v": 4, "w": 4, "x": 8, "y": 4, "z": 10, " ": 0
+      }
+
+      let words = ['freezer', 'jukebox']
+
+      // Write one function that takes a word and returns
+      // the point values of each letter as an array
+      function word2points(word) {
+        return word
+          .split('')
+          .map((l) => lettersPoints[l])
+      }
+
+      // Then use map to apply this function to the
+      // array of words above.
+      words.map(word2points)
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---

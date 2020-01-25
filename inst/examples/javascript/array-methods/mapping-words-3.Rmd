@@ -1,0 +1,79 @@
+---
+pagetitle: Mapping with Arrays of Words - Part 3
+example:
+  title: Mapping with Arrays of Words - Part 3
+  instructions: |-
+    Rewrite the internals of `score()` to use `.reduce()`.
+
+    Use `words.map()` and the functions to calculate an array of word points.
+    Then use `score()` one last time to calculate the player's total score.
+  runtime: repl_js
+  mode:
+    document: ~
+  initial:
+    js: |-
+      const lettersPoints = {
+        "a": 1, "b": 3, "c": 3, "d": 2, "e": 1, "f": 4, "g": 2, "h": 4, "i": 1, "j": 8, "k": 5, "l": 1, "m": 3, "n": 1, "o": 1, "p": 3, "q": 10, "r": 1, "s": 1, "t": 1, "u": 1, "v": 4, "w": 4, "x": 8, "y": 4, "z": 10, " ": 0
+      }
+
+      let words = ['freezer', 'jukebox']
+
+      // Write one function that takes a word and returns
+      // the point values of each letter as an array
+      function word2points(word) {
+        return word
+          .split('')
+          .map((l) => lettersPoints[l])
+      }
+
+      // Then use map to apply this function to the
+      // array of words above.
+      words.map(word2points)
+
+      // replace the .forEach() method below with .reduce()
+      function score(points) {
+        let total = 0
+        points.forEach(pt => total += pt)
+        return total
+      }
+
+      // and use score to get the final score
+      // let wordScores = _____
+
+      // score(wordScores)
+    css: ~
+  solution:
+    js: |-
+      const lettersPoints = {
+        "a": 1, "b": 3, "c": 3, "d": 2, "e": 1, "f": 4, "g": 2, "h": 4, "i": 1, "j": 8, "k": 5, "l": 1, "m": 3, "n": 1, "o": 1, "p": 3, "q": 10, "r": 1, "s": 1, "t": 1, "u": 1, "v": 4, "w": 4, "x": 8, "y": 4, "z": 10, " ": 0
+      }
+
+      let words = ['freezer', 'jukebox']
+
+      // Write one function that takes a word and returns
+      // the point values of each letter as an array
+      function word2points(word) {
+        return word
+          .split('')
+          .map((l) => lettersPoints[l])
+      }
+
+      // Then use map to apply this function to the
+      // array of words above.
+      words.map(word2points)
+
+      // replace the .forEach() method below with .reduce()
+      function score(points) {
+        return points.reduce((score, pt) => score + pt, 0)
+      }
+
+      // and use score to get the final score
+      let wordScores = words
+        .map(word2points)
+        .map(score)
+
+      score(wordScores)
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---

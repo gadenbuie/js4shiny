@@ -1,0 +1,64 @@
+---
+example:
+  title: R.js - sample() - Part One
+  instructions: |-
+    R's `sample()` function randomly selects `size` items from a vector `x`.
+    (It also includes the option to `replace` selected items and to assign a 
+    `prob` to each item, but we will ignore these for now.)
+    The default is to sample `size = length(x)` items without replacement.
+    
+    Write a similar function for JavaScript that samples _without replacement_.
+    You may want to use
+    [Math.random()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
+    to help you randomly select items from `x`.
+  hint: |
+    Be careful that your function returns a new array and doesn't modify the input `x`!
+  runtime: repl_js
+  mode:
+    document: html
+  initial:
+    js: |-
+      function sample (x, size) {
+      
+      }
+      
+      console.log(
+        "sample(['a', 'b', 'c'])",
+        sample(['a', 'b', 'c'])
+      )
+      
+      console.log(
+        "sample(['a', 'b', 'c'])",
+        sample(['a', 'b', 'c'])
+      )
+  solution:
+    js: |-
+      function sample (x, size) {
+        // make sure x is an array
+        if (!Array.isArray(x)) {
+          console.error("Expected an array")
+          return undefined
+        }
+        
+        // and has at least one entry
+        if (x.length === 0) return []
+        
+        // size defaults to the length of x
+        size = size || x.length
+        
+        // create a new array to hold sampled items
+        let ret = []
+        for (let i = 0; i < size; i++) {
+          
+        }
+      }
+      
+      runif(5)
+      // runif(5, 0, 10)
+      // runif(5, 20, 30)
+output: js4shiny::html_document_js4shiny
+
+---
+<div><!--for pandoc-->
+
+</div><!--for pandoc-->

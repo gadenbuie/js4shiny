@@ -1,0 +1,74 @@
+---
+pagetitle: Mapping with Arrays of Words - Part Two
+example:
+  title: Mapping with Arrays of Words - Part Two
+  instructions: |-
+    Write another function that takes one array of numbers, e.g. `[1, 2, , 3]`,
+    and calculates the sum of the array.
+
+    Then use `.map()` again to get an array of word scores.
+  runtime: repl_js
+  mode:
+    document: ~
+  initial:
+    js: |-
+      const lettersPoints = {
+        "a": 1, "b": 3, "c": 3, "d": 2, "e": 1, "f": 4, "g": 2, "h": 4, "i": 1, "j": 8, "k": 5, "l": 1, "m": 3, "n": 1, "o": 1, "p": 3, "q": 10, "r": 1, "s": 1, "t": 1, "u": 1, "v": 4, "w": 4, "x": 8, "y": 4, "z": 10, " ": 0
+      }
+
+      let words = ['freezer', 'jukebox']
+
+      // Write one function that takes a word and returns
+      // the point values of each letter as an array
+      // ____ word2points ____
+      
+      // Then use map to apply this function to the
+      // array of words above.
+      words.map(word2points)
+
+      // Write another function that takes an array
+      // of numbers and returns the total of these values
+      // e.g. [1, 2, 3] => 6
+
+      // Finally, use .map() and the above functions
+      // to calculate scores for each word
+      words
+        .map(word2points)
+        .map(total)
+    css: ~
+  solution:
+    js: |-
+      const lettersPoints = {
+        "a": 1, "b": 3, "c": 3, "d": 2, "e": 1, "f": 4, "g": 2, "h": 4, "i": 1, "j": 8, "k": 5, "l": 1, "m": 3, "n": 1, "o": 1, "p": 3, "q": 10, "r": 1, "s": 1, "t": 1, "u": 1, "v": 4, "w": 4, "x": 8, "y": 4, "z": 10, " ": 0
+      }
+
+      let words = ['freezer', 'jukebox']
+
+      // Write one function that takes a word and returns
+      // the point values of each letter as an array
+      function word2points(word) {
+        return word
+          .split('')
+          .map((l) => lettersPoints[l])
+      }
+
+      // Then use map to apply this function to the
+      // array of words above.
+      words.map(word2points)
+
+      // Write another function that takes an array
+      // of numbers and returns the total of these values
+      // e.g. [1, 2, 3] => 6
+      function score(points) {
+        let total = 0
+        points.forEach(pt => total += pt)
+        return total
+      }
+
+      words
+        .map(word2points)
+        .map(score)
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---

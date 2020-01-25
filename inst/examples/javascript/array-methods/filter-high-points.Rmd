@@ -1,0 +1,117 @@
+---
+pagetitle: Filter Tiles by Point Value
+example:
+  title: Filter Tiles by Point Value
+  instructions: |-
+    This time, we have an array of `tiles` and each tile has a `.letter` and `.points`.
+
+    How many possible points values are there in Scrabble?
+    Use `.map()` to get an array of all the point values
+    and then use `for ... of` loop to collect unique values into an array.
+
+    Finally, use filter to get the tiles with the 3 largest point values.
+  hint: 'You can check if a value is in an array `x` with the `.includes()` method:
+    e.g. `x.includes(4)`.'
+  runtime: repl_js
+  mode:
+    document: ~
+  initial:
+    js: |-
+      const tiles = [
+        {"letter": "a", "points": 1 },
+        {"letter": "b", "points": 3 },
+        {"letter": "c", "points": 3 },
+        {"letter": "d", "points": 2 },
+        {"letter": "e", "points": 1 },
+        {"letter": "f", "points": 4 },
+        {"letter": "g", "points": 2 },
+        {"letter": "h", "points": 4 },
+        {"letter": "i", "points": 1 },
+        {"letter": "j", "points": 8 },
+        {"letter": "k", "points": 5 },
+        {"letter": "l", "points": 1 },
+        {"letter": "m", "points": 3 },
+        {"letter": "n", "points": 1 },
+        {"letter": "o", "points": 1 },
+        {"letter": "p", "points": 3 },
+        {"letter": "q", "points": 10 },
+        {"letter": "r", "points": 1 },
+        {"letter": "s", "points": 1 },
+        {"letter": "t", "points": 1 },
+        {"letter": "u", "points": 1 },
+        {"letter": "v", "points": 4 },
+        {"letter": "w", "points": 4 },
+        {"letter": "x", "points": 8 },
+        {"letter": "y", "points": 4 },
+        {"letter": "z", "points": 10 },
+        {"letter": " ", "points": 0 }
+      ]
+
+
+      // Which letters have the highest points?
+      // Note that tiles is now an array of objects
+      // let allPoints = 
+
+      let possiblePoints = []
+      // for (_____) {
+      // ...
+      // }
+
+      possiblePoints
+
+      // Then filter tiles to have an array of just
+      // the top 3 largest point values
+    css: ~
+  solution:
+    js: |-
+      const tiles = [
+        {"letter": "a", "points": 1 },
+        {"letter": "b", "points": 3 },
+        {"letter": "c", "points": 3 },
+        {"letter": "d", "points": 2 },
+        {"letter": "e", "points": 1 },
+        {"letter": "f", "points": 4 },
+        {"letter": "g", "points": 2 },
+        {"letter": "h", "points": 4 },
+        {"letter": "i", "points": 1 },
+        {"letter": "j", "points": 8 },
+        {"letter": "k", "points": 5 },
+        {"letter": "l", "points": 1 },
+        {"letter": "m", "points": 3 },
+        {"letter": "n", "points": 1 },
+        {"letter": "o", "points": 1 },
+        {"letter": "p", "points": 3 },
+        {"letter": "q", "points": 10 },
+        {"letter": "r", "points": 1 },
+        {"letter": "s", "points": 1 },
+        {"letter": "t", "points": 1 },
+        {"letter": "u", "points": 1 },
+        {"letter": "v", "points": 4 },
+        {"letter": "w", "points": 4 },
+        {"letter": "x", "points": 8 },
+        {"letter": "y", "points": 4 },
+        {"letter": "z", "points": 10 },
+        {"letter": " ", "points": 0 }
+      ]
+
+
+      // Which letters have the highest points?
+      // Note that tiles is now an array of objects
+      let allPoints = tiles.map(tile => tile.points)
+
+      let possiblePoints = []
+      for (let pt of allPoints) {
+        if (!possiblePoints.includes(pt)) {
+          possiblePoints.push(pt)
+        }
+      }
+
+      possiblePoints
+
+      // Then filter tiles to have an array of just
+      // the top 3 largest point values
+      tiles.filter(tile => tile.points >= 5)
+    css: ~
+output: js4shiny::html_document_js4shiny
+
+---
