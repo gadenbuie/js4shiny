@@ -1,0 +1,89 @@
+---
+pagetitle: Event Bubbling with Animation!
+example:
+  title: Event Bubbling with Animation!
+  instructions: |-
+    I've attached an event listener to each of the elemnts in the tree:
+
+    - `#big`
+    - `#small`
+    - `#medium`
+    - and `#button`
+
+    Click the various areas to see the event bubbling in action.
+  runtime: repl
+  mode:
+    document: html
+  initial:
+    js: |-
+      const big = document.getElementById("big")
+      const medium = document.getElementById("medium")
+      const small = document.getElementById("small")
+      const btn = document.getElementById("btn");
+
+      function toggleAnimation(el, type = 'bounce') {
+        if (el.classList.contains(type)) {
+          el.classList.remove(type)
+        } else {
+          el.classList.add(type)
+          setTimeout(() => toggleAnimation(el, type), 1000)
+        }
+      }
+
+      [big, medium, small, btn]
+        .forEach(function(element) {
+          element.addEventListener('click', function(event) {
+            if (event.currentTarget.id === event.target.id) {
+              console.log(`-> ${event.target.id}`)
+              toggleAnimation(event.target)
+            } else {
+              console.log(`   click -> ${event.currentTarget.id}`)
+            }
+          })
+          console.log(`listening to click on #${element.id}`)
+        })
+    css: |-
+      #big {
+        padding: 3em;
+        background: #eaecee;
+      }
+
+      #medium {
+        padding: 2em;
+        background: #ecf8f4;
+      }
+
+      #small {
+        padding: 1em;
+        background: #bad4ed;
+      }
+
+      #medium:hover {
+        background: #e6fff7;
+      }
+
+      #small:hover {
+        background: #add3f7;
+      }
+
+      #big:hover {
+        background: #d9dadc;
+      }
+  solution:
+    js: ~
+    css: ~
+output:
+  js4shiny::html_document_js4shiny:
+    css: https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css
+    script: []
+
+---
+<div><!--for pandoc-->
+<div id="big" class="animated faster">
+  <div id="medium" class="animated faster">
+    <div id="small" class="animated faster">
+      <button id="btn" class="animated faster">Click Me!</button>
+    </div>
+  </div>
+</div>
+</div><!--for pandoc-->
