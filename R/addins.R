@@ -515,6 +515,41 @@ search_for_example_dir <- function(example) {
   }
 }
 
+repl_example_list <- function() {
+  fs::dir_ls(
+    js4shiny_file("examples"),
+    regexp = "registry.yml|Rmd$",
+    type = c("file"),
+    recurse = TRUE
+  ) %>%
+    purrr::map_dfr(function(path) {
+      this <- if (fs::path_file(path) == "registry.yml") {
+        info <- read_registry_yaml(path)
+        data.frame(
+          stringsAsFactors = FALSE,
+          slug = fs::path_file(fs::path_dir(path)),
+          type = info$type %||% "repl_example",
+          title = info$title %||% NA_character_,
+          description = info$description %||% NA_character_,
+          path = fs::path_dir(path)
+        )
+      } else {
+        info <- extract_yaml(path)$example
+        data.frame(
+          stringsAsFactors = FALSE,
+          slug = fs::path_file(path) %>% fs::path_ext_remove(),
+          type = "repl_example",
+          title = info$title %||% NA_character_,
+          description = info$description %||% NA_character_,
+          path = path
+        )
+      }
+      class(this) <- c("tbl_df", "tbl", "data.frame")
+      this
+    })
+}
+
+
 choose_examples <- function(
   ...,
   viewer = shiny::dialogViewer("js4shiny", height = 450)
