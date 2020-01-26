@@ -5,10 +5,10 @@ matrix:
   include:
     #- os: osx
     #  r: devel
-    - os: osx
-      r: release
-    - os: osx
-      r: oldrel
+    #- os: osx
+    #  r: release
+    #- os: osx
+    #  r: oldrel
     - os: linux
       r: devel
     - os: linux
