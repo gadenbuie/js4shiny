@@ -1,0 +1,6 @@
+title: js4shiny Drumkit Apps
+type: shiny-apps
+description: |
+  Shiny apps used in the drumkit project.
+  Does not include sound or image resources.
+  See http://bit.ly/js4shiny-drumkit for full details.

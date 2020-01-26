@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Drum Kit</title>
+  </head>
+
+  <body>
+    <!-- PUT SVG HERE -->
+
+    <!-- in-browser "console.log()" -->
+    <p>Hover group: <span id="hover-text"></span></p>
+    <p>Click item: <span id="click-text"></span></p>
+
+    <script>
+      function playDrum (snd) {
+        if (!Audio) return
+        const soundFile = `sounds/${snd}.mp3`
+        const sound = new Audio(soundFile)
+        if (sound) {
+          sound.play()
+        }
+      }
+
+      // Find drumkit, hoverText, and clickText elements
+      // const drumkit = document.getElementById() // ...
+
+      // Use the mouseover event to show the classlist
+      // of the element under the mouse.
+      // drumkit.//...
+
+      // listen for a click on an element in the drumkit
+      // then process the list of classes to determine
+      // which drum sound should be played.
+    </script>
+
+    <style type="text/css">
+      :root {
+        --black: #001427;
+        --gray: #888997;
+        --white: #e2e2e2;
+        --purple-dark: #383853;
+        --purple: #52528c;
+        --yellow: #f6e27f;
+        --orange: #f46036;
+      }
+
+      /* black stands, gray rims,
+       * purple sides, dark purple bottoms
+       * white kick drum, yellow cymbols
+       */
+
+      .stand {}
+      .rim {}
+      .drum-side {}
+      .drum-bottom {}
+      .kick:not(.drum-side) {}
+      .symbol {}
+
+      .stand:hover,
+      .snare:hover,
+      .hihat:hover,
+      .crash:hover,
+      #rim:hover .rimshot,
+      #kick:hover .kick,
+      #tom-large:hover .tom-large,
+      #tom-medium:hover .tom-medium,
+      #tom-small:hover .tom-small {
+        /* ... */
+      }
+    </style>
+  </body>
+</html>

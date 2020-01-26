@@ -1,0 +1,4 @@
+title: js4shiny Drumkit - With Resources
+type: shiny
+description: |
+  Shiny app with external resources configured (but not included)
