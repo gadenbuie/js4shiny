@@ -1,4 +1,4 @@
-# js4shiny
+# js4shiny <img src="man/figures/logo.png" align="right" />
 
 <!-- badges: start -->
 <!-- badges: end -->
