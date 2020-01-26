@@ -1,0 +1,4 @@
+title: Trigger an Animation - Setup
+type: shiny
+description: |
+  Setup the animation in CSS and connect the message handler
