@@ -1,0 +1,4 @@
+title: Shiny - Setting the Input Value
+type: shiny
+description: |
+  A simple example to see how easy it is to send data from the browser back to Shiny
