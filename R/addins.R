@@ -528,6 +528,7 @@ repl_example_list <- function() {
         data.frame(
           stringsAsFactors = FALSE,
           slug = fs::path_file(fs::path_dir(path)),
+          kind = "group",
           type = info$type %||% "repl_example",
           title = info$title %||% NA_character_,
           description = info$description %||% NA_character_,
@@ -538,6 +539,7 @@ repl_example_list <- function() {
         data.frame(
           stringsAsFactors = FALSE,
           slug = fs::path_file(path) %>% fs::path_ext_remove(),
+          kind = "single",
           type = "repl_example",
           title = info$title %||% NA_character_,
           description = info$description %||% NA_character_,
