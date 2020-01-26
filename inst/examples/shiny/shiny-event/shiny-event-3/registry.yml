@@ -1,0 +1,4 @@
+title: Events in Shiny - Add Plot Loader
+type: shiny
+description: |
+  Replace the plot with an animated loading icon while the task is running

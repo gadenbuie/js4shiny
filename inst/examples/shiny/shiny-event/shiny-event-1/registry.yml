@@ -1,0 +1,4 @@
+title: Events in Shiny - Starter
+type: shiny
+description: |
+  Disable the run button for a long-running task

@@ -1,0 +1,54 @@
+#plot-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+@keyframes heartbeat {
+  0% {
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  14% {
+    -moz-transform: scale(1.3);
+    -ms-transform: scale(1.3);
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+  }
+
+  28% {
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  42% {
+    -moz-transform: scale(1.3);
+    -ms-transform: scale(1.3);
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+  }
+
+  70% {
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+.heartbeat-loader {
+  -moz-animation: heartbeat 1300ms ease 0s infinite normal;
+  -webkit-animation: heartbeat 1300ms ease 0s infinite normal;
+  animation: heartbeat 1300ms ease 0s infinite normal;
+  background-image: url('figures/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 120px;
+  height: 139px;
+}

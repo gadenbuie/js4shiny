@@ -1,0 +1,4 @@
+title: Events in Shiny - Button Spinner
+type: shiny
+description: |
+  Add a spinning icon to the button while the task is running

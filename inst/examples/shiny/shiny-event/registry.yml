@@ -1,0 +1,4 @@
+title: Events in Shiny
+type: shiny-apps
+description: |
+  Examples that use Shiny's output events

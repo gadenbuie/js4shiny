@@ -1,0 +1,4 @@
+title: Events in Shiny - Final
+type: shiny
+description: |
+  A demo using Shiny's "relcalcuating" and "value" output events
