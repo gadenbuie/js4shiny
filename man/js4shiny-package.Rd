@@ -6,6 +6,8 @@
 \alias{js4shiny-package}
 \title{js4shiny: Companion Package for JavaScript for Shiny Users}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 Companion Package for JavaScript for Shiny Users.
 }
 \seealso{
