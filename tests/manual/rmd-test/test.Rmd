@@ -3,7 +3,7 @@ output: js4shiny::html_document_js
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(js_lint = TRUE)
+knitr::opts_chunk$set(js_lint = FALSE)
 js4shiny::register_knitr_output_hooks()
 ```
 

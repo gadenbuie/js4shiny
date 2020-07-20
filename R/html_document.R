@@ -1,7 +1,7 @@
 #' An HTML Document with Support for Literate JavaScript Programming
 #'
 #' @description An R Markdown format for literate JavaScript programming. With
-#' default settings, each JavaScript chunk is run in it's own environment and
+#' default settings, each JavaScript chunk is run in its own environment and
 #' any output written with `console.log()` is inserted in the HTML document as
 #' the code runs. In this setting, the JavaScript is rendered directly in the
 #' browser at view time.

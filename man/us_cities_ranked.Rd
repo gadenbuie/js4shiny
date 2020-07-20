@@ -4,7 +4,8 @@
 \name{us_cities_ranked}
 \alias{us_cities_ranked}
 \title{125 US Cities Ranked, 2019}
-\format{A data frame with 125 rows and 26 variables:
+\format{
+A data frame with 125 rows and 26 variables:
 \describe{
 \item{\code{us_news_rank}}{integer. Ranking by U.S. News}
 \item{\code{city}}{character. City name}
@@ -32,7 +33,8 @@
 \item{\code{lat_max}}{double. Latitude maximum bounding box of metro area}
 \item{\code{lon_min}}{double. Longitude minimum bounding box of metro area}
 \item{\code{lon_max}}{double. Longitude maximum bounding box of metro area}
-}}
+}
+}
 \usage{
 us_cities_ranked
 }

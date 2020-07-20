@@ -4,12 +4,14 @@
 \name{first_sentences}
 \alias{first_sentences}
 \title{First Sentences of Books}
-\format{A data frame with 40 rows and 3 variables:
+\format{
+A data frame with 40 rows and 3 variables:
 \describe{
 \item{\code{quote}}{The first sentence of the book}
 \item{\code{title}}{The title of the book}
 \item{\code{author}}{The author of the book}
-}}
+}
+}
 \usage{
 first_sentences
 }

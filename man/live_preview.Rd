@@ -27,7 +27,7 @@ extensions will update the preview: \code{.Rmd} (case insensitive), \code{.html}
 \code{.htm}, \code{.js}, \code{.css}, \code{.sass}, \code{.scss}.}
 
 \item{...}{
-  Arguments passed on to \code{\link[servr:httw]{servr::httw}}
+  Arguments passed on to \code{\link[servr:httd]{servr::httw}}
   \describe{
     \item{\code{dir}}{The root directory to serve.}
     \item{\code{watch}}{a directory under which \code{httw()} is to watch for changes;
@@ -55,7 +55,7 @@ existing servers in the current R session obtained from
 \code{daemon_list()}, i.e., all daemon servers will be stopped by default.}
 }
 \value{
-Invisibly returns the \code{\link[servr:httw]{servr::httw()}} object, so that you can
+Invisibly returns the \code{\link[servr:httd]{servr::httw()}} object, so that you can
 manually stop the server with the \verb{$stop_server()} method.
 }
 \description{
@@ -68,7 +68,7 @@ functionality requires the \pkg{servr} package.
 \section{Functions}{
 \itemize{
 \item \code{live_preview_stop}: Stop the live preview background daemons. See
-\code{\link[servr:daemon_list]{servr::daemon_list()}} for more information.
+\code{\link[servr:daemon_stop]{servr::daemon_list()}} for more information.
 }}
 
 \section{RStudio Addins}{
