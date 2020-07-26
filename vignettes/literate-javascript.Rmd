@@ -1,0 +1,235 @@
+---
+title: "Literate JavaScript Programming"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Literate JavaScript Programming}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{css echo=FALSE}
+div > pre:empty {
+  display: none;
+}
+```
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+js4shiny::register_knitr_js_engine()
+htmltools::tagList(js4shiny::html_dependency_js4shiny(stylize = "none"))
+```
+
+
+This package includes several components that enable the use of R Markdown for literate programming with JavaScript. The first of these is the R Markdown HTML format, `js4shiny::html_document_js()`.
+
+````markdown
+---
+output: js4shiny::html_document_js
+---
+````
+
+## Introducing `html_document_js`
+
+This creates an R Markdown document that renders HTML, 
+with a new JavaScript engine that, 
+when used with the default settings,
+runs each JavaScript chunk in the browser
+and write the output of `console.log()`, or the return value,
+into the HTML document as the code runs.
+
+In other words, JavaScript chunks look a lot like R chunks.
+Here's a standard R chunk.
+
+```{r}
+mean(runif(100))
+```
+
+And here's a JavaScript chunk.
+
+```{js}
+let x = 10
+console.log("multiplying x times 10...")
+x * 20
+```
+
+When the document is viewed in a browser, 
+each JavaScript chunk is evaluated in its own block scope 
+and the return value of the block is automatically printed to the chunk's output `<div>`,
+unless that value is `undefined`.
+
+The last statement in a chunk doesn't need `console.log()` to be output.
+This makes it easier to show results of code
+without requiring numerous `console.log()` statements.
+
+```{js}
+const x = 10
+x * 4 + 2
+```
+
+```{js}
+true && false
+```
+
+## Scoping JavaScript Chunks
+
+Because each chunk is block-scoped,
+variables created in one block may not be available to other chunks.
+However, you can create global chunks by temporarily disabling the console redirect
+by adding the `js_redirect = FALSE` to the chunk that you would like to be evaluated in the global scope.
+This option disables the `console.log()` redirect 
+and uses the standard JavaScript engine included in the `knitr` package. 
+Logged statements will still be available in the browser's developer tools console, 
+and variables created in the global scope are thereafter available to all chunks.
+
+````
+```{js, js_redirect = FALSE}`r ''`
+let globalVariable = 'this is a global variable'
+console.log(globalVariable) // goes to browser console
+```
+
+```{js}`r ''`
+console.log(globalVariable) // outputs in document
+```
+````
+
+## Using the Output `<div>`
+
+The live JavaScript chunks are written in to the document as a `<div>` and `<script>` pair.
+For a chunk like the following
+
+````
+```{js hello-world}`r ''`
+document.getElementById('out-simple-redirect').innerHTML = 'Hello, world!'
+```
+````
+
+the following HTML is included in the output.
+
+````html
+<div id="out-hello-world"><pre></pre></div>
+<script type="text/javascript">
+// the javascript from the current chunk
+</script>
+````
+
+This means that if your JavaScript chunk needs a dedicated element on the page
+to use for writing the output, you can look for the element with id
+`out-<chunk-name-here>` (non-alphanumeric characters in the chunk name are replaced with `_`).
+This element exists _before_ the JavaScript is called —
+so you can always know that it's available for use —
+but after the static code chunk is printed.
+This is 
+[particularly useful](https://livefreeordichotomize.com/2017/01/24/custom-javascript-visualizations-in-rmarkdown/)
+if your JavaScript chunks are demonstrating 
+[d3.js visualizations](https://d3js.org/).
+
+```{js hello-world}
+document.getElementById('out-hello-world').innerHTML = '<p><em>Hello, world!</em></p>'
+```
+
+## Interactive Documents
+
+There are a lot of interesting things you can do
+when you blend your JavaScript and HTML together.
+For instance,
+you've clicked the button below
+<span id="n_btn_clicks">zero times</span>.
+Go ahead and click it<span id="click-again"></span>.
+
+<button type="button" id="click-me" value=0>Click Me</button>
+
+```{js}
+const btn = document.getElementById('click-me')
+btn.addEventListener('click', function() {
+  const val = ++btn.value
+  btn.value = val
+  if (val > 9) console.log("Okay, that's enough!")
+  
+  const text = document.getElementById('n_btn_clicks')
+  text.textContent = val === 1 ? '1 time' : `${val} times`
+  
+  const txtCTA = document.getElementById('click-again')
+  txtCTA.textContent = ' again'
+})
+```
+
+## Other `console` methods
+
+You can also use other JavaScript `console` methods, like `console.table()`.
+
+```{js people-js}
+const p1 = {first: 'Colin', last: 'Fay', country: 'France', twitter: '@_ColinFay'}
+const p2 = {first: 'Garrick', last: 'Aden-Buie', country: 'USA', twitter: '@grrrck'}
+
+console.table(p1)
+console.table(p2)
+```
+
+```{js echo=FALSE}
+[...document.querySelectorAll('#out-people-js table')]
+  .forEach(el => el.classList.add('table'))
+```
+
+## Rendered JSON Chunks
+
+But if you want to visualize JSON,
+**js4shiny** also provides a JSON knitr engine.
+This next chunk is a JSON chunk named `people` that renders as an interactive list.
+
+````
+```{json people}`r ''`
+[
+  {
+    "first":"Colin",
+    "last":"Fay",
+    "country":"France",
+    "twitter":"@_ColinFay"
+  },
+  {
+    "first":"Garrick",
+    "last":"Aden-Buie",
+    "country":"USA",
+    "twitter":"@grrrck"
+  }
+] 
+```
+````
+
+```{json people, echo=FALSE}
+[
+  {
+    "first":"Colin",
+    "last":"Fay",
+    "country":"France",
+    "twitter":"@_ColinFay"
+  },
+  {
+    "first":"Garrick",
+    "last":"Aden-Buie",
+    "country":"USA",
+    "twitter":"@grrrck"
+  }
+] 
+```
+
+And the data from the JSON becomes a global variable named `data_<chunk_name>`,
+or in this case `data_people`.
+
+```{js}
+data_people.forEach(({first, last, twitter}) => {
+  console.log(`- ${first} ${last} (${twitter})`)
+})
+```
+
+## HTML Chunks
+
+Finally, `js4shiny::html_document_js` also provides an HTML knitr engine.
+This is useful when you want the code of the HTML itself to appear in the document,
+in addition to the HTML output.
+
+```{html}
+<p style="color: #dc322f">This text is red, right?</p>
+```

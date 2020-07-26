@@ -39,6 +39,8 @@ Suggests:
     testthat (>= 2.1.0),
     usethis,
     xaringan
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
