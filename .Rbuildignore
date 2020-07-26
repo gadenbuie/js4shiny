@@ -14,3 +14,5 @@
 ^appveyor.yml$
 ^pkgdown$
 ^docs$
+^\.ccache$
+^\.github$
