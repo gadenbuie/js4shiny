@@ -119,37 +119,33 @@
 div > pre:empty {
   display: none;
 }
+
+h1 code, h2 code, h3 code {
+  background: none;
+  color: currentColor;
+}
 </style>
 <p>This package includes several components that enable the use of R Markdown for literate programming with JavaScript. The first of these is the R Markdown HTML format, <code><a href="../reference/html_document_js.html">js4shiny::html_document_js()</a></code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a>---</span>
 <span id="cb1-2"><a href="#cb1-2"></a>output: js4shiny::html_document_js</span>
 <span id="cb1-3"><a href="#cb1-3"></a>---</span></code></pre></div>
+<p>Alternatively, you can override the <code>js</code> knitr chunk engine of any HTML-based R Markdown format. This function also registers <a href="#json-knitr-engine">json</a> and <a href="#html-knitr-engine">html</a> knitr engines.</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw pkg">js4shiny</span><span class="kw ns">::</span><span class="fu"><a href="../reference/register_knitr.html">register_knitr_js_engine</a></span>()</pre></body></html></div>
 <div id="introducing-html_document_js" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introducing-html_document_js" class="anchor"></a>Introducing <code>html_document_js</code>
 </h2>
-<p>This creates an R Markdown document that renders HTML, with a new JavaScript engine that, when used with the default settings, runs each JavaScript chunk in the browser and write the output of <code>console.log()</code>, or the return value, into the HTML document as the code runs.</p>
-<p>In other words, JavaScript chunks look a lot like R chunks. Here’s a standard R chunk.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="fl">100</span>))
-<span class="co">#&gt; [1] 0.5078166</span></pre></body></html></div>
+<p>The <code>html_document_js</code> renders R Markdown to HTML and uses a new JavaScript knitr engine that runs each JavaScript chunk in the browser and writes the output of any <code>console.log()</code>, or the return value of the chunk, into the HTML document, interactively in the browser.</p>
+<p>In other words, it renders JavaScript chunks that kind of like R chunks. Here’s a standard R chunk.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">x</span> <span class="kw">&lt;-</span> <span class="fl">10</span>
+<span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span>(<span class="st">"multiplying x times 20..."</span>)
+<span class="co">#&gt; multiplying x times 20...</span>
+<span class="no">x</span> * <span class="fl">20</span>
+<span class="co">#&gt; [1] 200</span></pre></body></html></div>
 <p>And here’s a JavaScript chunk.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">let</span> x <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="va">console</span>.<span class="at">log</span>(<span class="st">"multiplying x times 10..."</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>x <span class="op">*</span> <span class="dv">20</span></span></code></pre></div>
-<div id="out-unnamed-chunk-4">
-<pre></pre>
-</div>
-<script type="text/javascript">
-const log_out_unnamed_chunk_4 = redirectLogger(document.querySelector("#out-unnamed-chunk-4 > pre"))
-document.addEventListener("DOMContentLoaded", function() {
-log_out_unnamed_chunk_4(`let x = 10
-console.log("multiplying x times 10...")
-x * 20`)
-})
-</script><p>When the document is viewed in a browser, each JavaScript chunk is evaluated in its own block scope and the return value of the block is automatically printed to the chunk’s output <code>&lt;div&gt;</code>, unless that value is <code>undefined</code>.</p>
-<p>The last statement in a chunk doesn’t need <code>console.log()</code> to be output. This makes it easier to show results of code without requiring numerous <code>console.log()</code> statements.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">const</span> x <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>x <span class="op">*</span> <span class="dv">4</span> <span class="op">+</span> <span class="dv">2</span></span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="va">console</span>.<span class="at">log</span>(<span class="st">"multiplying x times 20..."</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a>x <span class="op">*</span> <span class="dv">20</span></span></code></pre></div>
 <div id="out-unnamed-chunk-5">
 <pre></pre>
 </div>
@@ -157,9 +153,12 @@ x * 20`)
 const log_out_unnamed_chunk_5 = redirectLogger(document.querySelector("#out-unnamed-chunk-5 > pre"))
 document.addEventListener("DOMContentLoaded", function() {
 log_out_unnamed_chunk_5(`const x = 10
-x * 4 + 2`)
+console.log("multiplying x times 20...")
+x * 20`)
 })
-</script><div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">true</span> <span class="op">&amp;&amp;</span> <span class="kw">false</span></span></code></pre></div>
+</script><p>When the document is viewed in a browser, each JavaScript chunk is evaluated in its own block scope and the return value of the block is automatically printed to the chunk’s output <code>&lt;div&gt;</code>, unless that value is <code>undefined</code>.</p>
+<p>The last statement in a chunk doesn’t need <code>console.log()</code> to be output. This makes it easier to show results of code without requiring numerous <code>console.log()</code> statements.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">true</span> <span class="op">&amp;&amp;</span> <span class="kw">false</span></span></code></pre></div>
 <div id="out-unnamed-chunk-6">
 <pre></pre>
 </div>
@@ -168,12 +167,69 @@ const log_out_unnamed_chunk_6 = redirectLogger(document.querySelector("#out-unna
 document.addEventListener("DOMContentLoaded", function() {
 log_out_unnamed_chunk_6(`true && false`)
 })
-</script>
+</script><div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">let</span> x <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>x <span class="op">=</span> x <span class="op">*</span> <span class="dv">4</span> <span class="op">-</span> <span class="dv">6</span></span></code></pre></div>
+<div id="out-unnamed-chunk-7">
+<pre></pre>
+</div>
+<script type="text/javascript">
+const log_out_unnamed_chunk_7 = redirectLogger(document.querySelector("#out-unnamed-chunk-7 > pre"))
+document.addEventListener("DOMContentLoaded", function() {
+log_out_unnamed_chunk_7(`let x = 12
+x = x * 4 - 6`)
+})
+</script><p>There are a few differences between R chunks and JavaScript chunks. The first is that JavaScript results are always grouped together in the output code block, whereas output from R chunks is printed after the expression causing the output.</p>
+<p>The second difference is that R chunks build upon previous chunks; each R chunk is executed in the same environment and the results from each chunk are available to subsequent chunks. The JavaScript chunks, on the other hand, are each executed in a separate block scope, so the result of one chunk aren’t necessarily available for later code. I’ll expand on this briefly in the next section.</p>
 </div>
 <div id="scoping-javascript-chunks" class="section level2">
 <h2 class="hasAnchor">
 <a href="#scoping-javascript-chunks" class="anchor"></a>Scoping JavaScript Chunks</h2>
-<p>Because each chunk is block-scoped, variables created in one block may not be available to other chunks. However, you can create global chunks by temporarily disabling the console redirect by adding the <code>js_redirect = FALSE</code> to the chunk that you would like to be evaluated in the global scope. This option disables the <code>console.log()</code> redirect and uses the standard JavaScript engine included in the <code>knitr</code> package. Logged statements will still be available in the browser’s developer tools console, and variables created in the global scope are thereafter available to all chunks.</p>
+<p>Because each chunk is block-scoped, variables created in one block may not be available to other chunks. Notice that if I try to access <code>x</code> from the previous JavaScript chunk, where <code>x</code> is eventually assigned <code>42</code>, I get an error that <code>x</code> is not defined.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1"></a>x</span></code></pre></div>
+<div id="out-unnamed-chunk-8">
+<pre></pre>
+</div>
+<script type="text/javascript">
+const log_out_unnamed_chunk_8 = redirectLogger(document.querySelector("#out-unnamed-chunk-8 > pre"))
+document.addEventListener("DOMContentLoaded", function() {
+log_out_unnamed_chunk_8(`x`)
+})
+</script><p>Because variables in JavaScript need to be declared with <code>let</code>, <code>const</code>, or <code>var</code>, this may be preferred to executing everything in a shared environment. For example, in the first JavaScript chunk in this vignette, I declared <code>const x = 10</code>, but in a later chunk I declared <code>const x = 12</code>.</p>
+<p>If you want to create global variables, you have two options. First, you can assign your variable as a property of <a href="https://javascript.info/global-object">globalThis</a>, a recent addition to JavaScript that’s available in about <a href="https://caniuse.com/#search=globalThis">90% of browsers</a>. (You could also assign to <code>window</code> instead of <code>globalThis</code>.)</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1"></a><span class="va">globalThis</span>.<span class="at">x</span> <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>x <span class="op">=</span> x <span class="op">*</span> <span class="dv">4</span> <span class="op">-</span> <span class="dv">6</span></span></code></pre></div>
+<div id="out-unnamed-chunk-9">
+<pre></pre>
+</div>
+<script type="text/javascript">
+const log_out_unnamed_chunk_9 = redirectLogger(document.querySelector("#out-unnamed-chunk-9 > pre"))
+document.addEventListener("DOMContentLoaded", function() {
+log_out_unnamed_chunk_9(`globalThis.x = 12
+x = x * 4 - 6`)
+})
+</script><p>If you try to access <code>x</code> in another chunk, you’ll get the global <code>x</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1"></a>x</span></code></pre></div>
+<div id="out-unnamed-chunk-10">
+<pre></pre>
+</div>
+<script type="text/javascript">
+const log_out_unnamed_chunk_10 = redirectLogger(document.querySelector("#out-unnamed-chunk-10 > pre"))
+document.addEventListener("DOMContentLoaded", function() {
+log_out_unnamed_chunk_10(`x`)
+})
+</script><p>but you can still create local variables that mask global variables.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">const</span> x <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>x</span></code></pre></div>
+<div id="out-unnamed-chunk-11">
+<pre></pre>
+</div>
+<script type="text/javascript">
+const log_out_unnamed_chunk_11 = redirectLogger(document.querySelector("#out-unnamed-chunk-11 > pre"))
+document.addEventListener("DOMContentLoaded", function() {
+log_out_unnamed_chunk_11(`const x = 12
+x`)
+})
+</script><p>Alternatively, the entire chunk can be evaluated globally by temporarily disabling the console redirect. Add <code>js_redirect = FALSE</code> to the chunk that you would like to be evaluated in the global scope. These chunks use the standard <code>js</code> knitr engine, that simply embeds the <code>js</code> code in a <code>&lt;script&gt;</code> tag in your output. With this option, <code>console.log()</code> output will not appear <em>in the document</em>, but logged statements will still be available in the browser’s developer tools console. Helpfully, though, variables created in these chunks are assigned in the global scope are thereafter available to all chunks.</p>
 <pre><code>```{js, js_redirect = FALSE}
 let globalVariable = 'this is a global variable'
 console.log(globalVariable) // goes to browser console
@@ -192,12 +248,14 @@ console.log(globalVariable) // outputs in document
 document.getElementById('out-simple-redirect').innerHTML = 'Hello, world!'
 ```</code></pre>
 <p>the following HTML is included in the output.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">"out-hello-world"</span><span class="kw">&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/div&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">"text/javascript"</span><span class="kw">&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co">// the javascript from the current chunk</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">&lt;/script&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">"out-hello-world"</span><span class="kw">&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="kw">&lt;pre&gt;</span><span class="co">&lt;!-- output statements will appear here --&gt;</span><span class="kw">&lt;/pre&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="kw">&lt;script</span><span class="ot"> type=</span><span class="st">"text/javascript"</span><span class="kw">&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="co">// the javascript from the current chunk</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="kw">&lt;/script&gt;</span></span></code></pre></div>
 <p>This means that if your JavaScript chunk needs a dedicated element on the page to use for writing the output, you can look for the element with id <code>out-&lt;chunk-name-here&gt;</code> (non-alphanumeric characters in the chunk name are replaced with <code>_</code>). This element exists <em>before</em> the JavaScript is called — so you can always know that it’s available for use — but after the static code chunk is printed. This is <a href="https://livefreeordichotomize.com/2017/01/24/custom-javascript-visualizations-in-rmarkdown/">particularly useful</a> if your JavaScript chunks are demonstrating <a href="https://d3js.org/">d3.js visualizations</a>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1"></a><span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">'out-hello-world'</span>).<span class="at">innerHTML</span> <span class="op">=</span> <span class="st">'&lt;p&gt;&lt;em&gt;Hello, world!&lt;/em&gt;&lt;/p&gt;'</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1"></a><span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">'out-hello-world'</span>).<span class="at">innerHTML</span> <span class="op">=</span> <span class="st">'&lt;p&gt;&lt;em&gt;Hello, world!&lt;/em&gt;&lt;/p&gt;'</span></span></code></pre></div>
 <div id="out-hello-world">
 <pre></pre>
 </div>
@@ -212,28 +270,32 @@ log_out_hello_world(`document.getElementById('out-hello-world').innerHTML = '<p>
 <h2 class="hasAnchor">
 <a href="#interactive-documents" class="anchor"></a>Interactive Documents</h2>
 <p>There are a lot of interesting things you can do when you blend your JavaScript and HTML together. For instance, you’ve clicked the button below <span id="n_btn_clicks">zero times</span>. Go ahead and click it<span id="click-again"></span>.</p>
+<p>
 <button type="button" id="click-me" value="0">
 Click Me
 </button>
-<div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">const</span> btn <span class="op">=</span> <span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">'click-me'</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="va">btn</span>.<span class="at">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> <span class="kw">function</span>() <span class="op">{</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="kw">const</span> val <span class="op">=</span> <span class="op">++</span><span class="va">btn</span>.<span class="at">value</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a>  <span class="va">btn</span>.<span class="at">value</span> <span class="op">=</span> val</span>
-<span id="cb10-5"><a href="#cb10-5"></a>  <span class="cf">if</span> (val <span class="op">&gt;</span> <span class="dv">9</span>) <span class="va">console</span>.<span class="at">log</span>(<span class="st">"Okay, that's enough!"</span>)</span>
-<span id="cb10-6"><a href="#cb10-6"></a>  </span>
-<span id="cb10-7"><a href="#cb10-7"></a>  <span class="kw">const</span> text <span class="op">=</span> <span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">'n_btn_clicks'</span>)</span>
-<span id="cb10-8"><a href="#cb10-8"></a>  <span class="va">text</span>.<span class="at">textContent</span> <span class="op">=</span> val <span class="op">===</span> <span class="dv">1</span> <span class="op">?</span> <span class="st">'1 time'</span> : <span class="vs">`</span><span class="sc">${</span>val<span class="sc">}</span><span class="vs"> times`</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a>  </span>
-<span id="cb10-10"><a href="#cb10-10"></a>  <span class="kw">const</span> txtCTA <span class="op">=</span> <span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">'click-again'</span>)</span>
-<span id="cb10-11"><a href="#cb10-11"></a>  <span class="va">txtCTA</span>.<span class="at">textContent</span> <span class="op">=</span> <span class="st">' again'</span></span>
-<span id="cb10-12"><a href="#cb10-12"></a><span class="op">}</span>)</span></code></pre></div>
-<div id="out-unnamed-chunk-7">
+</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">const</span> btn <span class="op">=</span> <span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">'click-me'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="va">btn</span>.<span class="at">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> <span class="kw">function</span>() <span class="op">{</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>  <span class="kw">const</span> val <span class="op">=</span> <span class="op">++</span><span class="va">btn</span>.<span class="at">value</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>  <span class="va">btn</span>.<span class="at">value</span> <span class="op">=</span> val</span>
+<span id="cb15-5"><a href="#cb15-5"></a>  <span class="cf">if</span> (val <span class="op">&gt;</span> <span class="dv">9</span>) <span class="va">console</span>.<span class="at">log</span>(<span class="st">"Okay, that's enough!"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6"></a>  </span>
+<span id="cb15-7"><a href="#cb15-7"></a>  <span class="kw">const</span> text <span class="op">=</span> <span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">'n_btn_clicks'</span>)</span>
+<span id="cb15-8"><a href="#cb15-8"></a>  <span class="va">text</span>.<span class="at">textContent</span> <span class="op">=</span> val <span class="op">===</span> <span class="dv">1</span> <span class="op">?</span> <span class="st">'1 time'</span> : <span class="vs">`</span><span class="sc">${</span>val<span class="sc">}</span><span class="vs"> times`</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a>  </span>
+<span id="cb15-10"><a href="#cb15-10"></a>  <span class="cf">if</span> (val <span class="op">===</span> <span class="dv">1</span>) <span class="op">{</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a>    <span class="kw">const</span> txtCTA <span class="op">=</span> <span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">'click-again'</span>)</span>
+<span id="cb15-12"><a href="#cb15-12"></a>    <span class="va">txtCTA</span>.<span class="at">textContent</span> <span class="op">=</span> <span class="st">' again'</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a>  <span class="op">}</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="op">}</span>)</span></code></pre></div>
+<div id="out-unnamed-chunk-12">
 <pre></pre>
 </div>
 <script type="text/javascript">
-const log_out_unnamed_chunk_7 = redirectLogger(document.querySelector("#out-unnamed-chunk-7 > pre"))
+const log_out_unnamed_chunk_12 = redirectLogger(document.querySelector("#out-unnamed-chunk-12 > pre"))
 document.addEventListener("DOMContentLoaded", function() {
-log_out_unnamed_chunk_7(`const btn = document.getElementById('click-me')
+log_out_unnamed_chunk_12(`const btn = document.getElementById('click-me')
 btn.addEventListener('click', function() {
   const val = ++btn.value
   btn.value = val
@@ -242,8 +304,10 @@ btn.addEventListener('click', function() {
   const text = document.getElementById('n_btn_clicks')
   text.textContent = val === 1 ? '1 time' : \`\${val} times\`
   
-  const txtCTA = document.getElementById('click-again')
-  txtCTA.textContent = ' again'
+  if (val === 1) {
+    const txtCTA = document.getElementById('click-again')
+    txtCTA.textContent = ' again'
+  }
 })`)
 })
 </script>
@@ -252,11 +316,11 @@ btn.addEventListener('click', function() {
 <h2 class="hasAnchor">
 <a href="#other-console-methods" class="anchor"></a>Other <code>console</code> methods</h2>
 <p>You can also use other JavaScript <code>console</code> methods, like <code>console.table()</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">const</span> p1 <span class="op">=</span> <span class="op">{</span><span class="dt">first</span><span class="op">:</span> <span class="st">'Colin'</span><span class="op">,</span> <span class="dt">last</span><span class="op">:</span> <span class="st">'Fay'</span><span class="op">,</span> <span class="dt">country</span><span class="op">:</span> <span class="st">'France'</span><span class="op">,</span> <span class="dt">twitter</span><span class="op">:</span> <span class="st">'@_ColinFay'</span><span class="op">}</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="kw">const</span> p2 <span class="op">=</span> <span class="op">{</span><span class="dt">first</span><span class="op">:</span> <span class="st">'Garrick'</span><span class="op">,</span> <span class="dt">last</span><span class="op">:</span> <span class="st">'Aden-Buie'</span><span class="op">,</span> <span class="dt">country</span><span class="op">:</span> <span class="st">'USA'</span><span class="op">,</span> <span class="dt">twitter</span><span class="op">:</span> <span class="st">'@grrrck'</span><span class="op">}</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="va">console</span>.<span class="at">table</span>(p1)</span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="va">console</span>.<span class="at">table</span>(p2)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">const</span> p1 <span class="op">=</span> <span class="op">{</span><span class="dt">first</span><span class="op">:</span> <span class="st">'Colin'</span><span class="op">,</span> <span class="dt">last</span><span class="op">:</span> <span class="st">'Fay'</span><span class="op">,</span> <span class="dt">country</span><span class="op">:</span> <span class="st">'France'</span><span class="op">,</span> <span class="dt">twitter</span><span class="op">:</span> <span class="st">'@_ColinFay'</span><span class="op">}</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="kw">const</span> p2 <span class="op">=</span> <span class="op">{</span><span class="dt">first</span><span class="op">:</span> <span class="st">'Garrick'</span><span class="op">,</span> <span class="dt">last</span><span class="op">:</span> <span class="st">'Aden-Buie'</span><span class="op">,</span> <span class="dt">country</span><span class="op">:</span> <span class="st">'USA'</span><span class="op">,</span> <span class="dt">twitter</span><span class="op">:</span> <span class="st">'@grrrck'</span><span class="op">}</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="va">console</span>.<span class="at">table</span>(p1)</span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="va">console</span>.<span class="at">table</span>(p2)</span></code></pre></div>
 <div id="out-people-js">
 <pre></pre>
 </div>
@@ -269,21 +333,21 @@ const p2 = {first: 'Garrick', last: 'Aden-Buie', country: 'USA', twitter: '@grrr
 console.table(p1)
 console.table(p2)`)
 })
-</script><div id="out-unnamed-chunk-8">
+</script><div id="out-unnamed-chunk-13">
 <pre></pre>
 </div>
 <script type="text/javascript">
-const log_out_unnamed_chunk_8 = redirectLogger(document.querySelector("#out-unnamed-chunk-8 > pre"))
+const log_out_unnamed_chunk_13 = redirectLogger(document.querySelector("#out-unnamed-chunk-13 > pre"))
 document.addEventListener("DOMContentLoaded", function() {
-log_out_unnamed_chunk_8(`[...document.querySelectorAll('#out-people-js table')]
+log_out_unnamed_chunk_13(`[...document.querySelectorAll('#out-people-js table')]
   .forEach(el => el.classList.add('table'))`)
 })
 </script>
 </div>
-<div id="rendered-json-chunks" class="section level2">
+<div id="json-knitr-engine" class="section level2">
 <h2 class="hasAnchor">
-<a href="#rendered-json-chunks" class="anchor"></a>Rendered JSON Chunks</h2>
-<p>But if you want to visualize JSON, <strong>js4shiny</strong> also provides a JSON knitr engine. This next chunk is a JSON chunk named <code>people</code> that renders as an interactive list.</p>
+<a href="#json-knitr-engine" class="anchor"></a>JSON Chunks</h2>
+<p>If you want to visualize or use JSON-formatted data in your document, <strong>js4shiny</strong> also provides a <code>json</code> knitr engine. This next chunk is a JSON chunk named <code>people</code> that renders as an interactive list.</p>
 <pre><code>```{json people}
 [
   {
@@ -322,27 +386,27 @@ document.addEventListener('DOMContentLoaded', function() {
   window.jsonView.format(data_people, '#json-people')
 })
 </script><p>And the data from the JSON becomes a global variable named <code>data_&lt;chunk_name&gt;</code>, or in this case <code>data_people</code>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1"></a><span class="va">data_people</span>.<span class="at">forEach</span>((<span class="op">{</span>first<span class="op">,</span> last<span class="op">,</span> twitter<span class="op">}</span>) <span class="kw">=&gt;</span> <span class="op">{</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>  <span class="va">console</span>.<span class="at">log</span>(<span class="vs">`- </span><span class="sc">${</span>first<span class="sc">}</span><span class="vs"> </span><span class="sc">${</span>last<span class="sc">}</span><span class="vs"> (</span><span class="sc">${</span>twitter<span class="sc">}</span><span class="vs">)`</span>)</span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="op">}</span>)</span></code></pre></div>
-<div id="out-unnamed-chunk-9">
+<div class="sourceCode" id="cb18"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1"></a><span class="va">data_people</span>.<span class="at">forEach</span>(<span class="kw">function</span> (<span class="op">{</span>first<span class="op">,</span> last<span class="op">,</span> twitter<span class="op">}</span>) <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>  <span class="va">console</span>.<span class="at">log</span>(<span class="vs">`- </span><span class="sc">${</span>first<span class="sc">}</span><span class="vs"> </span><span class="sc">${</span>last<span class="sc">}</span><span class="vs"> (</span><span class="sc">${</span>twitter<span class="sc">}</span><span class="vs">)`</span>)</span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="op">}</span>)</span></code></pre></div>
+<div id="out-unnamed-chunk-14">
 <pre></pre>
 </div>
 <script type="text/javascript">
-const log_out_unnamed_chunk_9 = redirectLogger(document.querySelector("#out-unnamed-chunk-9 > pre"))
+const log_out_unnamed_chunk_14 = redirectLogger(document.querySelector("#out-unnamed-chunk-14 > pre"))
 document.addEventListener("DOMContentLoaded", function() {
-log_out_unnamed_chunk_9(`data_people.forEach(({first, last, twitter}) => {
+log_out_unnamed_chunk_14(`data_people.forEach(function ({first, last, twitter}) {
   console.log(\`- \${first} \${last} (\${twitter})\`)
 })`)
 })
 </script>
 </div>
-<div id="html-chunks" class="section level2">
+<div id="html-knitr-engine" class="section level2">
 <h2 class="hasAnchor">
-<a href="#html-chunks" class="anchor"></a>HTML Chunks</h2>
+<a href="#html-knitr-engine" class="anchor"></a>HTML Chunks</h2>
 <p>Finally, <code><a href="../reference/html_document_js.html">js4shiny::html_document_js</a></code> also provides an HTML knitr engine. This is useful when you want the code of the HTML itself to appear in the document, in addition to the HTML output.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">&lt;p</span><span class="ot"> style=</span><span class="st">"color: #dc322f"</span><span class="kw">&gt;</span>This text is red, right?<span class="kw">&lt;/p&gt;</span></span></code></pre></div>
-<div id="out-unnamed-chunk-10">
+<div class="sourceCode" id="cb19"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">&lt;p</span><span class="ot"> style=</span><span class="st">"color: #dc322f"</span><span class="kw">&gt;</span>This text is red, right?<span class="kw">&lt;/p&gt;</span></span></code></pre></div>
+<div id="out-unnamed-chunk-15">
 <p style="color: #dc322f">This text is red, right?</p>
 </div>
 </div>

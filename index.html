@@ -120,33 +120,8 @@
 <div id="literate-javascript-programming-with-r-markdown" class="section level2">
 <h2 class="hasAnchor">
 <a href="#literate-javascript-programming-with-r-markdown" class="anchor"></a>Literate JavaScript Programming with R Markdown</h2>
-<p>This package includes several components that enable the use of R Markdown for literate programming with JavaScript. The first of these is the R Markdown HTML format, <code><a href="reference/html_document_js.html">js4shiny::html_document_js()</a></code>.</p>
-<p>This creates an R Markdown document that renders HTML, with a new JavaScript engine that, when used with the default settings, each JavaScript chunk is run in it’s own environment and any output written with <code>console.log()</code> is inserted in the HTML document as the code runs. In this setting, the JavaScript is rendered directly in the browser at view time.</p>
-<pre><code>---
-output: js4shiny::html_document_js
----
-
-```{js}
-let x = 10
-console.log("multiplying x times 10...")
-x * 20
-```</code></pre>
-<p>When the document is viewed in a browser, each JavaScript chunk is evaluated in its own block scope and the return value of the block is automatically printed to the chunk’s output <code>&lt;div&gt;</code>, unless that value is <code>undefined</code>.</p>
-<p>Because each chunk is block-scoped, variables created in one block may not be available to other chunks. However, you can create global chunks by temporarily disabling the console redirect by adding the <code>js_redirect = FALSE</code> to the chunk that you would like to be evaluated in the global scope. This option disables the <code>console.log()</code> redirect and uses the standard JavaScript engine included in the <code>knitr</code> package. Logged statements will still be available in the browser’s developer tools console, and variables created in the global scope are thereafter available to all chunks.</p>
-<pre><code>```{js, js_redirect = FALSE}
-let globalVariable = 'this is a global variable'
-console.log(globalVariable) // goes to browser console
-```
-
-```{js}
-console.log(globalVariable) // outputs in document
-```</code></pre>
-<p>Within the document, it may not be clear which chunks are evaluated globally, so I recommend declaring global variables with <code>let</code> instead of <code>const</code>.</p>
-<p>It’s also possible to send the JavaScript code to <code>node</code> by setting the <code>js_live = FALSE</code> chunk option. The JavaScript code is then run using <code>node</code> at compile time and each chunk evaluated in a separate process. In this setting, the results printed by the <code>node</code> process are captured and stored in the document, resulting in a static output that captures the results of the JavaScript run-time code.</p>
-<pre><code>```{js, js_live = FALSE}
-let x = 10
-console.log(x * 20)
-```</code></pre>
+<p>This package includes several components that enable the use of R Markdown for literate programming with JavaScript. The first of these is the R Markdown HTML format, <code><a href="reference/html_document_js.html">js4shiny::html_document_js()</a></code>. In this R Markdown format, JavaScript chunks are executed in the browser and logged messages and outputs are displayed in the document, much like a standard R chunk.</p>
+<p>For more information see <code><a href="articles/literate-javascript.html">vignette("literate-javascript")</a></code>.</p>
 </div>
 </div>
   </div>
