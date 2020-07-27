@@ -12,10 +12,28 @@ div > pre:empty {
   display: none;
 }
 
-h1 code, h2 code, h3 code {
+h1 > code, h2 > code, h3 > code {
   background: none;
   color: currentColor;
 }
+
+pre.r, pre.js, pre.html {
+  position: relative;
+}
+
+pre.r::after, pre.js::after, pre.html::after {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: #888;
+  text-align: right;
+  padding-right: 5px;
+  width: 50px;
+}
+
+pre.r::after { content: "r"; }
+pre.js::after { content: "js"; }
+pre.html::after { content: "html"; }
 ```
 
 ```{r, include = FALSE}
@@ -28,7 +46,7 @@ htmltools::tagList(js4shiny::html_dependency_js4shiny(stylize = "none"))
 ```
 
 
-This package includes several components
+**js4shiny** includes several components
 that enable the use of R Markdown
 for literate programming with JavaScript. 
 The first of these is the R Markdown HTML format, 
@@ -76,12 +94,14 @@ x * 20
 ```
 
 When the document is viewed in a browser, 
-each JavaScript chunk is evaluated in its own block scope 
-and the return value of the block is automatically printed to the chunk's output `<div>`,
+each JavaScript chunk is evaluated in its own block scope
+and any `console.log()` statements
+and the return value of the block 
+are automatically printed to the chunk's output `<div>`,
 unless that value is `undefined`.
 
 The last statement in a chunk doesn't need `console.log()` to be output.
-This makes it easier to show results of code
+This makes it easier to show the results of code
 without requiring numerous `console.log()` statements.
 
 ```{js}
@@ -103,8 +123,9 @@ and the results from each chunk are available to subsequent chunks.
 The JavaScript chunks, 
 on the other hand,
 are each executed in a separate block scope,
-so the result of one chunk aren't necessarily available for later code.
-I'll expand on this briefly in the next section.
+so the result of a chunk isn't necessarily available for later code.
+I'll explain and provide methods for working around this limitation
+in the next section.
 
 ## Scoping JavaScript Chunks
 
@@ -125,9 +146,16 @@ For example,
 in the first JavaScript chunk in this vignette,
 I declared `const x = 10`, 
 but in a later chunk I declared `const x = 12`.
+If all chunks were evaluated to build upon previous chunks,
+then you would frequently run into "identifier already declared" errors.
 
-If you want to create global variables,
-you have two options.
+```{js}
+const x = 42
+const x = 64
+```
+
+When you want a variable to exist beyond the scope of the current block,
+two methods are available to create global variables.
 First, you can assign your variable as a property of
 [globalThis](https://javascript.info/global-object),
 a recent addition to JavaScript that's available in about
@@ -222,7 +250,7 @@ when you blend your JavaScript and HTML together.
 For instance,
 you've clicked the button below
 <span id="n_btn_clicks">zero times</span>.
-Go ahead and click it<span id="click-again"></span>.
+Go ahead and click it<span id="click-again">!</span>
 
 <p><button type="button" id="click-me" value=0>Click Me</button></p>
 
@@ -236,9 +264,11 @@ btn.addEventListener('click', function() {
   const text = document.getElementById('n_btn_clicks')
   text.textContent = val === 1 ? '1 time' : `${val} times`
   
+  const txtCTA = document.getElementById('click-again')
   if (val === 1) {
-    const txtCTA = document.getElementById('click-again')
-    txtCTA.textContent = ' again'
+    txtCTA.textContent = ' again.'
+  } else if (val >= 10) {
+    txtCTA.textContent = ` again. Okay, that's enough, thank you!` 
   }
 })
 ```
@@ -262,7 +292,7 @@ console.table(p2)
 
 ## JSON Chunks {#json-knitr-engine}
 
-If you want to visualize or use JSON-formatted data in your document,
+To visualize or use JSON-formatted data in your document,
 **js4shiny** also provides a `json` knitr engine.
 This next chunk is a JSON chunk named `people` that renders as an interactive list.
 
