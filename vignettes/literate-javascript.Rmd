@@ -34,6 +34,8 @@ pre.r::after, pre.js::after, pre.html::after {
 pre.r::after { content: "r"; }
 pre.js::after { content: "js"; }
 pre.html::after { content: "html"; }
+
+.btn-copy-ex { z-index: 100; }
 ```
 
 ```{r, include = FALSE}
