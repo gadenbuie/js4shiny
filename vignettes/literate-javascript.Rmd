@@ -1,13 +1,13 @@
 ---
 title: "Literate JavaScript Programming"
-output: rmarkdown::html_vignette
+output: js4shiny::html_document_js
 vignette: >
   %\VignetteIndexEntry{Literate JavaScript Programming}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{css echo=FALSE}
+```{css echo=FALSE, eval=identical(Sys.getenv("IN_PKGDOWN"), "true")}
 div > pre:empty {
   display: none;
 }
@@ -266,11 +266,11 @@ btn.addEventListener('click', function() {
   const text = document.getElementById('n_btn_clicks')
   text.textContent = val === 1 ? '1 time' : `${val} times`
   
-  const txtCTA = document.getElementById('click-again')
+  const textCTA = document.getElementById('click-again')
   if (val === 1) {
-    txtCTA.textContent = ' again.'
+    textCTA.textContent = ' again.'
   } else if (val >= 10) {
-    txtCTA.textContent = ` again. Okay, that's enough, thank you!` 
+    textCTA.textContent = ` again. Okay, that's enough, thank you!` 
   }
 })
 ```
@@ -350,5 +350,5 @@ This is useful when you want the code of the HTML itself to appear in the docume
 in addition to the HTML output.
 
 ```{html}
-<p style="color: #dc322f">This text is red, right?</p>
+<p style="color: #338D70">This text is green, right?</p>
 ```
