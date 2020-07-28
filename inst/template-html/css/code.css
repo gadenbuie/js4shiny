@@ -1,9 +1,8 @@
 pre {
   font-family: var(--font-monospace);
-  /* background-color: var(--text-lighter); */
   padding: 0.8em;
   position: relative;
-  font-size: 0.9rem;
+  font-size: 1rem;
   line-height: 1.2em;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -24,7 +23,6 @@ pre::after {
 
 pre.js {
   border-color: var(--yellow);
-  background-color: var(--washed-yellow);
 }
 
 pre.js::after {
@@ -35,7 +33,6 @@ pre.js::after {
 
 pre.r {
   border-color: var(--blue);
-  background-color: var(--washed-blue);
 }
 
 pre.r::after {
@@ -45,7 +42,6 @@ pre.r::after {
 
 pre.json {
   border-color: var(--purple);
-  background-color: var(--washed-purple);
 }
 
 pre.json::after {
@@ -57,7 +53,6 @@ pre.node,
 pre.bash,
 pre.sh {
   border-color: var(--green);
-  background-color: var(--washed-green);
 }
 
 pre.node::after {
@@ -77,7 +72,6 @@ pre.md,
 pre.markdown,
 pre.yaml {
   border-color: var(--red);
-  background-color: var(--washed-red);
 }
 
 pre.yaml::after {
@@ -93,7 +87,6 @@ pre.md::after {
 
 pre.html {
   border-color: #E34C26;
-  background-color: #fcede9;
 }
 
 pre.html::after {
@@ -102,7 +95,6 @@ pre.html::after {
 }
 
 pre.css {
-  background-color: #e9edfc;
   border-color: #264DE4;
   position: relative;
 }
@@ -125,7 +117,7 @@ p code,
 p kbd,
 p samp {
   font-family: var(--font-monospace);
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 p code,
@@ -135,9 +127,58 @@ p kbd {
 }
 
 p code {
-  /* border:1px solid var(--text-light); */
-  /* background-color: var(--text-lighter); */
-  color: var(--red);
+  color: var(--dark-red);
+}
+
+pre.r,
+pre.js,
+pre.md,
+pre.markdown,
+pre.yaml,
+pre.json,
+pre.bash,
+pre.html,
+pre.css {
+  background: none;
+}
+
+pre.r::after,
+pre.js::after,
+pre.md::after,
+pre.markdown::after,
+pre.yaml::after,
+pre.json::after,
+pre.bash::after,
+pre.html::after,
+pre.css::after {
+  text-transform: uppercase;
+  font-family: var(--font-header);
+  left: -1.35em;
+  bottom: -1.1em;
+  transform-origin: top left;
+  transform: rotate(-90deg);
+}
+
+pre.pre-hide-filetype,
+.pre-hide-filetype pre::after {
+  content: '';
+}
+
+pre.pre-hide-border,
+.pre-hide-border pre {
+  border-color: transparent;
+}
+
+div.sourceCode {
+  overflow: visible;
+}
+
+pre > code.sourceCode {
+ white-space: pre;
+ position: relative;
+ overflow: auto;
+ max-width: 100%;
+ display: inline-block;
 }
 
 /* don't show empty output divs */
