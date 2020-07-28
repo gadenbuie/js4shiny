@@ -1,4 +1,6 @@
 # js4shiny <img src="man/figures/logo.png" align="right" />
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgadenbuie%2Fjs4shiny.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fgadenbuie%2Fjs4shiny?ref=badge_shield)
+
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -22,3 +24,7 @@ devtools::install_github("gadenbuie/js4shiny")
 This package includes several components that enable the use of R Markdown for literate programming with JavaScript. The first of these is the R Markdown HTML format, `js4shiny::html_document_js()`. In this R Markdown format, JavaScript chunks are executed in the browser and logged messages and outputs are displayed in the document, much like a standard R chunk.
 
 For more information see `vignette("literate-javascript")`.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgadenbuie%2Fjs4shiny.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fgadenbuie%2Fjs4shiny?ref=badge_large)
