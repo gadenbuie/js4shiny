@@ -164,14 +164,14 @@ functionality requires the <span class="pkg">servr</span> package.</p>
     </div>
 
     <pre class="usage"><span class='fu'>live_preview</span>(
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(),
-  <span class='kw'>update_pattern</span> <span class='kw'>=</span> <span class='st'>"[.](js|css|[Rr]?[Mm][Dd]|html?|s[ca]ss)$"</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>render_quietly</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"js4shiny.live_preview.quiet"</span>, <span class='fl'>TRUE</span>),
-  <span class='kw'>external</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  path = <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(),
+  update_pattern = <span class='st'>"[.](js|css|[Rr]?[Mm][Dd]|html?|s[ca]ss)$"</span>,
+  <span class='kw'>...</span>,
+  render_quietly = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"js4shiny.live_preview.quiet"</span>, <span class='fl'>TRUE</span>),
+  external = <span class='fl'>FALSE</span>
 )
 
-<span class='fu'>live_preview_stop</span>(<span class='kw'>which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>live_preview_stop</span>(which = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,7 +192,7 @@ extensions will update the preview: <code>.Rmd</code> (case insensitive), <code>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments passed on to <code><a href='https://rdrr.io/pkg/servr/man/httd.html'>servr::httw</a></code></p><dl'>
+      <td><p>Arguments passed on to <code><a href='https://rdrr.io/pkg/servr/man/httd.html'>servr::httw</a></code></p><dl>
     <dt><code>dir</code></dt><dd><p>The root directory to serve.</p></dd>
     <dt><code>watch</code></dt><dd><p>a directory under which <code>httw()</code> is to watch for changes;
 if it is a relative path, it is relative to the <code>dir</code> argument</p></dd>
@@ -250,18 +250,18 @@ otherwise the preview is opened in the RStudio Viewer pane.</p>
 or you can use the <strong>Live Preview Stop</strong> addin.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
 
-<span class='no'>tmp_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"live-preview"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='no'>tmp_dir</span>)
-<span class='no'>tmp_rmd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>tmp_dir</span>, <span class='st'>"js4shiny-plain.Rmd"</span>)
+<span class='kw'>tmp_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"live-preview"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='kw'>tmp_dir</span>)
+<span class='kw'>tmp_rmd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>tmp_dir</span>, <span class='st'>"js4shiny-plain.Rmd"</span>)
 
 <span class='co'># Create a new js4shiny plain HTML document. If interactive</span>
 <span class='co'># and in RStudio, this file will open and you can use the</span>
 <span class='co'># addins to launch the live preview</span>
-<span class='fu'><a href='js4shiny_rmd.html'>js4shiny_rmd</a></span>(<span class='st'>"js"</span>, <span class='kw'>full_template</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>tmp_rmd</span>)
+<span class='fu'><a href='js4shiny_rmd.html'>js4shiny_rmd</a></span>(<span class='st'>"js"</span>, full_template = <span class='fl'>TRUE</span>, path = <span class='kw'>tmp_rmd</span>)
 
-<span class='no'>srvr</span> <span class='kw'>&lt;-</span> <span class='fu'>live_preview</span>(<span class='no'>tmp_rmd</span>)
+<span class='kw'>srvr</span> <span class='op'>&lt;-</span> <span class='fu'>live_preview</span>(<span class='kw'>tmp_rmd</span>)
 
 <span class='co'># Stop all background servers with either of the following</span>
 <span class='co'># live_preview_stop()</span>
@@ -269,7 +269,9 @@ or you can use the <strong>Live Preview Stop</strong> addin.</p>
 <span class='co'>#</span>
 <span class='co'># Or if you've saved the return value from live_preview()</span>
 <span class='co'># srvr$stop_server()</span>
-}</div></pre>
+}
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -285,7 +287,7 @@ or you can use the <strong>Live Preview Stop</strong> addin.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

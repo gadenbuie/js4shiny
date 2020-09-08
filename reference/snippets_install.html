@@ -163,7 +163,7 @@ them. If you haven't previously installed snippets to RStudio, these
 snippets will mask some of the built-in snippets that ship with RStudio.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>snippets_install</span>(<span class='kw'>install_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>update</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>snippets_install</span>(install_path = <span class='kw'>NULL</span>, update = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,9 +193,10 @@ you want to make sure that no snippets are overwritten. The newer snippets
 will mask older snippets, but no data will be lost.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>snip_tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"snippets"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='no'>snip_tmp</span>)
-<span class='fu'>snippets_install</span>(<span class='no'>snip_tmp</span>)</div><div class='output co'>#&gt; <span class='message'>The new css.snippets may mask the default RStudio snippets</span></div><div class='output co'>#&gt; <span class='message'>Installed css.snippets</span></div><div class='output co'>#&gt; <span class='message'>The new html.snippets may mask the default RStudio snippets</span></div><div class='output co'>#&gt; <span class='message'>Installed html.snippets</span></div><div class='output co'>#&gt; <span class='message'>The new javascript.snippets may mask the default RStudio snippets</span></div><div class='output co'>#&gt; <span class='message'>Installed javascript.snippets</span></div><div class='output co'>#&gt; <span class='message'>The new markdown.snippets may mask the default RStudio snippets</span></div><div class='output co'>#&gt; <span class='message'>Installed markdown.snippets</span></div><div class='output co'>#&gt; <span class='message'>The new r.snippets may mask the default RStudio snippets</span></div><div class='output co'>#&gt; <span class='message'>Installed r.snippets</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='kw'>snip_tmp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"snippets"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='kw'>snip_tmp</span>)
+<span class='fu'>snippets_install</span>(<span class='kw'>snip_tmp</span>)
+</div><div class='output co'>#&gt; <span class='message'>The new css.snippets may mask the default RStudio snippets</span></div><div class='output co'>#&gt; <span class='message'>Installed css.snippets</span></div><div class='output co'>#&gt; <span class='message'>The new html.snippets may mask the default RStudio snippets</span></div><div class='output co'>#&gt; <span class='message'>Installed html.snippets</span></div><div class='output co'>#&gt; <span class='message'>The new javascript.snippets may mask the default RStudio snippets</span></div><div class='output co'>#&gt; <span class='message'>Installed javascript.snippets</span></div><div class='output co'>#&gt; <span class='message'>The new markdown.snippets may mask the default RStudio snippets</span></div><div class='output co'>#&gt; <span class='message'>Installed markdown.snippets</span></div><div class='output co'>#&gt; <span class='message'>The new r.snippets may mask the default RStudio snippets</span></div><div class='output co'>#&gt; <span class='message'>Installed r.snippets</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -212,7 +213,7 @@ will mask older snippets, but no data will be lost.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

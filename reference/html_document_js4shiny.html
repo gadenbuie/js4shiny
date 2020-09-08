@@ -156,12 +156,12 @@ option version." />
 
     <div class="ref-description">
     <p>This document type is built on the <code><a href='html_document_plain.html'>html_document_plain()</a></code>, but is configured
-to render the example documents created by the <code><a href='repl.html'>repl()</a></code>. You may choose to
+to render the example documents created by the <code><a href='repl_example.html'>repl()</a></code>. You may choose to
 render the solution or the example's initial state by setting the output
 option <code>version</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>html_document_js4shiny</span>(<span class='kw'>version</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"solution"</span>, <span class='st'>"initial"</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>html_document_js4shiny</span>(version = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"solution"</span>, <span class='st'>"initial"</span>), <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,33 +182,35 @@ option <code>version</code>.</p>
     <div class='dont-index'><p><code><a href='html_document_plain.html'>html_document_plain()</a></code> <code><a href='html_document_js.html'>html_document_js()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='kw pkg'>rmarkdown</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rmarkdown/man/pandoc_available.html'>pandoc_available</a></span>(<span class='st'>"1.12.3"</span>)) {
-  <span class='no'>css_ex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='kw'>rmarkdown</span>::<span class='fu'><a href='https://rdrr.io/pkg/rmarkdown/man/pandoc_available.html'>pandoc_available</a></span>(<span class='st'>"1.12.3"</span>)) {
+  <span class='kw'>css_ex</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(
     <span class='st'>"examples"</span>, <span class='st'>"css"</span>, <span class='st'>"css-basics"</span>, <span class='st'>"css-basics-appearance.Rmd"</span>,
-    <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"js4shiny"</span>
+    package = <span class='st'>"js4shiny"</span>
   )
 
-  <span class='no'>tmp_html_init</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"initial"</span>, <span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".html"</span>)
-  <span class='no'>tmp_html_sol</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"solution"</span>, <span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".html"</span>)
+  <span class='kw'>tmp_html_init</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"initial"</span>, fileext = <span class='st'>".html"</span>)
+  <span class='kw'>tmp_html_sol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"solution"</span>, fileext = <span class='st'>".html"</span>)
 
-  <span class='no'>tmp_html_init</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rmarkdown</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rmarkdown/man/render.html'>render</a></span>(
-    <span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>css_ex</span>,
-    <span class='kw'>output_file</span> <span class='kw'>=</span> <span class='no'>tmp_html_init</span>,
-    <span class='kw'>output_options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"initial"</span>),
-    <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>tmp_html_init</span> <span class='op'>&lt;-</span> <span class='kw'>rmarkdown</span>::<span class='fu'><a href='https://rdrr.io/pkg/rmarkdown/man/render.html'>render</a></span>(
+    input = <span class='kw'>css_ex</span>,
+    output_file = <span class='kw'>tmp_html_init</span>,
+    output_options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(version = <span class='st'>"initial"</span>),
+    quiet = <span class='fl'>TRUE</span>
   )
 
-  <span class='no'>tmp_html_sol</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rmarkdown</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rmarkdown/man/render.html'>render</a></span>(
-    <span class='kw'>input</span> <span class='kw'>=</span> <span class='no'>css_ex</span>,
-    <span class='kw'>output_file</span> <span class='kw'>=</span> <span class='no'>tmp_html_sol</span>,
-    <span class='kw'>output_options</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>version</span> <span class='kw'>=</span> <span class='st'>"solution"</span>),
-    <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>tmp_html_sol</span> <span class='op'>&lt;-</span> <span class='kw'>rmarkdown</span>::<span class='fu'><a href='https://rdrr.io/pkg/rmarkdown/man/render.html'>render</a></span>(
+    input = <span class='kw'>css_ex</span>,
+    output_file = <span class='kw'>tmp_html_sol</span>,
+    output_options = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(version = <span class='st'>"solution"</span>),
+    quiet = <span class='fl'>TRUE</span>
   )
 }
 
 <span class='co'># View tmp_html_init/sol</span>
 <span class='co'># browseURL(tmp_html_init)</span>
-<span class='co'># browseURL(tmp_html_sol)</span></div></pre>
+<span class='co'># browseURL(tmp_html_sol)</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -224,7 +226,7 @@ option <code>version</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
