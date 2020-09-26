@@ -151,8 +151,7 @@ pre.html::after { content: "html"; }
 <span id="cb1-3"><a href="#cb1-3"></a>---</span></code></pre></div>
 <p>Alternatively, you can override the <code>js</code> knitr chunk engine of any HTML-based R Markdown format. This function also registers <a href="#json-knitr-engine">json</a> and <a href="#html-knitr-engine">html</a> knitr engines.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">js4shiny</span>::<span class="fu"><a href="../reference/register_knitr.html">register_knitr_js_engine</a></span>()
-</pre></div>
+<span class="fu">js4shiny</span><span class="fu">::</span><span class="fu"><a href="../reference/register_knitr.html">register_knitr_js_engine</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <div id="introducing-html_document_js" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introducing-html_document_js" class="anchor"></a>Introducing <code>html_document_js</code>
@@ -160,12 +159,11 @@ pre.html::after { content: "html"; }
 <p>The <code>html_document_js</code> renders R Markdown to HTML and uses a new JavaScript knitr engine that runs each JavaScript chunk in the browser and writes the output of any <code>console.log()</code>, or the return value of the chunk, into the HTML document, interactively in the browser.</p>
 <p>In other words, it renders JavaScript chunks that kind of like R chunks. Here’s a standard R chunk.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">x</span> <span class="op">&lt;-</span> <span class="fl">10</span>
-<span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span>(<span class="st">"multiplying x times 20..."</span>)
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">10</span>
+<span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span><span class="op">(</span><span class="st">"multiplying x times 20..."</span><span class="op">)</span>
 <span class="co">#&gt; multiplying x times 20...</span>
-<span class="kw">x</span> <span class="op">*</span> <span class="fl">20</span>
-<span class="co">#&gt; [1] 200</span>
-</pre></div>
+<span class="va">x</span> <span class="op">*</span> <span class="fl">20</span>
+<span class="co">#&gt; [1] 200</span></pre></div>
 <p>And here’s a JavaScript chunk.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">const</span> x <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="va">console</span>.<span class="at">log</span>(<span class="st">"multiplying x times 20..."</span>)</span>
