@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   literate-javascript: literate-javascript.html
-last_built: 2021-02-09T14:40Z
+last_built: 2021-02-15T04:20Z
 urls:
   reference: https://pkg.js4shiny.com/reference
   article: https://pkg.js4shiny.com/articles
