@@ -73,6 +73,8 @@ describe("open_or_save_example()", {
   })
 
   it("opens live preview of html examples", {
+    local_edition(2)
+
     ex <- search_for_example("css-box-size")
     with_mock(
       live_preview = function(x, external) if (external) x,

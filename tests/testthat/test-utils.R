@@ -41,8 +41,8 @@ describe("is_markdown()", {
 
   it("returns a vector", {
     tmps <- unname(unlist(tmp))
-    expect_equivalent(is_markdown(tmps), rep(TRUE, 4))
-    expect_equivalent(is_markdown(tmps, rmd_only = TRUE), c(TRUE, TRUE, FALSE, FALSE))
+    expect_equal(is_markdown(tmps), rep(TRUE, 4), ignore_attr = TRUE)
+    expect_equal(is_markdown(tmps, rmd_only = TRUE), c(TRUE, TRUE, FALSE, FALSE), ignore_attr = TRUE)
   })
 
   purrr::walk(tmp, fs::file_delete)

@@ -54,13 +54,13 @@ test_that("resources round trip through yaml with js4shiny::html_document_js4shi
 test_that("repl() and repl_example() force external browser when needed", {
   suppressWarnings(s <- repl("bootstrap"))
 
-  expect_equal(s, repl_example("bootstrap"))
+  expect_equal(s, repl_example("bootstrap"), ignore_function_env = TRUE)
   expect_identical(s$options$launch.browser, TRUE)
 
   # set shiny.launch.browser to a fixed but nonsense value
   opt <- options("shiny.launch.browser" = function() "apple")
   s_internal <- repl("css-variables")
-  expect_equal(s_internal, repl_example("css-variables"))
+  expect_equal(s_internal, repl_example("css-variables"), ignore_function_env = TRUE)
   expect_identical(s_internal$options$launch.browser(), "apple")
   options(opt)
 })
