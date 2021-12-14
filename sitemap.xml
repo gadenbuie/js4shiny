@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://pkg.js4shiny.com/404.html</loc>
+  </url>
+  <url>
+    <loc>https://pkg.js4shiny.com/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://pkg.js4shiny.com/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://pkg.js4shiny.com/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://pkg.js4shiny.com/articles/literate-javascript.html</loc>
+  </url>
+  <url>
+    <loc>https://pkg.js4shiny.com/authors.html</loc>
+  </url>
+  <url>
     <loc>https://pkg.js4shiny.com/index.html</loc>
+  </url>
+  <url>
+    <loc>https://pkg.js4shiny.com/news/index.html</loc>
   </url>
   <url>
     <loc>https://pkg.js4shiny.com/reference/first_sentences.html</loc>
@@ -20,6 +41,9 @@
   </url>
   <url>
     <loc>https://pkg.js4shiny.com/reference/html_setup.html</loc>
+  </url>
+  <url>
+    <loc>https://pkg.js4shiny.com/reference/index.html</loc>
   </url>
   <url>
     <loc>https://pkg.js4shiny.com/reference/js4shiny-package.html</loc>
@@ -56,8 +80,5 @@
   </url>
   <url>
     <loc>https://pkg.js4shiny.com/reference/us_cities_ranked.html</loc>
-  </url>
-  <url>
-    <loc>https://pkg.js4shiny.com/articles/literate-javascript.html</loc>
   </url>
 </urlset>
