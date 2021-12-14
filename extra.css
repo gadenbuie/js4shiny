@@ -3,15 +3,22 @@
 }
 
 .bg-light {
-  --bs-bg-opacity: 0.9;
+  --bs-bg-opacity: 0.95;
 }
 
 pre {
-  border: none;
-  border: 1px solid #cfd5d8;
+  border: 1px solid #cfd5d8; /* just for {js4shiny} */
   border-radius: 0;
   background-color: var(--bs-body-bg);
   line-height: 1.33;
+}
+
+main pre a {
+  text-decoration: none;
+}
+
+main pre a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 575.98px) {
