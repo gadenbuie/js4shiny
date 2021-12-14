@@ -254,7 +254,9 @@ you've clicked the button below
 <span id="n_btn_clicks">zero times</span>.
 Go ahead and click it<span id="click-again">!</span>
 
-<p><button type="button" id="click-me" value=0>Click Me</button></p>
+```{=html}
+<p><button type="button" id="click-me" value=0 class="btn btn-outline-primary">Click Me</button></p>
+```
 
 ```{js}
 const btn = document.getElementById('click-me')

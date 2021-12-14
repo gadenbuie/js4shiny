@@ -9,13 +9,17 @@ development:
 
 template:
   bootstrap: 5
-  # bootswatch: zephyr
   bslib:
     bg: "#f9fafa"
     fg: "#0e181e"
-    primary: "#0b535d"
+    light:
+    primary: "#0b535d"   # blue-20
+    secondary: "#4a466f" # purple-20
+    info: "#4a636c"      # slate-30
+    success: "#7ab26f"   # green-60
+    warning: "#ef8c02"   # orange-60
+    danger: "#c94150"    # red-40
     navbar-light-color: "#0b535d"
-    secondary: "#4a466f"
     code_bg: "#f9fafa"
     pre_bg: "#f9fafa"
     heading_font: avenir
