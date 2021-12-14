@@ -22,6 +22,9 @@
 <meta property="og:title" content="Literate JavaScript Programming">
 <meta property="og:description" content="js4shiny">
 <meta property="og:image" content="https://pkg.js4shiny.com/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@grrrck">
+<meta name="twitter:site" content="@grrrck">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -292,11 +295,7 @@ log_out_hello_world(`document.getElementById('out-hello-world').innerHTML = '<p>
 <h2 id="interactive-documents">Interactive Documents<a class="anchor" aria-label="anchor" href="#interactive-documents"></a>
 </h2>
 <p>There are a lot of interesting things you can do when you blend your JavaScript and HTML together. For instance, you’ve clicked the button below <span id="n_btn_clicks">zero times</span>. Go ahead and click it<span id="click-again">!</span></p>
-<p>
-<button type="button" id="click-me" value="0">
-Click Me
-</button>
-</p>
+<p><button type="button" id="click-me" value="0" class="btn btn-outline-primary">Click Me</button></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">const</span> btn <span class="op">=</span> <span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">'click-me'</span>)</span>
 <span id="cb16-2"><a href="#cb16-2"></a><span class="va">btn</span>.<span class="at">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> <span class="kw">function</span>() <span class="op">{</span></span>
 <span id="cb16-3"><a href="#cb16-3"></a>  <span class="kw">const</span> val <span class="op">=</span> <span class="op">++</span><span class="va">btn</span>.<span class="at">value</span></span>
