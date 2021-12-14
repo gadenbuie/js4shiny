@@ -7,7 +7,29 @@ authors:
 development:
   mode: auto
 
+template:
+  bootstrap: 5
+  # bootswatch: zephyr
+  bslib:
+    bg: "#f9fafa"
+    fg: "#0e181e"
+    primary: "#0b535d"
+    navbar-light-color: "#0b535d"
+    secondary: "#4a466f"
+    code_bg: "#f9fafa"
+    pre_bg: "#f9fafa"
+    heading_font: avenir
+    code_font: {google: "IBM Plex Mono"}
+    font-size-base: 1.1rem
+    pkgdown-nav-height: 72px
+    border-radius: 0
+    border-radius-sm: 0
+    border-radius-lg: 0
+    base_font: |
+      -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif
+
 navbar:
+  type: light
   structure:
     left:
     - home
