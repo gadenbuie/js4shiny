@@ -8,6 +8,10 @@ development:
   mode: auto
 
 template:
+  opengraph:
+    twitter:
+      creator: "@grrrck"
+      card: summary
   bootstrap: 5
   bslib:
     bg: "#f9fafa"
