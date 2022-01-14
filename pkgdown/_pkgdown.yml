@@ -35,6 +35,9 @@ template:
     border-radius-lg: 0
     base_font: |
       -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif
+  includes:
+    after_body: >
+      <script>window.jQuery('.navbar-brand + small').addClass(['badge', 'bg-secondary', 'text-light']).removeClass('text-muted')</script>
 
 navbar:
   type: light
