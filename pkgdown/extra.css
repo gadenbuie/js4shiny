@@ -21,6 +21,34 @@ main pre a:hover {
   text-decoration: underline;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  color: #09414a; /* --blue-10 */
+}
+
+h2, h3, h4, h5, h6 {
+  margin-top: 1em;
+}
+
+.template-home #main + aside a {
+  text-decoration: none;
+}
+
+.template-home #main + aside a:hover,
+.template-home #main + aside a:focus {
+  text-decoration: underline;
+}
+
+.navbar-light .navbar-nav .active > .nav-link {
+  color: #0b535d;
+	background-color: unset;
+  box-shadow: inset 0 -0.1em 0 #f54f61;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #0b535d;
+  box-shadow: inset 0 -0.1em 0 currentColor;
+}
+
 @media (max-width: 575.98px) {
   .container main pre {
     margin-left: calc(var(--bs-gutter-x) * -.5);

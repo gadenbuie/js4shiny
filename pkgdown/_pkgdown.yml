@@ -26,7 +26,7 @@ template:
     navbar-light-color: "#0b535d"
     code_bg: "#f9fafa"
     pre_bg: "#f9fafa"
-    heading_font: {google: "Poppins"}
+    heading_font: {google: "Roboto Slab"}
     code_font: {google: "IBM Plex Mono"}
     font-size-base: 1.1rem
     pkgdown-nav-height: 72px
@@ -35,6 +35,9 @@ template:
     border-radius-lg: 0
     base_font: |
       -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif
+  includes:
+    after_body: >
+      <script>window.jQuery('.navbar-brand + small').addClass(['badge', 'bg-secondary', 'text-light']).removeClass('text-muted')</script>
 
 navbar:
   type: light
