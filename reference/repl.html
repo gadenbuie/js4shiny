@@ -112,33 +112,50 @@ containing the source files.</p>
 or the path to an example file directly. <code>repl_example(example = NULL)</code>
 opens an interactive browser to select an example, otherwise <code>repl()</code> and
 <code>repl_js()</code> will open with blank editors.</p></dd>
+
+
 <dt>js_repl_only</dt>
 <dd><p>When <code>TRUE</code>, the app is simplified to contain only a
 JavaScript source editor and a console output. <code>repl_js()</code> is an alias to
 launch <code>repl()</code> with <code>js_repl_only = TRUE</code>.</p></dd>
+
+
 <dt>theme_app</dt>
 <dd><p>The theme of the app, using <span class="pkg">shinythemes</span>. See
 <code><a href="https://rdrr.io/pkg/shinythemes/man/shinytheme.html" class="external-link">shinythemes::shinytheme()</a></code> for a list of valid themes.</p></dd>
+
+
 <dt>theme_editor</dt>
 <dd><p>The theme of the <span class="pkg">shinyAce</span> source code editors. See
 <code><a href="https://rdrr.io/pkg/shinyAce/man/getAceThemes.html" class="external-link">shinyAce::getAceThemes()</a></code> for a list of valid themes.</p></dd>
+
+
 <dt>autocomplete</dt>
 <dd><p>Ace Editor language modes for which autocomplete will be
 enabled. One or more of <code>"js"</code>, <code>"css"</code>, or <code>"html"</code>. By default
 autocomplete is enabled in all but the JavaScript mode. "Disabling"
 autocomplete here actually doesn't mean disabling all together.
 Autocomplete will still be available by pressing <code>Ctrl</code> + <code>space</code>.</p></dd>
+
+
 <dt>render_dir</dt>
 <dd><p>Where to render temporary files, defaults to <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code></p></dd>
+
+
 <dt>options</dt>
 <dd><p>Options passed to <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">shiny::runApp()</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Arguments passed from <code>repl_js()</code> to <code>repl()</code> or from <code>repl()</code> to
 <code><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shiny::shinyApp()</a></code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A shiny app</p>
+    
+
+<p>A shiny app</p>
     </div>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
@@ -165,7 +182,7 @@ development concepts.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
