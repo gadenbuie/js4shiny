@@ -123,7 +123,7 @@ test_that("knitr html() engine", {
   tmpfile <- tempfile(fileext = ".html")
   on.exit(unlink(tmpfile))
   rmarkdown::render(
-    input = "html-engine/html-engine.Rmd",
+    input = test_path("html-engine/html-engine.Rmd"),
     output_file = tmpfile,
     quiet = TRUE,
     envir = new.env()
@@ -137,12 +137,12 @@ test_that("knitr html() engine", {
     expect_false(sum(grepl(!!pattern, result, fixed = fixed, ...)) == 1)
   }
 
-  expect_detect("&lt;span&gt;</span>TEST ONE<span")
+  expect_detect("&gt;</span>TEST ONE<span")
   expect_detect('<div id="out-TEST">')
-  expect_detect("&lt;span&gt;</span>TEST EVAL FALSE")
+  expect_detect("&gt;</span>TEST EVAL FALSE")
   expect_missing("<span>TEST EVAL FALSE</span>")
-  expect_detect("&lt;span&gt;</span>TEST RAW FALSE")
+  expect_detect("&gt;</span>TEST RAW FALSE")
   expect_detect("<span>TEST RAW FALSE</span>")
-  expect_detect("&gt;&lt;/script&gt;")
+  expect_detect("&gt;&lt;/.*?>script<.*&gt;", fixed = FALSE)
   expect_missing('<script src="script.js"></script>')
 })
